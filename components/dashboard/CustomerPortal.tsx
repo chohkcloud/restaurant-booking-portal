@@ -577,8 +577,8 @@ const CustomerPortal = () => {
             </div>
           </motion.div>
 
-          {/* 5. 이벤트/쿠폰 */}
-          <motion.div
+          {/* 5. 이벤트/쿠폰 - 숨김 */}
+          {false && <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5 }}
@@ -661,10 +661,10 @@ const CustomerPortal = () => {
                 </button>
               </div>
             </div>
-          </motion.div>
+          </motion.div>}
 
-          {/* 6. 포털 이벤트 */}
-          <motion.div
+          {/* 6. 포털 이벤트 - 숨김 */}
+          {false && <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6 }}
@@ -842,7 +842,7 @@ const CustomerPortal = () => {
               </div>
 
             </div>
-          </motion.div>
+          </motion.div>}
           
         </div>
       </div>
