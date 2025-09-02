@@ -89,19 +89,55 @@ const CustomerPortal = () => {
         </div>
       </div>
 
-      {/* 메인 2x3 그리드 */}
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '2rem 1rem' }}>
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '1.5rem'
-        }}>
+      {/* 메인 2x3 그리드 - 모바일 최적화 */}
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '1rem' }}>
+        <style jsx>{`
+          .dashboard-grid {
+            display: grid;
+            gap: 1.5rem;
+          }
+          
+          /* 데스크톱: 2x3 그리드 */
+          @media (min-width: 769px) {
+            .dashboard-grid {
+              grid-template-columns: repeat(2, 1fr);
+              gap: 1.5rem;
+            }
+          }
+          
+          /* 모바일: 1열 세로 배치, 터치 최적화 */
+          @media (max-width: 768px) {
+            .dashboard-grid {
+              grid-template-columns: 1fr;
+              gap: 1rem;
+              padding: 0 0.5rem;
+            }
+            .mobile-card {
+              margin-bottom: 0.5rem;
+              border-radius: 1.25rem !important;
+              box-shadow: 0 8px 25px rgba(255, 107, 53, 0.12) !important;
+            }
+            /* 모바일 터치 버튼 최적화 */
+            .mobile-card button {
+              min-height: 44px !important;
+              padding: 0.75rem !important;
+              font-size: 0.9rem !important;
+            }
+            /* 모바일 헤더 최적화 */
+            .mobile-header {
+              padding: 0.75rem 1rem !important;
+              text-align: center;
+            }
+          }
+        `}</style>
+        <div className="dashboard-grid">
           
           {/* 1. 메뉴 */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.1 }}
+            className="mobile-card"
             style={{
               background: 'white',
               borderRadius: '1rem',
@@ -186,6 +222,7 @@ const CustomerPortal = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
+            className="mobile-card"
             style={{
               background: 'white',
               borderRadius: '1rem',
@@ -346,6 +383,7 @@ const CustomerPortal = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 }}
+            className="mobile-card"
             style={{
               background: 'white',
               borderRadius: '1rem',
@@ -422,6 +460,7 @@ const CustomerPortal = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4 }}
+            className="mobile-card"
             style={{
               background: 'white',
               borderRadius: '1rem',
@@ -503,6 +542,7 @@ const CustomerPortal = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5 }}
+            className="mobile-card"
             style={{
               background: 'white',
               borderRadius: '1rem',
@@ -588,6 +628,7 @@ const CustomerPortal = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6 }}
+            className="mobile-card"
             style={{
               background: 'white',
               borderRadius: '1rem',
