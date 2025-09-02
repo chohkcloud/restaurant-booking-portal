@@ -13,15 +13,50 @@ import {
 import { StarIcon as StarIconSolid, HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
 
 const CustomerPortal = () => {
-  // State for future functionality
-  // const [selectedDate, setSelectedDate] = useState(null)
-  // const [selectedTime, setSelectedTime] = useState(null)
-  // const [partySize, setPartySize] = useState(2)
+  const [selectedDate, setSelectedDate] = useState(0) // 0 = 오늘
+  const [selectedTime, setSelectedTime] = useState(1) // 1 = 12:00
+  const [partySize, setPartySize] = useState(2)
+  
+  // 실제 날짜 생성
+  const getDateOptions = () => {
+    const dates = []
+    const today = new Date()
+    
+    for (let i = 0; i < 5; i++) {
+      const date = new Date(today)
+      date.setDate(today.getDate() + i)
+      
+      const dayNames = ['일', '월', '화', '수', '목', '금', '토']
+      
+      if (i === 0) {
+        dates.push({
+          label: '오늘',
+          detail: `${date.getDate()}일`,
+          fullDate: date
+        })
+      } else if (i === 1) {
+        dates.push({
+          label: '내일',
+          detail: `${date.getDate()}일`,
+          fullDate: date
+        })
+      } else {
+        dates.push({
+          label: dayNames[date.getDay()],
+          detail: `${date.getDate()}일`,
+          fullDate: date
+        })
+      }
+    }
+    return dates
+  }
+  
+  const dateOptions = getDateOptions()
 
   return (
     <div style={{ 
       minHeight: '100vh', 
-      background: 'linear-gradient(135deg, #fff5f3 0%, #ffe8e3 50%, #ffd4cc 100%)'
+      background: 'linear-gradient(135deg, #fff1ee 0%, #ffe4de 100%)'
     }}>
       {/* 헤더 */}
       <div style={{ 
@@ -96,7 +131,7 @@ const CustomerPortal = () => {
                   alignItems: 'center',
                   padding: '0.75rem',
                   marginBottom: '0.5rem',
-                  background: 'linear-gradient(90deg, #fff5f3 0%, #ffe8e3 100%)',
+                  background: 'linear-gradient(90deg, #fff8f6 0%, #fff1ee 100%)',
                   borderRadius: '0.75rem',
                   cursor: 'pointer',
                   transition: 'all 0.3s',
@@ -174,17 +209,38 @@ const CustomerPortal = () => {
               <div style={{ marginBottom: '1rem' }}>
                 <label style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem', display: 'block' }}>날짜 선택</label>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.5rem' }}>
-                  {['오늘', '내일', '목', '금', '토'].map((day, idx) => (
-                    <button key={idx} style={{
-                      padding: '0.5rem',
-                      background: idx === 0 ? 'linear-gradient(135deg, #ff6b35, #f55336)' : '#fff5f3',
-                      color: idx === 0 ? 'white' : '#ff6b35',
-                      border: `1px solid ${idx === 0 ? '#ff6b35' : '#ffd4cc'}`,
-                      borderRadius: '0.5rem',
-                      cursor: 'pointer',
-                      fontWeight: idx === 0 ? 'bold' : 'normal'
-                    }}>
-                      {day}
+                  {dateOptions.map((dateOption, idx) => (
+                    <button 
+                      key={idx} 
+                      onClick={() => setSelectedDate(idx)}
+                      style={{
+                        padding: '0.5rem 0.25rem',
+                        background: selectedDate === idx ? 'linear-gradient(135deg, #ff6b35, #f55336)' : '#fff8f6',
+                        color: selectedDate === idx ? 'white' : '#ff6b35',
+                        border: `2px solid ${selectedDate === idx ? '#ff6b35' : '#ffe4de'}`,
+                        borderRadius: '0.75rem',
+                        cursor: 'pointer',
+                        fontWeight: selectedDate === idx ? 'bold' : '500',
+                        fontSize: '0.875rem',
+                        textAlign: 'center',
+                        transition: 'all 0.2s',
+                        boxShadow: selectedDate === idx ? '0 4px 12px rgba(255, 107, 53, 0.25)' : 'none'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (selectedDate !== idx) {
+                          e.currentTarget.style.background = '#fff1ee'
+                          e.currentTarget.style.borderColor = '#ffccc0'
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (selectedDate !== idx) {
+                          e.currentTarget.style.background = '#fff8f6'
+                          e.currentTarget.style.borderColor = '#ffe4de'
+                        }
+                      }}
+                    >
+                      <div style={{ fontWeight: 'bold' }}>{dateOption.label}</div>
+                      <div style={{ fontSize: '0.75rem', opacity: 0.8 }}>{dateOption.detail}</div>
                     </button>
                   ))}
                 </div>
@@ -195,16 +251,34 @@ const CustomerPortal = () => {
                 <label style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem', display: 'block' }}>시간 선택</label>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem' }}>
                   {['11:30', '12:00', '12:30', '13:00', '18:00', '18:30', '19:00', '19:30'].map((time, idx) => (
-                    <button key={idx} style={{
-                      padding: '0.5rem',
-                      background: idx === 1 ? 'linear-gradient(135deg, #ff6b35, #f55336)' : '#fff5f3',
-                      color: idx === 1 ? 'white' : '#ff6b35',
-                      border: `1px solid ${idx === 1 ? '#ff6b35' : '#ffd4cc'}`,
-                      borderRadius: '0.5rem',
-                      cursor: 'pointer',
-                      fontSize: '0.875rem',
-                      fontWeight: idx === 1 ? 'bold' : 'normal'
-                    }}>
+                    <button 
+                      key={idx} 
+                      onClick={() => setSelectedTime(idx)}
+                      style={{
+                        padding: '0.5rem',
+                        background: selectedTime === idx ? 'linear-gradient(135deg, #ff6b35, #f55336)' : '#fff8f6',
+                        color: selectedTime === idx ? 'white' : '#ff6b35',
+                        border: `2px solid ${selectedTime === idx ? '#ff6b35' : '#ffe4de'}`,
+                        borderRadius: '0.75rem',
+                        cursor: 'pointer',
+                        fontSize: '0.875rem',
+                        fontWeight: selectedTime === idx ? 'bold' : '500',
+                        transition: 'all 0.2s',
+                        boxShadow: selectedTime === idx ? '0 4px 12px rgba(255, 107, 53, 0.25)' : 'none'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (selectedTime !== idx) {
+                          e.currentTarget.style.background = '#fff1ee'
+                          e.currentTarget.style.borderColor = '#ffccc0'
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (selectedTime !== idx) {
+                          e.currentTarget.style.background = '#fff8f6'
+                          e.currentTarget.style.borderColor = '#ffe4de'
+                        }
+                      }}
+                    >
                       {time}
                     </button>
                   ))}
@@ -215,17 +289,35 @@ const CustomerPortal = () => {
               <div style={{ marginBottom: '1rem' }}>
                 <label style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem', display: 'block' }}>인원</label>
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  {[1, 2, 3, 4, 5, '6+'].map((size) => (
-                    <button key={size} style={{
-                      flex: 1,
-                      padding: '0.5rem',
-                      background: size === 2 ? 'linear-gradient(135deg, #ff6b35, #f55336)' : '#fff5f3',
-                      color: size === 2 ? 'white' : '#ff6b35',
-                      border: `1px solid ${size === 2 ? '#ff6b35' : '#ffd4cc'}`,
-                      borderRadius: '0.5rem',
-                      cursor: 'pointer',
-                      fontWeight: size === 2 ? 'bold' : 'normal'
-                    }}>
+                  {[1, 2, 3, 4, 5, '6+'].map((size, idx) => (
+                    <button 
+                      key={size} 
+                      onClick={() => setPartySize(typeof size === 'string' ? 6 : size)}
+                      style={{
+                        flex: 1,
+                        padding: '0.5rem',
+                        background: partySize === (typeof size === 'string' ? 6 : size) ? 'linear-gradient(135deg, #ff6b35, #f55336)' : '#fff8f6',
+                        color: partySize === (typeof size === 'string' ? 6 : size) ? 'white' : '#ff6b35',
+                        border: `2px solid ${partySize === (typeof size === 'string' ? 6 : size) ? '#ff6b35' : '#ffe4de'}`,
+                        borderRadius: '0.75rem',
+                        cursor: 'pointer',
+                        fontWeight: partySize === (typeof size === 'string' ? 6 : size) ? 'bold' : '500',
+                        transition: 'all 0.2s',
+                        boxShadow: partySize === (typeof size === 'string' ? 6 : size) ? '0 4px 12px rgba(255, 107, 53, 0.25)' : 'none'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (partySize !== (typeof size === 'string' ? 6 : size)) {
+                          e.currentTarget.style.background = '#fff1ee'
+                          e.currentTarget.style.borderColor = '#ffccc0'
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (partySize !== (typeof size === 'string' ? 6 : size)) {
+                          e.currentTarget.style.background = '#fff8f6'
+                          e.currentTarget.style.borderColor = '#ffe4de'
+                        }
+                      }}
+                    >
                       {size}명
                     </button>
                   ))}
@@ -274,7 +366,7 @@ const CustomerPortal = () => {
             </div>
             <div style={{ padding: '1rem' }}>
               <div style={{
-                background: 'linear-gradient(135deg, #fff5f3 0%, #ffe8e3 100%)',
+                background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
                 borderRadius: '0.75rem',
                 padding: '1rem',
                 marginBottom: '0.75rem',
@@ -291,7 +383,7 @@ const CustomerPortal = () => {
               </div>
 
               <div style={{
-                background: 'linear-gradient(135deg, #fff5f3 0%, #ffe8e3 100%)',
+                background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
                 borderRadius: '0.75rem',
                 padding: '1rem',
                 marginBottom: '0.75rem',
@@ -308,7 +400,7 @@ const CustomerPortal = () => {
               </div>
 
               <div style={{
-                background: 'linear-gradient(135deg, #fff5f3 0%, #ffe8e3 100%)',
+                background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
                 borderRadius: '0.75rem',
                 padding: '1rem',
                 border: '2px dashed #ffb399'
@@ -373,7 +465,7 @@ const CustomerPortal = () => {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem', marginBottom: '1rem' }}>
                 <div style={{
                   padding: '0.75rem',
-                  background: 'linear-gradient(135deg, #fff5f3 0%, #ffe8e3 100%)',
+                  background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
                   borderRadius: '0.5rem',
                   textAlign: 'center'
                 }}>
@@ -382,7 +474,7 @@ const CustomerPortal = () => {
                 </div>
                 <div style={{
                   padding: '0.75rem',
-                  background: 'linear-gradient(135deg, #fff5f3 0%, #ffe8e3 100%)',
+                  background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
                   borderRadius: '0.5rem',
                   textAlign: 'center'
                 }}>
@@ -441,7 +533,7 @@ const CustomerPortal = () => {
                 ].map((item, idx) => (
                   <div key={idx} style={{
                     aspectRatio: '1',
-                    background: 'linear-gradient(135deg, #fff5f3 0%, #ffe8e3 100%)',
+                    background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
                     borderRadius: '0.5rem',
                     display: 'flex',
                     flexDirection: 'column',
@@ -469,7 +561,7 @@ const CustomerPortal = () => {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 padding: '0.75rem',
-                background: 'linear-gradient(135deg, #fff5f3 0%, #ffe8e3 100%)',
+                background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
                 borderRadius: '0.5rem'
               }}>
                 <div>
@@ -521,7 +613,7 @@ const CustomerPortal = () => {
                 justifyContent: 'space-between',
                 marginBottom: '1rem',
                 padding: '0.75rem',
-                background: 'linear-gradient(135deg, #fff5f3 0%, #ffe8e3 100%)',
+                background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
                 borderRadius: '0.5rem'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -551,7 +643,7 @@ const CustomerPortal = () => {
                   <div key={idx} style={{
                     padding: '0.75rem',
                     marginBottom: '0.5rem',
-                    background: idx === 0 ? 'linear-gradient(135deg, #fff5f3 0%, #ffe8e3 100%)' : 'white',
+                    background: idx === 0 ? 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)' : 'white',
                     borderRadius: '0.5rem',
                     border: '1px solid #ffd4cc'
                   }}>
