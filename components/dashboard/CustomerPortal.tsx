@@ -147,7 +147,7 @@ const CustomerPortal = () => {
             }}
           >
             <div style={{ 
-              background: 'linear-gradient(135deg, #ff6b35 0%, #ff8157 100%)',
+              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
               padding: '1rem',
               color: 'white'
             }}>
@@ -227,12 +227,12 @@ const CustomerPortal = () => {
               background: 'white',
               borderRadius: '1rem',
               overflow: 'hidden',
-              boxShadow: '0 10px 30px rgba(245, 83, 54, 0.15)',
-              border: '2px solid #f55336'
+              boxShadow: '0 10px 30px rgba(255, 107, 53, 0.15)',
+              border: '2px solid #ff6b35'
             }}
           >
             <div style={{ 
-              background: 'linear-gradient(135deg, #f55336 0%, #ff6b35 100%)',
+              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
               padding: '1rem',
               color: 'white'
             }}>
@@ -364,7 +364,7 @@ const CustomerPortal = () => {
               <button style={{
                 width: '100%',
                 padding: '1rem',
-                background: 'linear-gradient(90deg, #f55336 0%, #ff6b35 100%)',
+                background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
                 color: 'white',
                 borderRadius: '0.5rem',
                 border: 'none',
@@ -378,8 +378,8 @@ const CustomerPortal = () => {
             </div>
           </motion.div>
 
-          {/* 3. 이벤트/쿠폰 */}
-          <motion.div
+          {/* 3. 이벤트/쿠폰 - 임시 숨김 */}
+          {false && <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 }}
@@ -453,10 +453,10 @@ const CustomerPortal = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </motion.div>}
 
-          {/* 4. 포털 이벤트 */}
-          <motion.div
+          {/* 4. 포털 이벤트 - 임시 숨김 */}
+          {false && <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4 }}
@@ -535,7 +535,7 @@ const CustomerPortal = () => {
                 모든 이벤트 보기 →
               </button>
             </div>
-          </motion.div>
+          </motion.div>}
 
           {/* 5. 매장 사진 */}
           <motion.div
@@ -547,12 +547,12 @@ const CustomerPortal = () => {
               background: 'white',
               borderRadius: '1rem',
               overflow: 'hidden',
-              boxShadow: '0 10px 30px rgba(255, 179, 153, 0.15)',
-              border: '2px solid #ffb399'
+              boxShadow: '0 10px 30px rgba(255, 107, 53, 0.15)',
+              border: '2px solid #ff6b35'
             }}
           >
             <div style={{ 
-              background: 'linear-gradient(135deg, #ffb399 0%, #ffccbc 100%)',
+              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
               padding: '1rem',
               color: 'white'
             }}>
@@ -610,7 +610,7 @@ const CustomerPortal = () => {
                 </div>
                 <button style={{
                   padding: '0.5rem 1rem',
-                  background: 'linear-gradient(90deg, #ffb399 0%, #ffccbc 100%)',
+                  background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
                   color: 'white',
                   borderRadius: '0.5rem',
                   border: 'none',
@@ -633,12 +633,12 @@ const CustomerPortal = () => {
               background: 'white',
               borderRadius: '1rem',
               overflow: 'hidden',
-              boxShadow: '0 10px 30px rgba(255, 204, 188, 0.15)',
-              border: '2px solid #ffccbc'
+              boxShadow: '0 10px 30px rgba(255, 107, 53, 0.15)',
+              border: '2px solid #ff6b35'
             }}
           >
             <div style={{ 
-              background: 'linear-gradient(135deg, #ffccbc 0%, #ffd4cc 100%)',
+              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
               padding: '1rem',
               color: 'white'
             }}>
@@ -709,7 +709,7 @@ const CustomerPortal = () => {
               <button style={{
                 width: '100%',
                 padding: '0.75rem',
-                background: 'linear-gradient(90deg, #ffccbc 0%, #ffd4cc 100%)',
+                background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
                 color: 'white',
                 borderRadius: '0.5rem',
                 border: 'none',
