@@ -23,14 +23,36 @@ const CustomerPortal = () => {
     service: 0,
     cleanliness: 0,
     atmosphere: 0,
-    price: 0
+    parking: 0,
+    revisit: 0
   })
+  const [favorites, setFavorites] = useState(false)
+  const [showMenuPopup, setShowMenuPopup] = useState(false)
   
   const handleCategoryRating = (category: keyof typeof categoryRatings) => {
-    setCategoryRatings(prev => ({
-      ...prev,
-      [category]: prev[category] < 5 ? prev[category] + 1 : 1
-    }))
+    if (category === 'revisit') {
+      setCategoryRatings(prev => ({
+        ...prev,
+        [category]: prev[category] === 0 ? 5 : 0
+      }))
+      if (categoryRatings.revisit === 0) {
+        setFavorites(true)
+      }
+    } else {
+      setCategoryRatings(prev => ({
+        ...prev,
+        [category]: prev[category] < 5 ? prev[category] + 1 : 1
+      }))
+    }
+  }
+  
+  // 평균 별점 계산 (5개 중 5개만 선택해도 5점 가능)
+  const calculateAverageRating = () => {
+    const selectedCategories = Object.entries(categoryRatings)
+      .filter(([key, value]) => value > 0 && key !== 'revisit')
+    if (selectedCategories.length === 0) return 0
+    const sum = selectedCategories.reduce((acc, [_, value]) => acc + value, 0)
+    return (sum / selectedCategories.length).toFixed(1)
   }
   
   // 실제 날짜 생성
@@ -217,23 +239,25 @@ const CustomerPortal = () => {
                   <div style={{ fontWeight: 'bold', color: '#ff6b35', fontSize: '1.125rem' }}>{menu.price}</div>
                 </div>
               ))}
-              <button style={{
-                width: '100%',
-                padding: '0.75rem',
-                background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
-                color: 'white',
-                borderRadius: '0.5rem',
-                border: 'none',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                marginTop: '0.5rem'
-              }}>
+              <button 
+                onClick={() => setShowMenuPopup(true)}
+                style={{
+                  width: '100%',
+                  padding: '0.75rem',
+                  background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
+                  color: 'white',
+                  borderRadius: '0.5rem',
+                  border: 'none',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  marginTop: '0.5rem'
+                }}>
                 전체 메뉴 보기 →
               </button>
             </div>
           </motion.div>
 
-          {/* 2. 예약창 */}
+          {/* 2. 후기/댓글 */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -394,7 +418,7 @@ const CustomerPortal = () => {
             </div>
           </motion.div>
 
-          {/* 3. 이벤트/쿠폰 */}
+          {/* 3. 예약창 */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -471,7 +495,7 @@ const CustomerPortal = () => {
             </div>
           </motion.div>
 
-          {/* 4. 포털 이벤트 */}
+          {/* 4. 매장 사진 */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -553,7 +577,7 @@ const CustomerPortal = () => {
             </div>
           </motion.div>
 
-          {/* 5. 매장 사진 */}
+          {/* 5. 이벤트/쿠폰 */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -639,7 +663,7 @@ const CustomerPortal = () => {
             </div>
           </motion.div>
 
-          {/* 6. 후기/댓글 */}
+          {/* 6. 포털 이벤트 */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -717,7 +741,8 @@ const CustomerPortal = () => {
                   { key: 'service', label: '서비스', emoji: '👨‍🍳' },
                   { key: 'cleanliness', label: '청결', emoji: '✨' },
                   { key: 'atmosphere', label: '분위기', emoji: '🕯️' },
-                  { key: 'price', label: '가격', emoji: '💰' }
+                  { key: 'parking', label: '주차', emoji: '🚗' },
+                  { key: 'revisit', label: '재방문', emoji: '❤️' }
                 ].map(category => (
                   <button
                     key={category.key}
@@ -753,13 +778,37 @@ const CustomerPortal = () => {
                     <span style={{ fontSize: '1.25rem' }}>{category.emoji}</span>
                     <span style={{ fontSize: '0.75rem', fontWeight: 'bold' }}>{category.label}</span>
                     <span style={{ fontSize: '0.875rem', fontWeight: 'bold' }}>
-                      {categoryRatings[category.key as keyof typeof categoryRatings] > 0 
-                        ? `${categoryRatings[category.key as keyof typeof categoryRatings]}점` 
-                        : '-'}
+                      {category.key === 'revisit' 
+                        ? (categoryRatings[category.key as keyof typeof categoryRatings] > 0 ? '예' : '-')
+                        : (categoryRatings[category.key as keyof typeof categoryRatings] > 0 
+                          ? `${categoryRatings[category.key as keyof typeof categoryRatings]}점` 
+                          : '-')}
                     </span>
                   </button>
                 ))}
               </div>
+              
+              {/* 평균 점수 표시 */}
+              {Object.values(categoryRatings).some(v => v > 0) && (
+                <div style={{
+                  padding: '0.5rem',
+                  background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                  borderRadius: '0.5rem',
+                  textAlign: 'center',
+                  marginBottom: '0.5rem',
+                  border: '1px solid #ffd4cc'
+                }}>
+                  <span style={{ fontSize: '0.875rem', color: '#7f8c8d' }}>평균 평점: </span>
+                  <span style={{ fontSize: '1.125rem', fontWeight: 'bold', color: '#ff6b35' }}>
+                    {calculateAverageRating()}점
+                  </span>
+                  {favorites && (
+                    <span style={{ marginLeft: '0.5rem', color: '#ff6b35' }}>
+                      ❤️ 즐겨찾기 추가됨
+                    </span>
+                  )}
+                </div>
+              )}
 
               <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
                 {[
@@ -797,6 +846,144 @@ const CustomerPortal = () => {
           
         </div>
       </div>
+      
+      {/* 메뉴 팝업 */}
+      {showMenuPopup && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.8)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          padding: '1rem'
+        }}
+        onClick={() => setShowMenuPopup(false)}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            style={{
+              background: 'white',
+              borderRadius: '1rem',
+              maxWidth: '800px',
+              width: '100%',
+              maxHeight: '80vh',
+              overflow: 'auto',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)'
+            }}
+            onClick={(e) => e.stopPropagation()}>
+            <div style={{
+              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+              padding: '1.5rem',
+              color: 'white',
+              position: 'sticky',
+              top: 0,
+              zIndex: 1
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>🍕 전체 메뉴</h2>
+                <button
+                  onClick={() => setShowMenuPopup(false)}
+                  style={{
+                    background: 'rgba(255,255,255,0.2)',
+                    border: 'none',
+                    color: 'white',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '0.5rem',
+                    cursor: 'pointer',
+                    fontSize: '1rem'
+                  }}>
+                  ✕
+                </button>
+              </div>
+            </div>
+            <div style={{ padding: '1.5rem' }}>
+              {/* 메인 요리 */}
+              <div style={{ marginBottom: '2rem' }}>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#ff6b35', marginBottom: '1rem' }}>메인 요리</h3>
+                {[
+                  { name: '프리미엄 한우 스테이크', price: '58,000원', desc: '1++ 등급 한우 채끝 200g' },
+                  { name: '트러플 크림 파스타', price: '32,000원', desc: '프랑스산 트러플 오일 사용' },
+                  { name: '시그니처 마르게리타', price: '24,000원', desc: '수제 도우, 이탈리아 모짜렐라' },
+                  { name: '해산물 리조또', price: '28,000원', desc: '신선한 새우와 관자' }
+                ].map((item, idx) => (
+                  <div key={idx} style={{
+                    padding: '1rem',
+                    marginBottom: '0.75rem',
+                    background: 'linear-gradient(90deg, #fff8f6 0%, #fff1ee 100%)',
+                    borderRadius: '0.75rem',
+                    border: '1px solid #ffd4cc'
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                      <div>
+                        <div style={{ fontWeight: 'bold', fontSize: '1.125rem', color: '#2c3e50' }}>{item.name}</div>
+                        <div style={{ fontSize: '0.875rem', color: '#7f8c8d', marginTop: '0.25rem' }}>{item.desc}</div>
+                      </div>
+                      <div style={{ fontWeight: 'bold', fontSize: '1.25rem', color: '#ff6b35' }}>{item.price}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* 사이드 메뉴 */}
+              <div style={{ marginBottom: '2rem' }}>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#ff6b35', marginBottom: '1rem' }}>사이드 & 샐러드</h3>
+                {[
+                  { name: '시저 샐러드', price: '15,000원', desc: '로메인, 파마산, 크루통' },
+                  { name: '감자튀김', price: '8,000원', desc: '트러플 소금 제공' },
+                  { name: '마늘빵', price: '6,000원', desc: '수제 버터 갈릭 브레드' }
+                ].map((item, idx) => (
+                  <div key={idx} style={{
+                    padding: '1rem',
+                    marginBottom: '0.75rem',
+                    background: 'linear-gradient(90deg, #fff8f6 0%, #fff1ee 100%)',
+                    borderRadius: '0.75rem',
+                    border: '1px solid #ffd4cc'
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                      <div>
+                        <div style={{ fontWeight: 'bold', fontSize: '1.125rem', color: '#2c3e50' }}>{item.name}</div>
+                        <div style={{ fontSize: '0.875rem', color: '#7f8c8d', marginTop: '0.25rem' }}>{item.desc}</div>
+                      </div>
+                      <div style={{ fontWeight: 'bold', fontSize: '1.25rem', color: '#ff6b35' }}>{item.price}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* 음료 */}
+              <div>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#ff6b35', marginBottom: '1rem' }}>음료 & 디저트</h3>
+                {[
+                  { name: '하우스 와인', price: '12,000원', desc: '레드/화이트 선택' },
+                  { name: '수제 레모네이드', price: '7,000원', desc: '민트 & 라임' },
+                  { name: '티라미수', price: '9,000원', desc: '이탈리아 정통 레시피' }
+                ].map((item, idx) => (
+                  <div key={idx} style={{
+                    padding: '1rem',
+                    marginBottom: '0.75rem',
+                    background: 'linear-gradient(90deg, #fff8f6 0%, #fff1ee 100%)',
+                    borderRadius: '0.75rem',
+                    border: '1px solid #ffd4cc'
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                      <div>
+                        <div style={{ fontWeight: 'bold', fontSize: '1.125rem', color: '#2c3e50' }}>{item.name}</div>
+                        <div style={{ fontSize: '0.875rem', color: '#7f8c8d', marginTop: '0.25rem' }}>{item.desc}</div>
+                      </div>
+                      <div style={{ fontWeight: 'bold', fontSize: '1.25rem', color: '#ff6b35' }}>{item.price}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   )
 }
