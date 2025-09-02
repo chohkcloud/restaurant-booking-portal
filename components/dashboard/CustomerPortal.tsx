@@ -17,6 +17,22 @@ const CustomerPortal = () => {
   const [selectedTime, setSelectedTime] = useState(1) // 1 = 12:00
   const [partySize, setPartySize] = useState(2)
   
+  // 카테고리별 평점 상태
+  const [categoryRatings, setCategoryRatings] = useState({
+    taste: 0,
+    service: 0,
+    cleanliness: 0,
+    atmosphere: 0,
+    price: 0
+  })
+  
+  const handleCategoryRating = (category: keyof typeof categoryRatings) => {
+    setCategoryRatings(prev => ({
+      ...prev,
+      [category]: prev[category] < 5 ? prev[category] + 1 : 1
+    }))
+  }
+  
   // 실제 날짜 생성
   const getDateOptions = () => {
     const dates = []
@@ -378,8 +394,8 @@ const CustomerPortal = () => {
             </div>
           </motion.div>
 
-          {/* 3. 이벤트/쿠폰 - 임시 숨김 */}
-          {false && <motion.div
+          {/* 3. 이벤트/쿠폰 */}
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 }}
@@ -453,10 +469,10 @@ const CustomerPortal = () => {
                 </div>
               </div>
             </div>
-          </motion.div>}
+          </motion.div>
 
-          {/* 4. 포털 이벤트 - 임시 숨김 */}
-          {false && <motion.div
+          {/* 4. 포털 이벤트 */}
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4 }}
@@ -535,7 +551,7 @@ const CustomerPortal = () => {
                 모든 이벤트 보기 →
               </button>
             </div>
-          </motion.div>}
+          </motion.div>
 
           {/* 5. 매장 사진 */}
           <motion.div
@@ -652,7 +668,7 @@ const CustomerPortal = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: '1rem',
+                marginBottom: '0.5rem',
                 padding: '0.75rem',
                 background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
                 borderRadius: '0.5rem'
@@ -673,6 +689,76 @@ const CustomerPortal = () => {
                   </div>
                 </div>
                 <HeartIcon style={{ width: '1.5rem', height: '1.5rem', color: '#ff6b35', cursor: 'pointer' }} />
+              </div>
+
+              <button style={{
+                width: '100%',
+                padding: '0.75rem',
+                background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
+                color: 'white',
+                borderRadius: '0.5rem',
+                border: 'none',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                marginBottom: '1rem'
+              }}>
+                리뷰 작성하기 ✍️
+              </button>
+
+              {/* 카테고리별 평점 */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))',
+                gap: '0.5rem',
+                marginBottom: '1rem'
+              }}>
+                {[
+                  { key: 'taste', label: '맛', emoji: '🍽️' },
+                  { key: 'service', label: '서비스', emoji: '👨‍🍳' },
+                  { key: 'cleanliness', label: '청결', emoji: '✨' },
+                  { key: 'atmosphere', label: '분위기', emoji: '🕯️' },
+                  { key: 'price', label: '가격', emoji: '💰' }
+                ].map(category => (
+                  <button
+                    key={category.key}
+                    onClick={() => handleCategoryRating(category.key as keyof typeof categoryRatings)}
+                    style={{
+                      padding: '0.75rem 0.5rem',
+                      background: categoryRatings[category.key as keyof typeof categoryRatings] > 0 
+                        ? 'linear-gradient(135deg, #ff6b35, #f55336)' 
+                        : 'white',
+                      color: categoryRatings[category.key as keyof typeof categoryRatings] > 0 
+                        ? 'white' 
+                        : '#ff6b35',
+                      border: '2px solid #ff6b35',
+                      borderRadius: '0.5rem',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '0.25rem'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (categoryRatings[category.key as keyof typeof categoryRatings] === 0) {
+                        e.currentTarget.style.background = '#fff1ee'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (categoryRatings[category.key as keyof typeof categoryRatings] === 0) {
+                        e.currentTarget.style.background = 'white'
+                      }
+                    }}
+                  >
+                    <span style={{ fontSize: '1.25rem' }}>{category.emoji}</span>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 'bold' }}>{category.label}</span>
+                    <span style={{ fontSize: '0.875rem', fontWeight: 'bold' }}>
+                      {categoryRatings[category.key as keyof typeof categoryRatings] > 0 
+                        ? `${categoryRatings[category.key as keyof typeof categoryRatings]}점` 
+                        : '-'}
+                    </span>
+                  </button>
+                ))}
               </div>
 
               <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
@@ -706,19 +792,6 @@ const CustomerPortal = () => {
                 ))}
               </div>
 
-              <button style={{
-                width: '100%',
-                padding: '0.75rem',
-                background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
-                color: 'white',
-                borderRadius: '0.5rem',
-                border: 'none',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                marginTop: '0.5rem'
-              }}>
-                리뷰 작성하기 ✍️
-              </button>
             </div>
           </motion.div>
           
