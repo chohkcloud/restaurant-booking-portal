@@ -257,8 +257,8 @@ const CustomerPortal = () => {
             </div>
           </motion.div>
 
-          {/* 2. 후기/댓글 */}
-          <motion.div
+          {/* 2. 후기/댓글 - 숨김 */}
+          {false && <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
@@ -416,7 +416,7 @@ const CustomerPortal = () => {
                 예약하기
               </button>
             </div>
-          </motion.div>
+          </motion.div>}
 
           {/* 3. 예약창 */}
           <motion.div
@@ -495,8 +495,8 @@ const CustomerPortal = () => {
             </div>
           </motion.div>
 
-          {/* 4. 매장 사진 */}
-          <motion.div
+          {/* 4. 매장 사진 - 숨김 */}
+          {false && <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4 }}
@@ -575,10 +575,10 @@ const CustomerPortal = () => {
                 모든 이벤트 보기 →
               </button>
             </div>
-          </motion.div>
+          </motion.div>}
 
-          {/* 5. 이벤트/쿠폰 - 숨김 */}
-          {false && <motion.div
+          {/* 5. 이벤트/쿠폰 */}
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5 }}
@@ -661,10 +661,10 @@ const CustomerPortal = () => {
                 </button>
               </div>
             </div>
-          </motion.div>}
+          </motion.div>
 
-          {/* 6. 포털 이벤트 - 숨김 */}
-          {false && <motion.div
+          {/* 6. 포털 이벤트 */}
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6 }}
@@ -842,7 +842,7 @@ const CustomerPortal = () => {
               </div>
 
             </div>
-          </motion.div>}
+          </motion.div>
           
         </div>
       </div>
