@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Resend API 키 확인 및 안전한 초기화
+if (!process.env.RESEND_API_KEY) {
+  console.warn('⚠️ RESEND_API_KEY가 설정되지 않았습니다.')
+}
+
+const resend = new Resend(process.env.RESEND_API_KEY || 'dummy-key-for-build')
 
 export async function POST(request: NextRequest) {
   try {
