@@ -72,6 +72,40 @@ export const sendSMSNotification = async (reservationData: ReservationData): Pro
   }
 }
 
+// 취소 메일 발솨 기능
+export const sendCancellationEmailNotification = async (reservationData: ReservationData): Promise<boolean> => {
+  try {
+    const response = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        customerName: reservationData.customerName,
+        customerEmail: reservationData.customerEmail,
+        date: reservationData.date,
+        time: reservationData.time,
+        partySize: reservationData.partySize,
+        restaurantName: reservationData.restaurantName || '맛집 예약 포털',
+        type: 'cancellation' // 취소 메일 타입
+      })
+    })
+
+    const result = await response.json()
+    
+    if (result.success) {
+      console.log('✅ 취소 메일 발송 성공')
+      return true
+    } else {
+      console.error('❌ 취소 메일 발송 실패:', result.error)
+      return false
+    }
+  } catch (error) {
+    console.error('취소 메일 발송 API 호출 실패:', error)
+    return false
+  }
+}
+
 export const sendReservationNotifications = async (
   reservationData: ReservationData,
   reservationId?: string
@@ -100,5 +134,18 @@ export const sendReservationNotifications = async (
   return {
     emailSent,
     smsSent
+  }
+}
+
+// 취소 알림 발송
+export const sendCancellationNotifications = async (
+  reservationData: ReservationData
+): Promise<{
+  emailSent: boolean
+}> => {
+  const emailSent = await sendCancellationEmailNotification(reservationData)
+  
+  return {
+    emailSent
   }
 }

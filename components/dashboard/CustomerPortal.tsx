@@ -147,14 +147,48 @@ const CustomerPortal = () => {
     setCancellingReservation(reservationId)
     
     try {
+      // 1. 취소할 예약 정보 찾기
+      const reservationToCancel = myReservations.find(r => r.id === reservationId)
+      if (!reservationToCancel) {
+        alert('예약 정보를 찾을 수 없습니다.')
+        return
+      }
+      
+      // 2. 예약 취소 처리
       const { cancelReservation } = await import('@/lib/reservations')
       const result = await cancelReservation(reservationId)
       
       if (result.success) {
-        alert('예약이 취소되었습니다.')
-        // 예약 목록 업데이트
+        // 3. 취소 메일 발송
+        try {
+          const { sendCancellationNotifications } = await import('@/lib/notifications')
+          const cancellationData = {
+            customerName: user!.name,
+            customerEmail: user!.email,
+            customerPhone: user!.phone,
+            date: reservationToCancel.reservation_date,
+            time: reservationToCancel.reservation_time,
+            partySize: reservationToCancel.party_size,
+            restaurantName: '맛집 예약 포털'
+          }
+          
+          const notificationResult = await sendCancellationNotifications(cancellationData)
+          
+          let message = '예약이 취소되었습니다.'
+          if (notificationResult.emailSent) {
+            message += '\n📧 취소 안내 메일을 발송했습니다.'
+          }
+          
+          alert(message)
+        } catch (emailError) {
+          console.error('취소 메일 발송 실패:', emailError)
+          alert('예약은 취소되었지만 메일 발송에 실패했습니다.')
+        }
+        
+        // 4. 예약 목록 업데이트
         await loadUserReservations()
-        // 취소된 예약이 마지막 예약이었다면 클리어
+        
+        // 5. 취소된 예약이 마지막 예약이었다면 클리어
         if (lastReservation?.id === reservationId) {
           setLastReservation(null)
         }

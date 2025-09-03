@@ -17,11 +17,140 @@ export async function POST(request: NextRequest) {
       date, 
       time, 
       partySize, 
-      restaurantName 
+      restaurantName,
+      type = 'confirmation' // 기본은 예약 확인, 'cancellation'도 가능
     } = body
 
-    // 이메일 HTML 템플릿
-    const emailHtml = `
+    // 이메일 HTML 템플릿 (취소 또는 확인)
+    const emailHtml = type === 'cancellation' ? `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>예약 취소 안내</title>
+      <style>
+        body { 
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+          line-height: 1.6;
+          color: #333;
+          max-width: 600px;
+          margin: 0 auto;
+          padding: 20px;
+        }
+        .header {
+          background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+          color: white;
+          padding: 30px;
+          border-radius: 10px 10px 0 0;
+          text-align: center;
+        }
+        .content {
+          background: #f8f9fa;
+          padding: 30px;
+          border: 1px solid #dee2e6;
+        }
+        .reservation-details {
+          background: white;
+          padding: 20px;
+          border-radius: 8px;
+          margin: 20px 0;
+          border-left: 4px solid #dc3545;
+        }
+        .detail-row {
+          display: flex;
+          justify-content: space-between;
+          margin: 10px 0;
+          padding: 8px 0;
+          border-bottom: 1px solid #eee;
+        }
+        .detail-label {
+          font-weight: 600;
+          color: #555;
+        }
+        .detail-value {
+          font-weight: 500;
+          color: #333;
+        }
+        .footer {
+          background: #343a40;
+          color: white;
+          padding: 20px;
+          text-align: center;
+          border-radius: 0 0 10px 10px;
+          font-size: 14px;
+        }
+        .cancellation-notice {
+          background: #f8d7da;
+          color: #721c24;
+          padding: 15px;
+          border-radius: 5px;
+          border: 1px solid #f5c6cb;
+          margin: 20px 0;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <h1>❌ 예약 취소 안내</h1>
+        <p>안녕하세요 ${customerName}님, 예약이 성공적으로 취소되었습니다.</p>
+      </div>
+      
+      <div class="content">
+        <div class="cancellation-notice">
+          <h3 style="margin-top: 0; color: #721c24;">🚨 취소 완료</h3>
+          <p>아래 예약이 취소되었습니다. 취소 수수료는 발생하지 않습니다.</p>
+        </div>
+        
+        <div class="reservation-details">
+          <h3 style="color: #dc3545; margin-top: 0;">📋 취소된 예약 정보</h3>
+          
+          <div class="detail-row">
+            <span class="detail-label">🍽️ 매장</span>
+            <span class="detail-value">${restaurantName}</span>
+          </div>
+          
+          <div class="detail-row">
+            <span class="detail-label">👤 예약자</span>
+            <span class="detail-value">${customerName}</span>
+          </div>
+          
+          <div class="detail-row">
+            <span class="detail-label">📅 예약 날짜</span>
+            <span class="detail-value">${date}</span>
+          </div>
+          
+          <div class="detail-row">
+            <span class="detail-label">🕐 예약 시간</span>
+            <span class="detail-value">${time}</span>
+          </div>
+          
+          <div class="detail-row">
+            <span class="detail-label">👥 예약 인원</span>
+            <span class="detail-value">${partySize}명</span>
+          </div>
+        </div>
+        
+        <div style="background: #d1ecf1; padding: 15px; border-radius: 5px; border-left: 4px solid #17a2b8;">
+          <strong>💬 안내 사항</strong>
+          <ul style="margin: 10px 0; padding-left: 20px;">
+            <li>취소된 예약은 복구할 수 없습니다</li>
+            <li>다시 예약하시려면 새로 신청해 주세요</li>
+            <li>불편을 드려 죄송합니다</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer">
+        <p><strong>📞 문의사항이 있으시면 언제든 연락주세요</strong></p>
+        <p>전화: 1588-0000 | 이메일: support@restaurant-portal.com</p>
+        <p style="margin-top: 15px; font-size: 12px; opacity: 0.8;">
+          맛집 예약 포털 | 서울특별시 강남구 테헤란로 123
+        </p>
+      </div>
+    </body>
+    </html>
+    ` : `
     <!DOCTYPE html>
     <html>
     <head>
@@ -142,10 +271,15 @@ export async function POST(request: NextRequest) {
     </html>
     `
 
+    // 이메일 제목 설정
+    const subject = type === 'cancellation' 
+      ? `[${restaurantName}] 예약 취소 안내 - ${date} ${time}`
+      : `[${restaurantName}] 예약 확정 안내 - ${date} ${time}`
+
     const { data, error } = await resend.emails.send({
       from: 'Restaurant Portal <noreply@resend.dev>',
       to: [customerEmail],
-      subject: `[${restaurantName}] 예약 확정 안내 - ${date} ${time}`,
+      subject: subject,
       html: emailHtml,
     })
 
