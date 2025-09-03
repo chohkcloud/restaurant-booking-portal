@@ -11,12 +11,18 @@ import {
   SparklesIcon
 } from '@heroicons/react/24/outline'
 import { StarIcon as StarIconSolid, HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
+import { useAuth } from '@/contexts/AuthContext'
+import LoginModal from '@/components/auth/LoginModal'
+import { sendReservationNotifications, ReservationData } from '@/lib/notifications'
 
 const CustomerPortal = () => {
+  const { user, isLoggedIn, login, logout } = useAuth()
   const [selectedDate, setSelectedDate] = useState(0) // 0 = 오늘
   const [selectedTime, setSelectedTime] = useState(1) // 1 = 12:00
   const [partySize, setPartySize] = useState(2)
   const [showReservation, setShowReservation] = useState(false) // 예약 섹션 표시 상태
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [isProcessingReservation, setIsProcessingReservation] = useState(false)
   
   // 카테고리별 평점 상태
   const [categoryRatings, setCategoryRatings] = useState({
@@ -92,6 +98,52 @@ const CustomerPortal = () => {
   
   const dateOptions = getDateOptions()
 
+  // 예약 처리 함수
+  const handleReservation = async () => {
+    if (!isLoggedIn) {
+      setShowLoginModal(true)
+      return
+    }
+
+    setIsProcessingReservation(true)
+
+    try {
+      // 예약 데이터 구성
+      const selectedDateOption = dateOptions[selectedDate]
+      const selectedTimeOption = ['11:30', '12:00', '12:30', '13:00', '18:00', '18:30', '19:00', '19:30'][selectedTime]
+      
+      const reservationData: ReservationData = {
+        customerName: user!.name,
+        customerEmail: user!.email,
+        customerPhone: user!.phone,
+        date: `${selectedDateOption.fullDate.getFullYear()}년 ${selectedDateOption.fullDate.getMonth() + 1}월 ${selectedDateOption.fullDate.getDate()}일 (${selectedDateOption.label})`,
+        time: selectedTimeOption,
+        partySize: partySize,
+        restaurantName: '맛집 예약 포털'
+      }
+
+      // 알림 발송
+      const notificationResults = await sendReservationNotifications(reservationData)
+      
+      let message = '예약이 완료되었습니다!'
+      if (notificationResults.emailSent && notificationResults.smsSent) {
+        message += '\n📧 이메일과 📱 SMS로 예약 확정 안내를 발송했습니다.'
+      } else if (notificationResults.emailSent) {
+        message += '\n📧 이메일로 예약 확정 안내를 발송했습니다.'
+      } else if (notificationResults.smsSent) {
+        message += '\n📱 SMS로 예약 확정 안내를 발송했습니다.'
+      }
+
+      alert(message)
+      setShowReservation(true)
+    } catch (error) {
+      console.error('예약 처리 중 오류:', error)
+      alert('예약 처리 중 오류가 발생했습니다. 다시 시도해주세요.')
+    } finally {
+      setIsProcessingReservation(false)
+    }
+  }
+
   return (
     <div style={{ 
       minHeight: '100vh', 
@@ -113,16 +165,39 @@ const CustomerPortal = () => {
             🍽️ 맛집 예약 포털
           </h1>
           <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <button style={{ 
-              padding: '0.5rem 1rem', 
-              background: 'rgba(255,255,255,0.2)', 
-              color: 'white',
-              borderRadius: '0.5rem',
-              border: '1px solid rgba(255,255,255,0.3)',
-              cursor: 'pointer'
-            }}>
-              로그인
-            </button>
+            {isLoggedIn ? (
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                <span style={{ color: 'white', fontSize: '0.875rem' }}>
+                  안녕하세요, {user?.name}님! 👋
+                </span>
+                <button 
+                  onClick={logout}
+                  style={{ 
+                    padding: '0.5rem 1rem', 
+                    background: 'rgba(255,255,255,0.2)', 
+                    color: 'white',
+                    borderRadius: '0.5rem',
+                    border: '1px solid rgba(255,255,255,0.3)',
+                    cursor: 'pointer',
+                    fontSize: '0.875rem'
+                  }}>
+                  로그아웃
+                </button>
+              </div>
+            ) : (
+              <button 
+                onClick={() => setShowLoginModal(true)}
+                style={{ 
+                  padding: '0.5rem 1rem', 
+                  background: 'rgba(255,255,255,0.2)', 
+                  color: 'white',
+                  borderRadius: '0.5rem',
+                  border: '1px solid rgba(255,255,255,0.3)',
+                  cursor: 'pointer'
+                }}>
+                로그인
+              </button>
+            )}
             <HeartIconSolid style={{ width: '1.5rem', height: '1.5rem', color: 'white', cursor: 'pointer' }} />
           </div>
         </div>
@@ -403,23 +478,29 @@ const CustomerPortal = () => {
               </div>
 
               <button 
-                onClick={() => {
-                  setShowReservation(true);
-                  alert('예약이 완료되었습니다!');
-                }}
+                onClick={handleReservation}
+                disabled={isProcessingReservation}
                 style={{
                   width: '100%',
                   padding: '1rem',
-                  background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
+                  background: isProcessingReservation 
+                    ? '#ccc' 
+                    : isLoggedIn 
+                      ? 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)' 
+                      : 'linear-gradient(90deg, #28a745 0%, #20c997 100%)',
                   color: 'white',
                   borderRadius: '0.5rem',
                   border: 'none',
                   fontWeight: 'bold',
                   fontSize: '1.125rem',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 15px rgba(245, 83, 54, 0.3)'
+                  cursor: isProcessingReservation ? 'not-allowed' : 'pointer',
+                  boxShadow: isProcessingReservation ? 'none' : '0 4px 15px rgba(245, 83, 54, 0.3)'
                 }}>
-                예약하기
+                {isProcessingReservation 
+                  ? '예약 처리 중...' 
+                  : isLoggedIn 
+                    ? '예약하기' 
+                    : '로그인 후 예약하기'}
               </button>
             </div>
           </motion.div>
@@ -994,6 +1075,13 @@ const CustomerPortal = () => {
           </motion.div>
         </div>
       )}
+
+      {/* 로그인 모달 */}
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLogin={login}
+      />
     </div>
   )
 }
