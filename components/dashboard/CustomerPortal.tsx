@@ -16,6 +16,7 @@ const CustomerPortal = () => {
   const [selectedDate, setSelectedDate] = useState(0) // 0 = 오늘
   const [selectedTime, setSelectedTime] = useState(1) // 1 = 12:00
   const [partySize, setPartySize] = useState(2)
+  const [showReservation, setShowReservation] = useState(false) // 예약 섹션 표시 상태
   
   // 카테고리별 평점 상태
   const [categoryRatings, setCategoryRatings] = useState({
@@ -170,7 +171,7 @@ const CustomerPortal = () => {
         `}</style>
         <div className="dashboard-grid">
           
-          {/* 1. 메뉴 */}
+          {/* 1. 인기 메뉴 */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -257,8 +258,8 @@ const CustomerPortal = () => {
             </div>
           </motion.div>
 
-          {/* 2. 후기/댓글 - 숨김 */}
-          {false && <motion.div
+          {/* 2. 예약하기 섹션 */}
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
@@ -401,187 +402,33 @@ const CustomerPortal = () => {
                 </div>
               </div>
 
-              <button style={{
-                width: '100%',
-                padding: '1rem',
-                background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
-                color: 'white',
-                borderRadius: '0.5rem',
-                border: 'none',
-                fontWeight: 'bold',
-                fontSize: '1.125rem',
-                cursor: 'pointer',
-                boxShadow: '0 4px 15px rgba(245, 83, 54, 0.3)'
-              }}>
+              <button 
+                onClick={() => {
+                  setShowReservation(true);
+                  alert('예약이 완료되었습니다!');
+                }}
+                style={{
+                  width: '100%',
+                  padding: '1rem',
+                  background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
+                  color: 'white',
+                  borderRadius: '0.5rem',
+                  border: 'none',
+                  fontWeight: 'bold',
+                  fontSize: '1.125rem',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 15px rgba(245, 83, 54, 0.3)'
+                }}>
                 예약하기
               </button>
             </div>
-          </motion.div>}
+          </motion.div>
 
-          {/* 3. 예약창 */}
+          {/* 3. 매장 갤러리 */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 }}
-            className="mobile-card"
-            style={{
-              background: 'white',
-              borderRadius: '1rem',
-              overflow: 'hidden',
-              boxShadow: '0 10px 30px rgba(255, 129, 87, 0.15)',
-              border: '2px solid #ff8157'
-            }}
-          >
-            <div style={{ 
-              background: 'linear-gradient(135deg, #ff8157 0%, #ff9a76 100%)',
-              padding: '1rem',
-              color: 'white'
-            }}>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
-                <TicketIcon style={{ width: '1.5rem', height: '1.5rem', marginRight: '0.5rem' }} />
-                이벤트 & 쿠폰
-              </h2>
-            </div>
-            <div style={{ padding: '1rem' }}>
-              <div style={{
-                background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
-                borderRadius: '0.75rem',
-                padding: '1rem',
-                marginBottom: '0.75rem',
-                border: '2px dashed #ff8157'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{ fontSize: '0.75rem', color: '#ff6b35', fontWeight: 'bold' }}>첫 방문 고객</div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#2c3e50' }}>20% 할인</div>
-                    <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>~12/31까지</div>
-                  </div>
-                  <div style={{ fontSize: '2.5rem' }}>🎁</div>
-                </div>
-              </div>
-
-              <div style={{
-                background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
-                borderRadius: '0.75rem',
-                padding: '1rem',
-                marginBottom: '0.75rem',
-                border: '2px dashed #ff9a76'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{ fontSize: '0.75rem', color: '#f55336', fontWeight: 'bold' }}>생일 쿠폰</div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#2c3e50' }}>케이크 서비스</div>
-                    <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>생일 당일</div>
-                  </div>
-                  <div style={{ fontSize: '2.5rem' }}>🎂</div>
-                </div>
-              </div>
-
-              <div style={{
-                background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
-                borderRadius: '0.75rem',
-                padding: '1rem',
-                border: '2px dashed #ffb399'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{ fontSize: '0.75rem', color: '#ff8157', fontWeight: 'bold' }}>단골 혜택</div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#2c3e50' }}>10% 적립</div>
-                    <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>5회 방문시</div>
-                  </div>
-                  <div style={{ fontSize: '2.5rem' }}>💝</div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* 4. 매장 사진 - 숨김 */}
-          {false && <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4 }}
-            className="mobile-card"
-            style={{
-              background: 'white',
-              borderRadius: '1rem',
-              overflow: 'hidden',
-              boxShadow: '0 10px 30px rgba(255, 154, 118, 0.15)',
-              border: '2px solid #ff9a76'
-            }}
-          >
-            <div style={{ 
-              background: 'linear-gradient(135deg, #ff9a76 0%, #ffb399 100%)',
-              padding: '1rem',
-              color: 'white'
-            }}>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
-                <SparklesIcon style={{ width: '1.5rem', height: '1.5rem', marginRight: '0.5rem' }} />
-                포털 이벤트
-              </h2>
-            </div>
-            <div style={{ padding: '1rem' }}>
-              <div style={{
-                background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
-                borderRadius: '0.75rem',
-                padding: '1rem',
-                marginBottom: '1rem',
-                color: 'white'
-              }}>
-                <div style={{ fontSize: '0.875rem', opacity: 0.9 }}>🔥 진행중인 이벤트</div>
-                <div style={{ fontSize: '1.5rem', fontWeight: 'bold', margin: '0.5rem 0' }}>369 이벤트</div>
-                <div style={{ fontSize: '0.875rem' }}>3, 6, 9일 방문시 30% 할인!</div>
-                <div style={{ 
-                  marginTop: '0.75rem',
-                  padding: '0.5rem',
-                  background: 'rgba(255,255,255,0.2)',
-                  borderRadius: '0.5rem',
-                  textAlign: 'center'
-                }}>
-                  참여 고객: <strong>1,234명</strong>
-                </div>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem', marginBottom: '1rem' }}>
-                <div style={{
-                  padding: '0.75rem',
-                  background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
-                  borderRadius: '0.5rem',
-                  textAlign: 'center'
-                }}>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#ff6b35' }}>15%</div>
-                  <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>평일 런치</div>
-                </div>
-                <div style={{
-                  padding: '0.75rem',
-                  background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
-                  borderRadius: '0.5rem',
-                  textAlign: 'center'
-                }}>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#f55336' }}>2+1</div>
-                  <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>음료 이벤트</div>
-                </div>
-              </div>
-
-              <button style={{
-                width: '100%',
-                padding: '0.75rem',
-                background: 'linear-gradient(90deg, #ff9a76 0%, #ffb399 100%)',
-                color: 'white',
-                borderRadius: '0.5rem',
-                border: 'none',
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}>
-                모든 이벤트 보기 →
-              </button>
-            </div>
-          </motion.div>}
-
-          {/* 5. 이벤트/쿠폰 */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5 }}
             className="mobile-card"
             style={{
               background: 'white',
@@ -663,11 +510,11 @@ const CustomerPortal = () => {
             </div>
           </motion.div>
 
-          {/* 6. 포털 이벤트 */}
+          {/* 4. 리얼 후기 */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.6 }}
+            transition={{ delay: 0.4 }}
             className="mobile-card"
             style={{
               background: 'white',
@@ -840,9 +687,172 @@ const CustomerPortal = () => {
                   </div>
                 ))}
               </div>
-
             </div>
           </motion.div>
+          
+          {/* 예약 클릭 시 표시되는 이벤트 섹션들 */}
+          {showReservation && (
+            <>
+              {/* 5. 이벤트 & 쿠폰 */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5 }}
+                className="mobile-card"
+                style={{
+                  background: 'white',
+                  borderRadius: '1rem',
+                  overflow: 'hidden',
+                  boxShadow: '0 10px 30px rgba(255, 129, 87, 0.15)',
+                  border: '2px solid #ff8157'
+                }}
+              >
+                <div style={{ 
+                  background: 'linear-gradient(135deg, #ff8157 0%, #ff9a76 100%)',
+                  padding: '1rem',
+                  color: 'white'
+                }}>
+                  <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
+                    <TicketIcon style={{ width: '1.5rem', height: '1.5rem', marginRight: '0.5rem' }} />
+                    이벤트 & 쿠폰
+                  </h2>
+                </div>
+                <div style={{ padding: '1rem' }}>
+                  <div style={{
+                    background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                    borderRadius: '0.75rem',
+                    padding: '1rem',
+                    marginBottom: '0.75rem',
+                    border: '2px dashed #ff8157'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <div>
+                        <div style={{ fontSize: '0.75rem', color: '#ff6b35', fontWeight: 'bold' }}>첫 방문 고객</div>
+                        <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#2c3e50' }}>20% 할인</div>
+                        <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>~12/31까지</div>
+                      </div>
+                      <div style={{ fontSize: '2.5rem' }}>🎁</div>
+                    </div>
+                  </div>
+
+                  <div style={{
+                    background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                    borderRadius: '0.75rem',
+                    padding: '1rem',
+                    marginBottom: '0.75rem',
+                    border: '2px dashed #ff9a76'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <div>
+                        <div style={{ fontSize: '0.75rem', color: '#f55336', fontWeight: 'bold' }}>생일 쿠폰</div>
+                        <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#2c3e50' }}>케이크 서비스</div>
+                        <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>생일 당일</div>
+                      </div>
+                      <div style={{ fontSize: '2.5rem' }}>🎂</div>
+                    </div>
+                  </div>
+
+                  <div style={{
+                    background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                    borderRadius: '0.75rem',
+                    padding: '1rem',
+                    border: '2px dashed #ffb399'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <div>
+                        <div style={{ fontSize: '0.75rem', color: '#ff8157', fontWeight: 'bold' }}>단골 혜택</div>
+                        <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#2c3e50' }}>10% 적립</div>
+                        <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>5회 방문시</div>
+                      </div>
+                      <div style={{ fontSize: '2.5rem' }}>💝</div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+              
+              {/* 6. 포털 이벤트 */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.6 }}
+                className="mobile-card"
+                style={{
+                  background: 'white',
+                  borderRadius: '1rem',
+                  overflow: 'hidden',
+                  boxShadow: '0 10px 30px rgba(255, 154, 118, 0.15)',
+                  border: '2px solid #ff9a76'
+                }}
+              >
+                <div style={{ 
+                  background: 'linear-gradient(135deg, #ff9a76 0%, #ffb399 100%)',
+                  padding: '1rem',
+                  color: 'white'
+                }}>
+                  <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
+                    <SparklesIcon style={{ width: '1.5rem', height: '1.5rem', marginRight: '0.5rem' }} />
+                    포털 이벤트
+                  </h2>
+                </div>
+                <div style={{ padding: '1rem' }}>
+                  <div style={{
+                    background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                    borderRadius: '0.75rem',
+                    padding: '1rem',
+                    marginBottom: '1rem',
+                    color: 'white'
+                  }}>
+                    <div style={{ fontSize: '0.875rem', opacity: 0.9 }}>🔥 진행중인 이벤트</div>
+                    <div style={{ fontSize: '1.5rem', fontWeight: 'bold', margin: '0.5rem 0' }}>369 이벤트</div>
+                    <div style={{ fontSize: '0.875rem' }}>3, 6, 9일 방문시 30% 할인!</div>
+                    <div style={{ 
+                      marginTop: '0.75rem',
+                      padding: '0.5rem',
+                      background: 'rgba(255,255,255,0.2)',
+                      borderRadius: '0.5rem',
+                      textAlign: 'center'
+                    }}>
+                      참여 고객: <strong>1,234명</strong>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem', marginBottom: '1rem' }}>
+                    <div style={{
+                      padding: '0.75rem',
+                      background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                      borderRadius: '0.5rem',
+                      textAlign: 'center'
+                    }}>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#ff6b35' }}>15%</div>
+                      <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>평일 런치</div>
+                    </div>
+                    <div style={{
+                      padding: '0.75rem',
+                      background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                      borderRadius: '0.5rem',
+                      textAlign: 'center'
+                    }}>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#f55336' }}>2+1</div>
+                      <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>음료 이벤트</div>
+                    </div>
+                  </div>
+
+                  <button style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    background: 'linear-gradient(90deg, #ff9a76 0%, #ffb399 100%)',
+                    color: 'white',
+                    borderRadius: '0.5rem',
+                    border: 'none',
+                    fontWeight: 'bold',
+                    cursor: 'pointer'
+                  }}>
+                    모든 이벤트 보기 →
+                  </button>
+                </div>
+              </motion.div>
+            </>
+          )}
           
         </div>
       </div>
