@@ -10,65 +10,64 @@ export interface ReservationData {
 
 export const sendEmailNotification = async (reservationData: ReservationData): Promise<boolean> => {
   try {
-    // 실제 서비스에서는 이메일 서비스 API (예: SendGrid, Nodemailer 등) 사용
-    // 여기서는 데모용 로직
-    
-    const emailContent = `
-    안녕하세요 ${reservationData.customerName}님,
-    
-    예약이 성공적으로 완료되었습니다.
-    
-    📋 예약 상세 정보
-    ━━━━━━━━━━━━━━━━━━━━━━
-    🍽️ 매장: ${reservationData.restaurantName || '맛집 예약 포털'}
-    👤 예약자: ${reservationData.customerName}
-    📅 날짜: ${reservationData.date}
-    🕐 시간: ${reservationData.time}
-    👥 인원: ${reservationData.partySize}명
-    
-    📞 문의사항이 있으시면 언제든지 연락 주세요.
-    
-    감사합니다.
-    맛집 예약 포털 팀 드림
-    `
-
-    console.log('📧 이메일 발송 (데모):', {
-      to: reservationData.customerEmail,
-      subject: '[맛집예약] 예약 확정 안내',
-      content: emailContent
+    const response = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        customerName: reservationData.customerName,
+        customerEmail: reservationData.customerEmail,
+        date: reservationData.date,
+        time: reservationData.time,
+        partySize: reservationData.partySize,
+        restaurantName: reservationData.restaurantName || '맛집 예약 포털'
+      })
     })
 
-    // 실제 이메일 발송을 시뮬레이션하는 지연
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    const result = await response.json()
     
-    return true
+    if (result.success) {
+      console.log('✅ 이메일 발송 성공')
+      return true
+    } else {
+      console.error('❌ 이메일 발송 실패:', result.error)
+      return false
+    }
   } catch (error) {
-    console.error('이메일 발송 실패:', error)
+    console.error('이메일 발송 API 호출 실패:', error)
     return false
   }
 }
 
 export const sendSMSNotification = async (reservationData: ReservationData): Promise<boolean> => {
   try {
-    // 실제 서비스에서는 SMS 서비스 API (예: Twilio, 네이버 클라우드 등) 사용
-    // 여기서는 데모용 로직
-    
-    const smsContent = `[맛집예약] ${reservationData.customerName}님, 예약이 완료되었습니다.
-📅 ${reservationData.date} ${reservationData.time}
-👥 ${reservationData.partySize}명
-문의: 1588-0000`
-
-    console.log('📱 SMS 발송 (데모):', {
-      to: reservationData.customerPhone,
-      content: smsContent
+    const response = await fetch('/api/send-sms', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        customerName: reservationData.customerName,
+        customerPhone: reservationData.customerPhone,
+        date: reservationData.date,
+        time: reservationData.time,
+        partySize: reservationData.partySize,
+        restaurantName: reservationData.restaurantName || '맛집 예약 포털'
+      })
     })
 
-    // 실제 SMS 발송을 시뮬레이션하는 지연
-    await new Promise(resolve => setTimeout(resolve, 800))
+    const result = await response.json()
     
-    return true
+    if (result.success) {
+      console.log('✅ SMS 발송 성공', result.demo ? '(데모 모드)' : '')
+      return true
+    } else {
+      console.error('❌ SMS 발송 실패:', result.error)
+      return false
+    }
   } catch (error) {
-    console.error('SMS 발송 실패:', error)
+    console.error('SMS 발송 API 호출 실패:', error)
     return false
   }
 }

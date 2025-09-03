@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { XMarkIcon, EnvelopeIcon, PhoneIcon, UserIcon, LockClosedIcon } from '@heroicons/react/24/outline'
+import { registerUser, loginUser, RegisterData, LoginData } from '@/lib/auth'
 
 interface LoginModalProps {
   isOpen: boolean
@@ -30,6 +31,8 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
     phone: '',
     password: ''
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   const validateForm = () => {
     const newErrors = {
@@ -65,29 +68,70 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
     return !Object.values(newErrors).some(error => error !== '')
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
     if (!validateForm()) return
 
-    // 실제 서비스에서는 API 호출을 통한 인증이 필요
-    // 여기서는 간단한 데모용 로직
-    const userInfo: UserInfo = {
-      name: formData.name || '고객님',
-      email: formData.email,
-      phone: formData.phone || '010-0000-0000'
-    }
+    setIsSubmitting(true)
+    setSubmitError('')
 
-    onLogin(userInfo)
-    onClose()
-    
-    // 폼 초기화
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      password: ''
-    })
+    try {
+      if (isLoginMode) {
+        // 로그인 처리
+        const loginData: LoginData = {
+          email: formData.email,
+          password: formData.password
+        }
+        
+        const result = await loginUser(loginData)
+        
+        if (result.success && result.user) {
+          onLogin(result.user)
+          onClose()
+          // 폼 초기화
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            password: ''
+          })
+        } else {
+          setSubmitError(result.message)
+        }
+      } else {
+        // 회원가입 처리
+        const registerData: RegisterData = {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password
+        }
+        
+        const result = await registerUser(registerData)
+        
+        if (result.success && result.user) {
+          // 회원가입 성공 시 자동 로그인
+          onLogin(result.user)
+          onClose()
+          alert('회원가입이 완료되었습니다!')
+          // 폼 초기화
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            password: ''
+          })
+        } else {
+          setSubmitError(result.message)
+        }
+      }
+    } catch (error) {
+      console.error('폼 제출 오류:', error)
+      setSubmitError('처리 중 오류가 발생했습니다. 다시 시도해주세요.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleInputChange = (field: string, value: string) => {
@@ -102,6 +146,11 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
         ...prev,
         [field]: ''
       }))
+    }
+
+    // 제출 에러도 초기화
+    if (submitError) {
+      setSubmitError('')
     }
   }
 
@@ -308,22 +357,43 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
             )}
           </div>
 
+          {/* 전역 에러 메시지 */}
+          {submitError && (
+            <div style={{
+              padding: '0.75rem',
+              background: '#fee2e2',
+              border: '1px solid #fecaca',
+              borderRadius: '0.5rem',
+              color: '#dc2626',
+              marginBottom: '1rem',
+              fontSize: '0.875rem'
+            }}>
+              {submitError}
+            </div>
+          )}
+
           {/* 버튼들 */}
           <button
             type="submit"
+            disabled={isSubmitting}
             style={{
               width: '100%',
               padding: '0.75rem',
-              background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
+              background: isSubmitting 
+                ? '#ccc' 
+                : 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
               color: 'white',
               border: 'none',
               borderRadius: '0.5rem',
               fontSize: '1rem',
               fontWeight: 'bold',
-              cursor: 'pointer',
+              cursor: isSubmitting ? 'not-allowed' : 'pointer',
               marginBottom: '1rem'
             }}>
-            {isLoginMode ? '로그인' : '회원가입'}
+            {isSubmitting 
+              ? (isLoginMode ? '로그인 중...' : '회원가입 중...')
+              : (isLoginMode ? '로그인' : '회원가입')
+            }
           </button>
 
           <div style={{ textAlign: 'center' }}>
