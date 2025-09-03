@@ -1,4 +1,5 @@
 import { supabase } from './supabase'
+import { format, toZonedTime } from 'date-fns-tz'
 
 export interface ReservationData {
   customerName: string
@@ -88,7 +89,7 @@ export const updateReservationNotificationStatus = async (
       .update({
         email_sent: emailSent,
         sms_sent: smsSent,
-        updated_at: new Date().toISOString()
+        updated_at: format(toZonedTime(new Date(), 'Asia/Seoul'), "yyyy-MM-dd'T'HH:mm:ssXXX", { timeZone: 'Asia/Seoul' })
       })
       .eq('id', reservationId)
 
@@ -192,7 +193,7 @@ export const cancelReservation = async (reservationId: string): Promise<{
       .from('reservations')
       .update({
         status: 'cancelled',
-        updated_at: new Date().toISOString()
+        updated_at: format(toZonedTime(new Date(), 'Asia/Seoul'), "yyyy-MM-dd'T'HH:mm:ssXXX", { timeZone: 'Asia/Seoul' })
       })
       .eq('id', reservationId)
 

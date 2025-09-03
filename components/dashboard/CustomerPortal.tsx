@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { 
   CalendarIcon,
@@ -8,21 +8,32 @@ import {
   ChatBubbleBottomCenterTextIcon,
   HeartIcon,
   TicketIcon,
-  SparklesIcon
+  SparklesIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  CheckCircleIcon,
+  ClockIcon
 } from '@heroicons/react/24/outline'
 import { StarIcon as StarIconSolid, HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
 import { useAuth } from '@/contexts/AuthContext'
 import LoginModal from '@/components/auth/LoginModal'
 import { sendReservationNotifications, ReservationData } from '@/lib/notifications'
+import { format, addMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isToday, isBefore, startOfDay } from 'date-fns'
+import { ko } from 'date-fns/locale'
+import ReservationSection from './ReservationSection'
 
 const CustomerPortal = () => {
   const { user, isLoggedIn, login, logout } = useAuth()
-  const [selectedDate, setSelectedDate] = useState(0) // 0 = 오늘
-  const [selectedTime, setSelectedTime] = useState(1) // 1 = 12:00
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
+  const [selectedTime, setSelectedTime] = useState('12:00')
   const [partySize, setPartySize] = useState(2)
   const [showReservation, setShowReservation] = useState(false) // 예약 섹션 표시 상태
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [isProcessingReservation, setIsProcessingReservation] = useState(false)
+  const [lastReservation, setLastReservation] = useState<any>(null) // 마지막 예약 정보
+  const [myReservations, setMyReservations] = useState<any[]>([]) // 내 예약 목록
+  const [showCalendar, setShowCalendar] = useState(false) // 달력 표시 여부
+  const [currentMonth, setCurrentMonth] = useState(new Date())
   
   // 카테고리별 평점 상태
   const [categoryRatings, setCategoryRatings] = useState({
@@ -35,6 +46,36 @@ const CustomerPortal = () => {
   })
   const [favorites, setFavorites] = useState(false)
   const [showMenuPopup, setShowMenuPopup] = useState(false)
+  
+  // 사용자의 예약 목록 불러오기
+  useEffect(() => {
+    if (isLoggedIn && user) {
+      loadUserReservations()
+    }
+  }, [isLoggedIn, user])
+  
+  const loadUserReservations = async () => {
+    if (!user) return
+    
+    try {
+      const { getUserReservations } = await import('@/lib/reservations')
+      const result = await getUserReservations(user.id)
+      
+      if (result.success && result.reservations) {
+        // 예약을 날짜 순으로 정렬 (가까운 날짜가 먼저)
+        const sortedReservations = result.reservations
+          .filter(r => r.status === 'confirmed')
+          .sort((a, b) => {
+            const dateA = new Date(a.reservation_date + ' ' + a.reservation_time)
+            const dateB = new Date(b.reservation_date + ' ' + b.reservation_time)
+            return dateA.getTime() - dateB.getTime()
+          })
+        setMyReservations(sortedReservations)
+      }
+    } catch (error) {
+      console.error('예약 목록 로드 실패:', error)
+    }
+  }
   
   const handleCategoryRating = (category: keyof typeof categoryRatings) => {
     if (category === 'revisit') {
@@ -62,41 +103,27 @@ const CustomerPortal = () => {
     return (sum / selectedCategories.length).toFixed(1)
   }
   
-  // 실제 날짜 생성
-  const getDateOptions = () => {
-    const dates = []
-    const today = new Date()
-    
-    for (let i = 0; i < 5; i++) {
-      const date = new Date(today)
-      date.setDate(today.getDate() + i)
-      
-      const dayNames = ['일', '월', '화', '수', '목', '금', '토']
-      
-      if (i === 0) {
-        dates.push({
-          label: '오늘',
-          detail: `${date.getDate()}일`,
-          fullDate: date
-        })
-      } else if (i === 1) {
-        dates.push({
-          label: '내일',
-          detail: `${date.getDate()}일`,
-          fullDate: date
-        })
-      } else {
-        dates.push({
-          label: dayNames[date.getDay()],
-          detail: `${date.getDate()}일`,
-          fullDate: date
-        })
-      }
-    }
-    return dates
+  // 달력 날짜 생성
+  const getDaysInMonth = () => {
+    const start = startOfMonth(currentMonth)
+    const end = endOfMonth(currentMonth)
+    return eachDayOfInterval({ start, end })
   }
   
-  const dateOptions = getDateOptions()
+  // 예약 가능 시간 리스트
+  const timeSlots = ['11:30', '12:00', '12:30', '13:00', '18:00', '18:30', '19:00', '19:30']
+  
+  // 중복 예약 체크
+  const isTimeSlotBooked = (date: Date, time: string) => {
+    if (!date) return false
+    const dateStr = format(date, 'yyyy년 M월 d일')
+    return myReservations.some(reservation => {
+      const resDate = reservation.reservation_date
+      const resTime = reservation.reservation_time
+      // 날짜 형식 비교
+      return resDate.includes(dateStr) && resTime === time
+    })
+  }
 
   // 예약 처리 함수
   const handleReservation = async () => {
@@ -104,20 +131,31 @@ const CustomerPortal = () => {
       setShowLoginModal(true)
       return
     }
+    
+    if (!selectedDate || !selectedTime) {
+      alert('날짜와 시간을 선택해주세요.')
+      return
+    }
+    
+    // 중복 예약 체크
+    if (isTimeSlotBooked(selectedDate, selectedTime)) {
+      alert('이미 해당 시간에 예약이 있습니다. 다른 시간을 선택해주세요.')
+      return
+    }
 
     setIsProcessingReservation(true)
 
     try {
       // 예약 데이터 구성
-      const selectedDateOption = dateOptions[selectedDate]
-      const selectedTimeOption = ['11:30', '12:00', '12:30', '13:00', '18:00', '18:30', '19:00', '19:30'][selectedTime]
+      const dayName = format(selectedDate, 'EEEE', { locale: ko })
+      const formattedDate = format(selectedDate, 'yyyy년 M월 d일', { locale: ko })
       
       const reservationData: ReservationData = {
         customerName: user!.name,
         customerEmail: user!.email,
         customerPhone: user!.phone,
-        date: `${selectedDateOption.fullDate.getFullYear()}년 ${selectedDateOption.fullDate.getMonth() + 1}월 ${selectedDateOption.fullDate.getDate()}일 (${selectedDateOption.label})`,
-        time: selectedTimeOption,
+        date: `${formattedDate} (${dayName})`,
+        time: selectedTime,
         partySize: partySize,
         restaurantName: '맛집 예약 포털'
       }
@@ -147,6 +185,15 @@ const CustomerPortal = () => {
 
       alert(message)
       setShowReservation(true)
+      
+      // 예약 정보 저장 및 목록 업데이트
+      setLastReservation({
+        ...reservationData,
+        id: reservationResult.reservation?.id
+      })
+      
+      // 예약 목록 다시 로드
+      await loadUserReservations()
       
       console.log('✅ 예약 DB 저장 완료:', reservationResult.reservation)
     } catch (error) {
@@ -370,152 +417,20 @@ const CustomerPortal = () => {
                 빠른 예약
               </h2>
             </div>
-            <div style={{ padding: '1rem' }}>
-              {/* 날짜 선택 */}
-              <div style={{ marginBottom: '1rem' }}>
-                <label style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem', display: 'block' }}>날짜 선택</label>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.5rem' }}>
-                  {dateOptions.map((dateOption, idx) => (
-                    <button 
-                      key={idx} 
-                      onClick={() => setSelectedDate(idx)}
-                      style={{
-                        padding: '0.5rem 0.25rem',
-                        background: selectedDate === idx ? 'linear-gradient(135deg, #ff6b35, #f55336)' : '#fff8f6',
-                        color: selectedDate === idx ? 'white' : '#ff6b35',
-                        border: `2px solid ${selectedDate === idx ? '#ff6b35' : '#ffe4de'}`,
-                        borderRadius: '0.75rem',
-                        cursor: 'pointer',
-                        fontWeight: selectedDate === idx ? 'bold' : '500',
-                        fontSize: '0.875rem',
-                        textAlign: 'center',
-                        transition: 'all 0.2s',
-                        boxShadow: selectedDate === idx ? '0 4px 12px rgba(255, 107, 53, 0.25)' : 'none'
-                      }}
-                      onMouseEnter={(e) => {
-                        if (selectedDate !== idx) {
-                          e.currentTarget.style.background = '#fff1ee'
-                          e.currentTarget.style.borderColor = '#ffccc0'
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        if (selectedDate !== idx) {
-                          e.currentTarget.style.background = '#fff8f6'
-                          e.currentTarget.style.borderColor = '#ffe4de'
-                        }
-                      }}
-                    >
-                      <div style={{ fontWeight: 'bold' }}>{dateOption.label}</div>
-                      <div style={{ fontSize: '0.75rem', opacity: 0.8 }}>{dateOption.detail}</div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* 시간 선택 */}
-              <div style={{ marginBottom: '1rem' }}>
-                <label style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem', display: 'block' }}>시간 선택</label>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem' }}>
-                  {['11:30', '12:00', '12:30', '13:00', '18:00', '18:30', '19:00', '19:30'].map((time, idx) => (
-                    <button 
-                      key={idx} 
-                      onClick={() => setSelectedTime(idx)}
-                      style={{
-                        padding: '0.5rem',
-                        background: selectedTime === idx ? 'linear-gradient(135deg, #ff6b35, #f55336)' : '#fff8f6',
-                        color: selectedTime === idx ? 'white' : '#ff6b35',
-                        border: `2px solid ${selectedTime === idx ? '#ff6b35' : '#ffe4de'}`,
-                        borderRadius: '0.75rem',
-                        cursor: 'pointer',
-                        fontSize: '0.875rem',
-                        fontWeight: selectedTime === idx ? 'bold' : '500',
-                        transition: 'all 0.2s',
-                        boxShadow: selectedTime === idx ? '0 4px 12px rgba(255, 107, 53, 0.25)' : 'none'
-                      }}
-                      onMouseEnter={(e) => {
-                        if (selectedTime !== idx) {
-                          e.currentTarget.style.background = '#fff1ee'
-                          e.currentTarget.style.borderColor = '#ffccc0'
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        if (selectedTime !== idx) {
-                          e.currentTarget.style.background = '#fff8f6'
-                          e.currentTarget.style.borderColor = '#ffe4de'
-                        }
-                      }}
-                    >
-                      {time}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* 인원 선택 */}
-              <div style={{ marginBottom: '1rem' }}>
-                <label style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem', display: 'block' }}>인원</label>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  {[1, 2, 3, 4, 5, '6+'].map((size, idx) => (
-                    <button 
-                      key={size} 
-                      onClick={() => setPartySize(typeof size === 'string' ? 6 : size)}
-                      style={{
-                        flex: 1,
-                        padding: '0.5rem',
-                        background: partySize === (typeof size === 'string' ? 6 : size) ? 'linear-gradient(135deg, #ff6b35, #f55336)' : '#fff8f6',
-                        color: partySize === (typeof size === 'string' ? 6 : size) ? 'white' : '#ff6b35',
-                        border: `2px solid ${partySize === (typeof size === 'string' ? 6 : size) ? '#ff6b35' : '#ffe4de'}`,
-                        borderRadius: '0.75rem',
-                        cursor: 'pointer',
-                        fontWeight: partySize === (typeof size === 'string' ? 6 : size) ? 'bold' : '500',
-                        transition: 'all 0.2s',
-                        boxShadow: partySize === (typeof size === 'string' ? 6 : size) ? '0 4px 12px rgba(255, 107, 53, 0.25)' : 'none'
-                      }}
-                      onMouseEnter={(e) => {
-                        if (partySize !== (typeof size === 'string' ? 6 : size)) {
-                          e.currentTarget.style.background = '#fff1ee'
-                          e.currentTarget.style.borderColor = '#ffccc0'
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        if (partySize !== (typeof size === 'string' ? 6 : size)) {
-                          e.currentTarget.style.background = '#fff8f6'
-                          e.currentTarget.style.borderColor = '#ffe4de'
-                        }
-                      }}
-                    >
-                      {size}명
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <button 
-                onClick={handleReservation}
-                disabled={isProcessingReservation}
-                style={{
-                  width: '100%',
-                  padding: '1rem',
-                  background: isProcessingReservation 
-                    ? '#ccc' 
-                    : isLoggedIn 
-                      ? 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)' 
-                      : 'linear-gradient(90deg, #28a745 0%, #20c997 100%)',
-                  color: 'white',
-                  borderRadius: '0.5rem',
-                  border: 'none',
-                  fontWeight: 'bold',
-                  fontSize: '1.125rem',
-                  cursor: isProcessingReservation ? 'not-allowed' : 'pointer',
-                  boxShadow: isProcessingReservation ? 'none' : '0 4px 15px rgba(245, 83, 54, 0.3)'
-                }}>
-                {isProcessingReservation 
-                  ? '예약 처리 중...' 
-                  : isLoggedIn 
-                    ? '예약하기' 
-                    : '로그인 후 예약하기'}
-              </button>
-            </div>
+            <ReservationSection
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              selectedTime={selectedTime}
+              setSelectedTime={setSelectedTime}
+              partySize={partySize}
+              setPartySize={setPartySize}
+              lastReservation={lastReservation}
+              myReservations={myReservations}
+              isProcessingReservation={isProcessingReservation}
+              isLoggedIn={isLoggedIn}
+              handleReservation={handleReservation}
+              isTimeSlotBooked={isTimeSlotBooked}
+            />
           </motion.div>
 
           {/* 3. 매장 갤러리 */}
