@@ -1,12 +1,12 @@
 'use client'
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import { UserInfo } from '@/components/auth/LoginModal'
+import { User } from '@/lib/auth'
 
 interface AuthContextType {
-  user: UserInfo | null
+  user: User | null
   isLoggedIn: boolean
-  login: (userInfo: UserInfo) => void
+  login: (userInfo: User) => void
   logout: () => void
 }
 
@@ -21,7 +21,7 @@ export const useAuth = () => {
 }
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<UserInfo | null>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   // 컴포넌트 마운트 시 localStorage에서 사용자 정보 복원
@@ -39,7 +39,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [])
 
-  const login = (userInfo: UserInfo) => {
+  const login = (userInfo: User) => {
     setUser(userInfo)
     setIsLoggedIn(true)
     // localStorage에 사용자 정보 저장

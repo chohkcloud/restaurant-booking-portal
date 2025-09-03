@@ -3,18 +3,12 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { XMarkIcon, EnvelopeIcon, PhoneIcon, UserIcon, LockClosedIcon } from '@heroicons/react/24/outline'
-import { registerUser, loginUser, RegisterData, LoginData } from '@/lib/auth'
+import { registerUser, loginUser, RegisterData, LoginData, User } from '@/lib/auth'
 
 interface LoginModalProps {
   isOpen: boolean
   onClose: () => void
-  onLogin: (userInfo: UserInfo) => void
-}
-
-export interface UserInfo {
-  name: string
-  email: string
-  phone: string
+  onLogin: (userInfo: User) => void
 }
 
 const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {

@@ -10,7 +10,9 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(echo:*)",
-      "Bash(npx vercel:*)"
+      "Bash(npx vercel:*)",
+      "WebFetch(domain:restaurant-booking-portal.vercel.app)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []

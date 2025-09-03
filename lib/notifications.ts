@@ -72,7 +72,10 @@ export const sendSMSNotification = async (reservationData: ReservationData): Pro
   }
 }
 
-export const sendReservationNotifications = async (reservationData: ReservationData): Promise<{
+export const sendReservationNotifications = async (
+  reservationData: ReservationData,
+  reservationId?: string
+): Promise<{
   emailSent: boolean
   smsSent: boolean
 }> => {
@@ -81,8 +84,21 @@ export const sendReservationNotifications = async (reservationData: ReservationD
     sendSMSNotification(reservationData)
   ])
 
+  const emailSent = emailResult.status === 'fulfilled' ? emailResult.value : false
+  const smsSent = smsResult.status === 'fulfilled' ? smsResult.value : false
+
+  // 예약 ID가 있으면 알림 상태를 DB에 업데이트
+  if (reservationId) {
+    try {
+      const { updateReservationNotificationStatus } = await import('./reservations')
+      await updateReservationNotificationStatus(reservationId, emailSent, smsSent)
+    } catch (error) {
+      console.error('알림 상태 업데이트 실패:', error)
+    }
+  }
+
   return {
-    emailSent: emailResult.status === 'fulfilled' ? emailResult.value : false,
-    smsSent: smsResult.status === 'fulfilled' ? smsResult.value : false
+    emailSent,
+    smsSent
   }
 }

@@ -122,10 +122,21 @@ const CustomerPortal = () => {
         restaurantName: '맛집 예약 포털'
       }
 
-      // 알림 발송
-      const notificationResults = await sendReservationNotifications(reservationData)
+      // 1. 먼저 DB에 예약 저장
+      const { createReservation } = await import('@/lib/reservations')
+      const reservationResult = await createReservation(user!.id, reservationData)
       
-      let message = '예약이 완료되었습니다!'
+      if (!reservationResult.success) {
+        throw new Error(reservationResult.message)
+      }
+
+      // 2. 예약 저장 성공 후 알림 발송
+      const notificationResults = await sendReservationNotifications(
+        reservationData, 
+        reservationResult.reservation?.id
+      )
+      
+      let message = '예약이 완료되어 데이터베이스에 저장되었습니다!'
       if (notificationResults.emailSent && notificationResults.smsSent) {
         message += '\n📧 이메일과 📱 SMS로 예약 확정 안내를 발송했습니다.'
       } else if (notificationResults.emailSent) {
@@ -136,6 +147,8 @@ const CustomerPortal = () => {
 
       alert(message)
       setShowReservation(true)
+      
+      console.log('✅ 예약 DB 저장 완료:', reservationResult.reservation)
     } catch (error) {
       console.error('예약 처리 중 오류:', error)
       alert('예약 처리 중 오류가 발생했습니다. 다시 시도해주세요.')

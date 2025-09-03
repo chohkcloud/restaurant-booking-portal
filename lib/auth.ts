@@ -1,4 +1,12 @@
-import { UserInfo } from '@/components/auth/LoginModal'
+import { supabase } from './supabase'
+import bcrypt from 'bcryptjs'
+
+export interface User {
+  id: string
+  name: string
+  email: string
+  phone: string
+}
 
 export interface RegisterData {
   name: string
@@ -12,32 +20,20 @@ export interface LoginData {
   password: string
 }
 
-// 사용자 데이터베이스 시뮬레이션 (실제 서비스에서는 실제 DB 사용)
-export const getUserDatabase = (): RegisterData[] => {
-  const stored = localStorage.getItem('userDatabase')
-  return stored ? JSON.parse(stored) : []
-}
-
-export const saveUserToDatabase = (user: RegisterData): void => {
-  const users = getUserDatabase()
-  users.push(user)
-  localStorage.setItem('userDatabase', JSON.stringify(users))
-}
-
-export const findUserByEmail = (email: string): RegisterData | null => {
-  const users = getUserDatabase()
-  return users.find(user => user.email === email) || null
-}
-
 // 회원가입 함수
 export const registerUser = async (userData: RegisterData): Promise<{
   success: boolean
   message: string
-  user?: UserInfo
+  user?: User
 }> => {
   try {
     // 이메일 중복 확인
-    const existingUser = findUserByEmail(userData.email)
+    const { data: existingUser, error: checkError } = await supabase
+      .from('users')
+      .select('id')
+      .eq('email', userData.email)
+      .single()
+
     if (existingUser) {
       return {
         success: false,
@@ -45,16 +41,40 @@ export const registerUser = async (userData: RegisterData): Promise<{
       }
     }
 
+    // 비밀번호 해싱
+    const saltRounds = 12
+    const hashedPassword = await bcrypt.hash(userData.password, saltRounds)
+
     // 사용자 저장
-    saveUserToDatabase(userData)
-    
+    const { data, error } = await supabase
+      .from('users')
+      .insert([
+        {
+          name: userData.name,
+          email: userData.email,
+          phone: userData.phone,
+          password: hashedPassword
+        }
+      ])
+      .select()
+      .single()
+
+    if (error) {
+      console.error('회원가입 DB 오류:', error)
+      return {
+        success: false,
+        message: '회원가입 중 오류가 발생했습니다.'
+      }
+    }
+
     return {
       success: true,
       message: '회원가입이 완료되었습니다.',
       user: {
-        name: userData.name,
-        email: userData.email,
-        phone: userData.phone
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        phone: data.phone
       }
     }
   } catch (error) {
@@ -70,13 +90,17 @@ export const registerUser = async (userData: RegisterData): Promise<{
 export const loginUser = async (loginData: LoginData): Promise<{
   success: boolean
   message: string
-  user?: UserInfo
+  user?: User
 }> => {
   try {
     // 사용자 찾기
-    const user = findUserByEmail(loginData.email)
-    
-    if (!user) {
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', loginData.email)
+      .single()
+
+    if (error || !user) {
       return {
         success: false,
         message: '존재하지 않는 이메일입니다.'
@@ -84,7 +108,9 @@ export const loginUser = async (loginData: LoginData): Promise<{
     }
 
     // 비밀번호 확인
-    if (user.password !== loginData.password) {
+    const isValidPassword = await bcrypt.compare(loginData.password, user.password)
+    
+    if (!isValidPassword) {
       return {
         success: false,
         message: '비밀번호가 일치하지 않습니다.'
@@ -95,6 +121,7 @@ export const loginUser = async (loginData: LoginData): Promise<{
       success: true,
       message: '로그인 성공',
       user: {
+        id: user.id,
         name: user.name,
         email: user.email,
         phone: user.phone
@@ -106,5 +133,25 @@ export const loginUser = async (loginData: LoginData): Promise<{
       success: false,
       message: '로그인 중 오류가 발생했습니다.'
     }
+  }
+}
+
+// 사용자 ID로 사용자 정보 가져오기
+export const getUserById = async (userId: string): Promise<User | null> => {
+  try {
+    const { data, error } = await supabase
+      .from('users')
+      .select('id, name, email, phone')
+      .eq('id', userId)
+      .single()
+
+    if (error || !data) {
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error('사용자 조회 오류:', error)
+    return null
   }
 }
