@@ -28,7 +28,7 @@ export const registerUser = async (userData: RegisterData): Promise<{
 }> => {
   try {
     // 이메일 중복 확인
-    const { data: existingUser, error: checkError } = await supabase
+    const { data: existingUser } = await supabase
       .from('users')
       .select('id')
       .eq('email', userData.email)

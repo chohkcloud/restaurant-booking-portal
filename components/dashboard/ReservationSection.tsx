@@ -8,6 +8,7 @@ import {
   CheckCircleIcon,
   ClockIcon
 } from '@heroicons/react/24/outline'
+import type { ReservationInfo, ReservationRecord } from '@/types/reservation'
 
 interface ReservationSectionProps {
   selectedDate: Date | null
@@ -16,8 +17,8 @@ interface ReservationSectionProps {
   setSelectedTime: (time: string) => void
   partySize: number
   setPartySize: (size: number) => void
-  lastReservation: any
-  myReservations: any[]
+  lastReservation: ReservationInfo | null
+  myReservations: ReservationRecord[]
   isProcessingReservation: boolean
   isLoggedIn: boolean
   handleReservation: () => void
@@ -40,6 +41,9 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
 }) => {
   const [showCalendar, setShowCalendar] = React.useState(false)
   const [currentMonth, setCurrentMonth] = React.useState(new Date())
+  
+  console.log('현재 예약 목록:', myReservations)
+  console.log('마지막 예약:', lastReservation)
   
   const timeSlots = ['11:30', '12:00', '12:30', '13:00', '18:00', '18:30', '19:00', '19:30']
   
@@ -93,7 +97,7 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
       )}
       
       {/* 내 예약 목록 */}
-      {myReservations.length > 0 && (
+      {myReservations && myReservations.length > 0 ? (
         <div style={{
           marginBottom: '1.5rem',
           padding: '1rem',
@@ -105,8 +109,8 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
             📅 나의 예약 정보 ({myReservations.length}건)
           </div>
           <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
-            {myReservations.slice(0, 3).map((reservation, idx) => (
-              <div key={idx} style={{
+            {myReservations.map((reservation, idx) => (
+              <div key={reservation.id || idx} style={{
                 padding: '0.5rem',
                 marginBottom: '0.5rem',
                 background: 'white',
@@ -140,7 +144,20 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
             ))}
           </div>
         </div>
-      )}
+      ) : isLoggedIn ? (
+        <div style={{
+          marginBottom: '1.5rem',
+          padding: '1rem',
+          background: 'linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%)',
+          borderRadius: '0.75rem',
+          border: '1px solid #ccc',
+          textAlign: 'center'
+        }}>
+          <div style={{ fontSize: '0.875rem', color: '#666' }}>
+            📅 예약된 내역이 없습니다.
+          </div>
+        </div>
+      ) : null}
       
       {/* 날짜 선택 */}
       <div style={{ marginBottom: '1rem' }}>
@@ -293,7 +310,7 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
               <button
                 key={time}
                 onClick={() => !isBooked && setSelectedTime(time)}
-                disabled={isBooked}
+                disabled={isBooked || false}
                 style={{
                   padding: '0.5rem',
                   background: isBooked 

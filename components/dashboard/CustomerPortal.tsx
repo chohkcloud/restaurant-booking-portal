@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { 
   CalendarIcon,
@@ -8,19 +8,16 @@ import {
   ChatBubbleBottomCenterTextIcon,
   HeartIcon,
   TicketIcon,
-  SparklesIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  CheckCircleIcon,
-  ClockIcon
+  SparklesIcon
 } from '@heroicons/react/24/outline'
 import { StarIcon as StarIconSolid, HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
 import { useAuth } from '@/contexts/AuthContext'
 import LoginModal from '@/components/auth/LoginModal'
 import { sendReservationNotifications, ReservationData } from '@/lib/notifications'
-import { format, addMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isToday, isBefore, startOfDay } from 'date-fns'
+import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
 import ReservationSection from './ReservationSection'
+import type { ReservationInfo, ReservationRecord } from '@/types/reservation'
 
 const CustomerPortal = () => {
   const { user, isLoggedIn, login, logout } = useAuth()
@@ -30,10 +27,8 @@ const CustomerPortal = () => {
   const [showReservation, setShowReservation] = useState(false) // 예약 섹션 표시 상태
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [isProcessingReservation, setIsProcessingReservation] = useState(false)
-  const [lastReservation, setLastReservation] = useState<any>(null) // 마지막 예약 정보
-  const [myReservations, setMyReservations] = useState<any[]>([]) // 내 예약 목록
-  const [showCalendar, setShowCalendar] = useState(false) // 달력 표시 여부
-  const [currentMonth, setCurrentMonth] = useState(new Date())
+  const [lastReservation, setLastReservation] = useState<ReservationInfo | null>(null) // 마지막 예약 정보
+  const [myReservations, setMyReservations] = useState<ReservationRecord[]>([]) // 내 예약 목록
   
   // 카테고리별 평점 상태
   const [categoryRatings, setCategoryRatings] = useState({
@@ -47,35 +42,61 @@ const CustomerPortal = () => {
   const [favorites, setFavorites] = useState(false)
   const [showMenuPopup, setShowMenuPopup] = useState(false)
   
-  // 사용자의 예약 목록 불러오기
-  useEffect(() => {
-    if (isLoggedIn && user) {
-      loadUserReservations()
-    }
-  }, [isLoggedIn, user])
-  
-  const loadUserReservations = async () => {
+  const loadUserReservations = useCallback(async () => {
     if (!user) return
     
     try {
       const { getUserReservations } = await import('@/lib/reservations')
       const result = await getUserReservations(user.id)
       
+      console.log('예약 목록 조회 결과:', result)
+      
       if (result.success && result.reservations) {
         // 예약을 날짜 순으로 정렬 (가까운 날짜가 먼저)
+        const now = new Date()
         const sortedReservations = result.reservations
           .filter(r => r.status === 'confirmed')
-          .sort((a, b) => {
-            const dateA = new Date(a.reservation_date + ' ' + a.reservation_time)
-            const dateB = new Date(b.reservation_date + ' ' + b.reservation_time)
-            return dateA.getTime() - dateB.getTime()
+          .map(r => {
+            // 날짜 문자열에서 날짜 추출 (예: "2025년 1월 3일 (금요일)" -> Date 객체)
+            const dateMatch = r.reservation_date.match(/(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/)
+            let reservationDateTime = now
+            if (dateMatch) {
+              const [, year, month, day] = dateMatch
+              const [hours, minutes] = r.reservation_time.split(':')
+              reservationDateTime = new Date(parseInt(year), parseInt(month) - 1, parseInt(day), parseInt(hours), parseInt(minutes))
+            }
+            return { ...r, reservationDateTime }
           })
+          // 모든 예약을 표시 (과거 예약도 포함)
+          .sort((a, b) => {
+            // 미래 예약은 오름차순, 과거 예약은 내림차순
+            const aIsFuture = a.reservationDateTime >= now
+            const bIsFuture = b.reservationDateTime >= now
+            
+            if (aIsFuture && bIsFuture) {
+              return a.reservationDateTime.getTime() - b.reservationDateTime.getTime()
+            } else if (!aIsFuture && !bIsFuture) {
+              return b.reservationDateTime.getTime() - a.reservationDateTime.getTime()
+            } else {
+              return aIsFuture ? -1 : 1
+            }
+          })
+        
+        console.log('정렬된 예약 목록:', sortedReservations)
         setMyReservations(sortedReservations)
       }
     } catch (error) {
       console.error('예약 목록 로드 실패:', error)
     }
-  }
+  }, [user])
+  
+  // 사용자의 예약 목록 불러오기
+  useEffect(() => {
+    if (isLoggedIn && user) {
+      console.log('로그인 상태 변경 - 예약 목록 로드', user)
+      loadUserReservations()
+    }
+  }, [isLoggedIn, user, loadUserReservations])
   
   const handleCategoryRating = (category: keyof typeof categoryRatings) => {
     if (category === 'revisit') {
@@ -102,16 +123,6 @@ const CustomerPortal = () => {
     const sum = selectedCategories.reduce((acc, [_, value]) => acc + value, 0)
     return (sum / selectedCategories.length).toFixed(1)
   }
-  
-  // 달력 날짜 생성
-  const getDaysInMonth = () => {
-    const start = startOfMonth(currentMonth)
-    const end = endOfMonth(currentMonth)
-    return eachDayOfInterval({ start, end })
-  }
-  
-  // 예약 가능 시간 리스트
-  const timeSlots = ['11:30', '12:00', '12:30', '13:00', '18:00', '18:30', '19:00', '19:30']
   
   // 중복 예약 체크
   const isTimeSlotBooked = (date: Date, time: string) => {
@@ -187,10 +198,12 @@ const CustomerPortal = () => {
       setShowReservation(true)
       
       // 예약 정보 저장 및 목록 업데이트
-      setLastReservation({
+      const fullReservation = {
         ...reservationData,
         id: reservationResult.reservation?.id
-      })
+      }
+      setLastReservation(fullReservation)
+      console.log('예약 정보 저장:', fullReservation)
       
       // 예약 목록 다시 로드
       await loadUserReservations()
