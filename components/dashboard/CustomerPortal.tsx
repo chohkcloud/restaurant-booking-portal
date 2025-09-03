@@ -29,6 +29,8 @@ const CustomerPortal = () => {
   const [isProcessingReservation, setIsProcessingReservation] = useState(false)
   const [lastReservation, setLastReservation] = useState<ReservationInfo | null>(null) // 마지막 예약 정보
   const [myReservations, setMyReservations] = useState<ReservationRecord[]>([]) // 내 예약 목록
+  const [showReservationForm, setShowReservationForm] = useState(false) // 예약 폼 표시 여부
+  const [cancellingReservation, setCancellingReservation] = useState<string | null>(null) // 취소 중인 예약 ID
   
   // 카테고리별 평점 상태
   const [categoryRatings, setCategoryRatings] = useState({
@@ -135,6 +137,37 @@ const CustomerPortal = () => {
       return resDate.includes(dateStr) && resTime === time
     })
   }
+  
+  // 예약 취소 기능
+  const handleCancelReservation = async (reservationId: string) => {
+    if (!confirm('정말 예약을 취소하시겠습니까?')) {
+      return
+    }
+    
+    setCancellingReservation(reservationId)
+    
+    try {
+      const { cancelReservation } = await import('@/lib/reservations')
+      const result = await cancelReservation(reservationId)
+      
+      if (result.success) {
+        alert('예약이 취소되었습니다.')
+        // 예약 목록 업데이트
+        await loadUserReservations()
+        // 취소된 예약이 마지막 예약이었다면 클리어
+        if (lastReservation?.id === reservationId) {
+          setLastReservation(null)
+        }
+      } else {
+        alert('예약 취소에 실패했습니다. 다시 시도해주세요.')
+      }
+    } catch (error) {
+      console.error('예약 취소 오류:', error)
+      alert('예약 취소 중 오류가 발생했습니다.')
+    } finally {
+      setCancellingReservation(null)
+    }
+  }
 
   // 예약 처리 함수
   const handleReservation = async () => {
@@ -209,6 +242,9 @@ const CustomerPortal = () => {
       await loadUserReservations()
       
       console.log('✅ 예약 DB 저장 완료:', reservationResult.reservation)
+      
+      // 예약 완료 후 폼 숨기기
+      setShowReservationForm(false)
     } catch (error) {
       console.error('예약 처리 중 오류:', error)
       alert('예약 처리 중 오류가 발생했습니다. 다시 시도해주세요.')
@@ -443,6 +479,10 @@ const CustomerPortal = () => {
               isLoggedIn={isLoggedIn}
               handleReservation={handleReservation}
               isTimeSlotBooked={isTimeSlotBooked}
+              showReservationForm={showReservationForm}
+              setShowReservationForm={setShowReservationForm}
+              handleCancelReservation={handleCancelReservation}
+              cancellingReservation={cancellingReservation}
             />
           </motion.div>
 

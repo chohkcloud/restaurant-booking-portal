@@ -6,7 +6,9 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   CheckCircleIcon,
-  ClockIcon
+  ClockIcon,
+  TrashIcon,
+  PlusIcon
 } from '@heroicons/react/24/outline'
 import type { ReservationInfo, ReservationRecord } from '@/types/reservation'
 
@@ -23,6 +25,10 @@ interface ReservationSectionProps {
   isLoggedIn: boolean
   handleReservation: () => void
   isTimeSlotBooked: (date: Date, time: string) => boolean
+  showReservationForm: boolean
+  setShowReservationForm: (show: boolean) => void
+  handleCancelReservation: (reservationId: string) => void
+  cancellingReservation: string | null
 }
 
 const ReservationSection: React.FC<ReservationSectionProps> = ({
@@ -37,7 +43,11 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
   isProcessingReservation,
   isLoggedIn,
   handleReservation,
-  isTimeSlotBooked
+  isTimeSlotBooked,
+  showReservationForm,
+  setShowReservationForm,
+  handleCancelReservation,
+  cancellingReservation
 }) => {
   const [showCalendar, setShowCalendar] = React.useState(false)
   const [currentMonth, setCurrentMonth] = React.useState(new Date())
@@ -108,40 +118,72 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
           <div style={{ fontWeight: 'bold', color: '#ff6b35', marginBottom: '0.75rem', fontSize: '1rem' }}>
             📅 나의 예약 정보 ({myReservations.length}건)
           </div>
-          <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
-            {myReservations.map((reservation, idx) => (
-              <div key={reservation.id || idx} style={{
-                padding: '0.5rem',
-                marginBottom: '0.5rem',
-                background: 'white',
-                borderRadius: '0.5rem',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center'
-              }}>
-                <div>
-                  <div style={{ fontWeight: '600', color: '#333', fontSize: '0.875rem' }}>
-                    {reservation.reservation_date}
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.25rem' }}>
-                    <ClockIcon style={{ width: '0.875rem', height: '0.875rem', color: '#666' }} />
-                    <span style={{ fontSize: '0.75rem', color: '#666' }}>
-                      {reservation.reservation_time} • {reservation.party_size}명
-                    </span>
-                  </div>
-                </div>
-                <div style={{
-                  padding: '0.25rem 0.5rem',
-                  background: '#4caf50',
-                  color: 'white',
-                  borderRadius: '0.25rem',
-                  fontSize: '0.625rem',
-                  fontWeight: 'bold'
+          <div style={{ maxHeight: '250px', overflowY: 'auto' }}>
+            {myReservations.map((reservation) => {
+              const now = new Date()
+              const resDateTime = new Date(reservation.reservationDateTime || now)
+              const isPastReservation = resDateTime < now
+              
+              return (
+                <div key={reservation.id} style={{
+                  padding: '0.75rem',
+                  marginBottom: '0.75rem',
+                  background: isPastReservation ? '#f5f5f5' : 'white',
+                  borderRadius: '0.75rem',
+                  border: '1px solid #e0e0e0',
+                  position: 'relative'
                 }}>
-                  확정
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: '600', color: isPastReservation ? '#888' : '#333', fontSize: '0.875rem', marginBottom: '0.25rem' }}>
+                        {reservation.reservation_date}
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                        <ClockIcon style={{ width: '0.875rem', height: '0.875rem', color: '#666' }} />
+                        <span style={{ fontSize: '0.75rem', color: '#666' }}>
+                          {reservation.reservation_time} • {reservation.party_size}명
+                        </span>
+                      </div>
+                      <div style={{
+                        display: 'inline-block',
+                        padding: '0.25rem 0.5rem',
+                        background: isPastReservation ? '#888' : '#4caf50',
+                        color: 'white',
+                        borderRadius: '0.25rem',
+                        fontSize: '0.625rem',
+                        fontWeight: 'bold'
+                      }}>
+                        {isPastReservation ? '완료' : '확정'}
+                      </div>
+                    </div>
+                    
+                    {/* 취소 버튼 (미래 예약만) */}
+                    {!isPastReservation && (
+                      <button
+                        onClick={() => handleCancelReservation(reservation.id)}
+                        disabled={cancellingReservation === reservation.id}
+                        style={{
+                          padding: '0.375rem',
+                          background: cancellingReservation === reservation.id ? '#ccc' : '#ff4444',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '0.375rem',
+                          cursor: cancellingReservation === reservation.id ? 'not-allowed' : 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.25rem',
+                          fontSize: '0.75rem',
+                          fontWeight: '500'
+                        }}
+                      >
+                        <TrashIcon style={{ width: '0.75rem', height: '0.75rem' }} />
+                        {cancellingReservation === reservation.id ? '취소중...' : '취소'}
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       ) : isLoggedIn ? (
@@ -159,7 +201,37 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
         </div>
       ) : null}
       
-      {/* 날짜 선택 */}
+      {/* 예약 폼 토글 버튼 */}
+      {myReservations.length > 0 && !showReservationForm && (
+        <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
+          <button
+            onClick={() => setShowReservationForm(true)}
+            style={{
+              padding: '0.75rem 1.5rem',
+              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '0.75rem',
+              cursor: 'pointer',
+              fontSize: '1rem',
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              margin: '0 auto',
+              boxShadow: '0 4px 12px rgba(255, 107, 53, 0.25)'
+            }}
+          >
+            <PlusIcon style={{ width: '1.25rem', height: '1.25rem' }} />
+            새 예약 추가
+          </button>
+        </div>
+      )}
+      
+      {/* 예약 폼 (예약이 없거나 showReservationForm이 true일 때만 표시) */}
+      {(myReservations.length === 0 || showReservationForm) && (
+        <>
+          {/* 날짜 선택 */}
       <div style={{ marginBottom: '1rem' }}>
         <label style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem', display: 'block' }}>
           날짜 선택
@@ -384,32 +456,55 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
         </div>
       </div>
       
-      <button
-        onClick={handleReservation}
-        disabled={isProcessingReservation}
-        style={{
-          width: '100%',
-          padding: '1rem',
-          background: isProcessingReservation
-            ? '#ccc'
-            : isLoggedIn
-              ? 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)'
-              : 'linear-gradient(90deg, #28a745 0%, #20c997 100%)',
-          color: 'white',
-          borderRadius: '0.5rem',
-          border: 'none',
-          fontWeight: 'bold',
-          fontSize: '1.125rem',
-          cursor: isProcessingReservation ? 'not-allowed' : 'pointer',
-          boxShadow: isProcessingReservation ? 'none' : '0 4px 15px rgba(245, 83, 54, 0.3)'
-        }}
-      >
-        {isProcessingReservation
-          ? '예약 처리 중...'
-          : isLoggedIn
-            ? '예약하기'
-            : '로그인 후 예약하기'}
-      </button>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button
+              onClick={handleReservation}
+              disabled={isProcessingReservation}
+              style={{
+                flex: 1,
+                padding: '1rem',
+                background: isProcessingReservation
+                  ? '#ccc'
+                  : isLoggedIn
+                    ? 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)'
+                    : 'linear-gradient(90deg, #28a745 0%, #20c997 100%)',
+                color: 'white',
+                borderRadius: '0.5rem',
+                border: 'none',
+                fontWeight: 'bold',
+                fontSize: '1.125rem',
+                cursor: isProcessingReservation ? 'not-allowed' : 'pointer',
+                boxShadow: isProcessingReservation ? 'none' : '0 4px 15px rgba(245, 83, 54, 0.3)'
+              }}
+            >
+              {isProcessingReservation
+                ? '예약 처리 중...'
+                : isLoggedIn
+                  ? '예약하기'
+                  : '로그인 후 예약하기'}
+            </button>
+            
+            {/* 예약 폼 닫기 버튼 (기존 예약이 있을 때만) */}
+            {myReservations.length > 0 && showReservationForm && (
+              <button
+                onClick={() => setShowReservationForm(false)}
+                style={{
+                  padding: '1rem',
+                  background: '#6c757d',
+                  color: 'white',
+                  borderRadius: '0.5rem',
+                  border: 'none',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  fontSize: '1rem'
+                }}
+              >
+                취소
+              </button>
+            )}
+          </div>
+        </>
+      )}
     </div>
   )
 }
