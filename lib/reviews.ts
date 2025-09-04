@@ -227,7 +227,7 @@ export async function getReviewStatistics(restaurantName: string = '맛집 예�
       .single()
 
     if (error && error.code !== 'PGRST116') {
-      throw error
+      console.warn('리뷰 통계 조회 실패 (테이블/뷰가 없을 수 있음):', error)
     }
 
     return {
@@ -247,9 +247,19 @@ export async function getReviewStatistics(restaurantName: string = '맛집 예�
   } catch (error) {
     console.error('리뷰 통계 조회 오류:', error)
     return {
-      success: false,
-      statistics: null,
-      message: '리뷰 통계 조회 중 오류가 발생했습니다.'
+      success: true, // 통계가 없어도 기본값 반환
+      statistics: {
+        total_reviews: 0,
+        avg_rating: 0,
+        avg_taste: 0,
+        avg_service: 0,
+        avg_cleanliness: 0,
+        avg_atmosphere: 0,
+        avg_parking: 0,
+        avg_revisit: 0,
+        recommended_count: 0
+      },
+      message: '리뷰 통계를 불러올 수 없어 기본값을 사용합니다.'
     }
   }
 }

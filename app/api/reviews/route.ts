@@ -84,8 +84,9 @@ export async function GET(request: NextRequest) {
     })
   } catch (error) {
     console.error('GET /api/reviews 오류:', error)
+    const errorMessage = error instanceof Error ? error.message : '서버 오류가 발생했습니다.'
     return NextResponse.json(
-      { success: false, message: '서버 오류가 발생했습니다.' },
+      { success: false, message: errorMessage, error: String(error) },
       { status: 500 }
     )
   }

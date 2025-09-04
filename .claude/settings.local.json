@@ -15,7 +15,11 @@
       "Bash(node:*)",
       "Bash(git reset:*)",
       "Read(/F:\\restaurant-booking\\supabase\\migrations/**)",
-      "Read(/F:\\restaurant-booking\\components\\dashboard/**)"
+      "Read(/F:\\restaurant-booking\\components\\dashboard/**)",
+      "Read(/F:\\restaurant-booking/**)",
+      "Read(/F:\\restaurant-booking/**)",
+      "Read(/F:\\restaurant-booking\\supabase/**)",
+      "Read(/F:\\restaurant-booking\\supabase\\migrations/**)"
     ],
     "deny": [],
     "ask": []
