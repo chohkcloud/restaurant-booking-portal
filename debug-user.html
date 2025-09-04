@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>사용자 디버깅</title>
+</head>
+<body>
+    <h1>사용자 정보 디버깅</h1>
+    <button onclick="checkUser()">사용자 정보 확인</button>
+    <button onclick="clearUser()">사용자 정보 삭제</button>
+    <pre id="result"></pre>
+
+    <script>
+        function checkUser() {
+            const user = localStorage.getItem('user');
+            document.getElementById('result').textContent = 
+                user ? JSON.stringify(JSON.parse(user), null, 2) : '저장된 사용자 없음';
+        }
+        
+        function clearUser() {
+            localStorage.removeItem('user');
+            document.getElementById('result').textContent = '사용자 정보 삭제됨';
+        }
+    </script>
+</body>
+</html>

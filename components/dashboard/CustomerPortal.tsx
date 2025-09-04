@@ -13,7 +13,9 @@ import {
 import { StarIcon as StarIconSolid, HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
 import { useAuth } from '@/contexts/AuthContext'
 import LoginModal from '@/components/auth/LoginModal'
+import ReviewModal from '@/components/reviews/ReviewModal'
 import { sendReservationNotifications, ReservationData } from '@/lib/notifications'
+import { getReviews, getReviewStatistics, deleteReview, type Review } from '@/lib/reviews'
 import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
 import ReservationSection from './ReservationSection'
@@ -31,8 +33,14 @@ const CustomerPortal = () => {
   const [myReservations, setMyReservations] = useState<ReservationRecord[]>([]) // 내 예약 목록
   const [showReservationForm, setShowReservationForm] = useState(false) // 예약 폼 표시 여부
   const [cancellingReservation, setCancellingReservation] = useState<string | null>(null) // 취소 중인 예약 ID
+  const [showReviewModal, setShowReviewModal] = useState(false) // 리뷰 모달 표시 여부
+  const [selectedReservationForReview, setSelectedReservationForReview] = useState<string | undefined>(undefined)
+  const [reviews, setReviews] = useState<Review[]>([]) // 리뷰 목록
+  const [reviewStats, setReviewStats] = useState<any>(null) // 리뷰 통계
+  const [myReviews, setMyReviews] = useState<Review[]>([]) // 내 리뷰 목록
+  const [editingReview, setEditingReview] = useState<Review | undefined>(undefined)
   
-  // 카테고리별 평점 상태
+  // 카테고리별 평점 상태 (임시 미리보기용)
   const [categoryRatings, setCategoryRatings] = useState({
     taste: 0,
     service: 0,
@@ -43,6 +51,43 @@ const CustomerPortal = () => {
   })
   const [favorites, setFavorites] = useState(false)
   const [showMenuPopup, setShowMenuPopup] = useState(false)
+  
+  // 리뷰 목록 불러오기
+  const loadReviews = useCallback(async () => {
+    try {
+      const result = await getReviews({ 
+        restaurant_name: '맛집 예약 포털',
+        limit: 10,
+        sort: 'created_at',
+        order: 'desc'
+      })
+      
+      if (result.success) {
+        setReviews(result.reviews || [])
+        setReviewStats(result.statistics)
+        
+        // 내 리뷰 필터링
+        if (user) {
+          const myReviewsList = result.reviews?.filter((r: Review) => r.user_id === user.id) || []
+          setMyReviews(myReviewsList)
+        }
+      }
+    } catch (error) {
+      console.error('리뷰 목록 로드 실패:', error)
+    }
+  }, [user])
+  
+  // 리뷰 통계 불러오기
+  const loadReviewStats = useCallback(async () => {
+    try {
+      const result = await getReviewStatistics('맛집 예약 포털')
+      if (result.success) {
+        setReviewStats(result.statistics)
+      }
+    } catch (error) {
+      console.error('리뷰 통계 로드 실패:', error)
+    }
+  }, [])
   
   const loadUserReservations = useCallback(async () => {
     if (!user) return
@@ -92,13 +137,57 @@ const CustomerPortal = () => {
     }
   }, [user])
   
-  // 사용자의 예약 목록 불러오기
+  // 사용자의 예약 목록 및 리뷰 불러오기
   useEffect(() => {
     if (isLoggedIn && user) {
       console.log('로그인 상태 변경 - 예약 목록 로드', user)
       loadUserReservations()
+      loadReviews()
     }
-  }, [isLoggedIn, user, loadUserReservations])
+  }, [isLoggedIn, user, loadUserReservations, loadReviews])
+  
+  // 리뷰 통계 초기 로드
+  useEffect(() => {
+    loadReviewStats()
+    loadReviews()
+  }, [loadReviewStats, loadReviews])
+  
+  // 리뷰 작성 모달 열기
+  const handleOpenReviewModal = (reservationId?: string) => {
+    if (!isLoggedIn) {
+      setShowLoginModal(true)
+      return
+    }
+    setSelectedReservationForReview(reservationId)
+    setEditingReview(undefined)
+    setShowReviewModal(true)
+  }
+  
+  // 리뷰 수정 모달 열기
+  const handleEditReview = (review: Review) => {
+    setEditingReview(review)
+    setSelectedReservationForReview(review.reservation_id)
+    setShowReviewModal(true)
+  }
+  
+  // 리뷰 삭제
+  const handleDeleteReview = async (reviewId: string) => {
+    if (!user || !confirm('정말 리뷰를 삭제하시겠습니까?')) return
+    
+    const result = await deleteReview(reviewId, user.id)
+    if (result.success) {
+      alert('리뷰가 삭제되었습니다.')
+      await loadReviews()
+    } else {
+      alert(result.message || '리뷰 삭제에 실패했습니다.')
+    }
+  }
+  
+  // 리뷰 작성 성공 시
+  const handleReviewSuccess = () => {
+    loadReviews()
+    loadReviewStats()
+  }
   
   const handleCategoryRating = (category: keyof typeof categoryRatings) => {
     if (category === 'revisit') {
@@ -641,34 +730,40 @@ const CustomerPortal = () => {
                 borderRadius: '0.5rem'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span style={{ fontSize: '2rem', fontWeight: 'bold', color: '#ff6b35' }}>4.8</span>
+                  <span style={{ fontSize: '2rem', fontWeight: 'bold', color: '#ff6b35' }}>
+                    {reviewStats?.avg_rating ? parseFloat(reviewStats.avg_rating).toFixed(1) : '0.0'}
+                  </span>
                   <div>
                     <div style={{ display: 'flex' }}>
                       {[1,2,3,4,5].map(star => (
                         <StarIconSolid key={star} style={{ 
                           width: '1rem', 
                           height: '1rem',
-                          color: star <= 4 ? '#ffb347' : '#e0e0e0'
+                          color: star <= Math.round(reviewStats?.avg_rating || 0) ? '#ffb347' : '#e0e0e0'
                         }} />
                       ))}
                     </div>
-                    <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>238개 리뷰</div>
+                    <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>
+                      {reviewStats?.total_reviews || 0}개 리뷰
+                    </div>
                   </div>
                 </div>
                 <HeartIcon style={{ width: '1.5rem', height: '1.5rem', color: '#ff6b35', cursor: 'pointer' }} />
               </div>
 
-              <button style={{
-                width: '100%',
-                padding: '0.75rem',
-                background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
-                color: 'white',
-                borderRadius: '0.5rem',
-                border: 'none',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                marginBottom: '1rem'
-              }}>
+              <button 
+                onClick={() => handleOpenReviewModal()}
+                style={{
+                  width: '100%',
+                  padding: '0.75rem',
+                  background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
+                  color: 'white',
+                  borderRadius: '0.5rem',
+                  border: 'none',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  marginBottom: '1rem'
+                }}>
                 리뷰 작성하기 ✍️
               </button>
 
@@ -753,13 +848,9 @@ const CustomerPortal = () => {
                 </div>
               )}
 
-              <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                {[
-                  { name: '김맛집', rating: 5, comment: '정말 맛있어요! 재방문 의사 100%', time: '3시간 전' },
-                  { name: '이고객', rating: 4, comment: '분위기 좋고 서비스도 친절해요', time: '1일 전' },
-                  { name: '박리뷰', rating: 5, comment: '데이트 코스로 완벽합니다 👍', time: '2일 전' }
-                ].map((review, idx) => (
-                  <div key={idx} style={{
+              <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                {reviews.length > 0 ? reviews.slice(0, 5).map((review, idx) => (
+                  <div key={review.id} style={{
                     padding: '0.75rem',
                     marginBottom: '0.5rem',
                     background: idx === 0 ? 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)' : 'white',
@@ -767,21 +858,71 @@ const CustomerPortal = () => {
                     border: '1px solid #ffd4cc'
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
-                      <span style={{ fontWeight: '600', color: '#2c3e50' }}>{review.name}</span>
-                      <span style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>{review.time}</span>
+                      <span style={{ fontWeight: '600', color: '#2c3e50' }}>
+                        {review.users?.name || '익명'}
+                      </span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        {review.user_id === user?.id && (
+                          <>
+                            <button
+                              onClick={() => handleEditReview(review)}
+                              style={{
+                                fontSize: '0.75rem',
+                                color: '#ff6b35',
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer'
+                              }}>수정</button>
+                            <button
+                              onClick={() => handleDeleteReview(review.id)}
+                              style={{
+                                fontSize: '0.75rem',
+                                color: '#999',
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer'
+                              }}>삭제</button>
+                          </>
+                        )}
+                        <span style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>
+                          {new Date(review.created_at).toLocaleDateString('ko-KR')}
+                        </span>
+                      </div>
                     </div>
-                    <div style={{ display: 'flex', marginBottom: '0.25rem' }}>
-                      {[1,2,3,4,5].map(star => (
-                        <StarIconSolid key={star} style={{ 
-                          width: '0.75rem', 
-                          height: '0.75rem',
-                          color: star <= review.rating ? '#ffb347' : '#e0e0e0'
-                        }} />
-                      ))}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                      <div style={{ display: 'flex' }}>
+                        {[1,2,3,4,5].map(star => (
+                          <StarIconSolid key={star} style={{ 
+                            width: '0.75rem', 
+                            height: '0.75rem',
+                            color: star <= Math.round(review.rating_average) ? '#ffb347' : '#e0e0e0'
+                          }} />
+                        ))}
+                      </div>
+                      <span style={{ fontSize: '0.75rem', color: '#ff6b35', fontWeight: 'bold' }}>
+                        {parseFloat(String(review.rating_average)).toFixed(1)}점
+                      </span>
+                      {review.is_recommended && (
+                        <span style={{ fontSize: '0.75rem', color: '#ff6b35' }}>👍 추천</span>
+                      )}
                     </div>
-                    <div style={{ fontSize: '0.875rem', color: '#555' }}>{review.comment}</div>
+                    {review.title && (
+                      <div style={{ fontWeight: '600', fontSize: '0.875rem', color: '#2c3e50', marginBottom: '0.25rem' }}>
+                        {review.title}
+                      </div>
+                    )}
+                    <div style={{ fontSize: '0.875rem', color: '#555' }}>{review.content}</div>
                   </div>
-                ))}
+                )) : (
+                  <div style={{
+                    padding: '2rem',
+                    textAlign: 'center',
+                    color: '#7f8c8d'
+                  }}>
+                    아직 작성된 리뷰가 없습니다.<br/>
+                    첫 번째 리뷰를 작성해주세요!
+                  </div>
+                )}
               </div>
             </div>
           </motion.div>
@@ -1096,6 +1237,21 @@ const CustomerPortal = () => {
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
         onLogin={login}
+      />
+      
+      {/* 리뷰 작성/수정 모달 */}
+      <ReviewModal
+        isOpen={showReviewModal}
+        onClose={() => {
+          setShowReviewModal(false)
+          setSelectedReservationForReview(undefined)
+          setEditingReview(undefined)
+        }}
+        userId={user?.id || ''}
+        userName={user?.name}
+        reservationId={selectedReservationForReview}
+        existingReview={editingReview}
+        onSuccess={handleReviewSuccess}
       />
     </div>
   )

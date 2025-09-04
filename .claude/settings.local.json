@@ -12,7 +12,10 @@
       "Bash(echo:*)",
       "Bash(npx vercel:*)",
       "WebFetch(domain:restaurant-booking-portal.vercel.app)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(git reset:*)",
+      "Read(/F:\\restaurant-booking\\supabase\\migrations/**)",
+      "Read(/F:\\restaurant-booking\\components\\dashboard/**)"
     ],
     "deny": [],
     "ask": []
