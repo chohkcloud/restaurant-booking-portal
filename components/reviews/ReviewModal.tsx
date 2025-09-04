@@ -405,6 +405,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                         overflow: 'hidden',
                         background: '#f0f0f0'
                       }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={url}
                           alt={`리뷰 이미지 ${index + 1}`}

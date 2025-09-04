@@ -36,8 +36,18 @@ const CustomerPortal = () => {
   const [showReviewModal, setShowReviewModal] = useState(false) // 리뷰 모달 표시 여부
   const [selectedReservationForReview, setSelectedReservationForReview] = useState<string | undefined>(undefined)
   const [reviews, setReviews] = useState<Review[]>([]) // 리뷰 목록
-  const [reviewStats, setReviewStats] = useState<any>(null) // 리뷰 통계
-  const [myReviews, setMyReviews] = useState<Review[]>([]) // 내 리뷰 목록
+  const [reviewStats, setReviewStats] = useState<{
+    total_reviews: number
+    avg_rating: number
+    avg_taste: number
+    avg_service: number
+    avg_cleanliness: number
+    avg_atmosphere: number
+    avg_parking: number
+    avg_revisit: number
+    recommended_count: number
+  } | null>(null) // 리뷰 통계
+  // const [myReviews, setMyReviews] = useState<Review[]>([]) // 내 리뷰 목록 - 현재 미사용
   const [editingReview, setEditingReview] = useState<Review | undefined>(undefined)
   
   // 카테고리별 평점 상태 (임시 미리보기용)
@@ -66,11 +76,11 @@ const CustomerPortal = () => {
         setReviews(result.reviews || [])
         setReviewStats(result.statistics)
         
-        // 내 리뷰 필터링
-        if (user) {
-          const myReviewsList = result.reviews?.filter((r: Review) => r.user_id === user.id) || []
-          setMyReviews(myReviewsList)
-        }
+        // 내 리뷰 필터링 - 현재 미사용
+        // if (user) {
+        //   const myReviewsList = result.reviews?.filter((r: Review) => r.user_id === user.id) || []
+        //   setMyReviews(myReviewsList)
+        // }
       }
     } catch (error) {
       console.error('리뷰 목록 로드 실패:', error)
@@ -211,7 +221,7 @@ const CustomerPortal = () => {
     const selectedCategories = Object.entries(categoryRatings)
       .filter(([key, value]) => value > 0 && key !== 'revisit')
     if (selectedCategories.length === 0) return 0
-    const sum = selectedCategories.reduce((acc, [_, value]) => acc + value, 0)
+    const sum = selectedCategories.reduce((acc, [, value]) => acc + value, 0)
     return (sum / selectedCategories.length).toFixed(1)
   }
   
