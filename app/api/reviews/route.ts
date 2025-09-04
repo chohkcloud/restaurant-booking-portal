@@ -1,14 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+// Supabase 클라이언트 생성 함수
+function getSupabaseClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+  if (!supabaseUrl) {
+    throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL environment variable')
+  }
+
+  if (!supabaseServiceKey || supabaseServiceKey === 'your_service_role_key') {
+    throw new Error('Missing or invalid SUPABASE_SERVICE_ROLE_KEY environment variable')
+  }
+
+  return createClient(supabaseUrl, supabaseServiceKey)
+}
 
 // GET: 리뷰 목록 조회
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient()
     const searchParams = request.nextUrl.searchParams
     const restaurant_name = searchParams.get('restaurant_name')
     const user_id = searchParams.get('user_id')
@@ -82,6 +94,7 @@ export async function GET(request: NextRequest) {
 // POST: 리뷰 작성
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient()
     const body = await request.json()
     
     // 필수 필드 검증
@@ -175,6 +188,7 @@ export async function POST(request: NextRequest) {
 // PATCH: 리뷰 수정
 export async function PATCH(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient()
     const body = await request.json()
     const { review_id, user_id, ...updateData } = body
 
@@ -263,6 +277,7 @@ export async function PATCH(request: NextRequest) {
 // DELETE: 리뷰 삭제
 export async function DELETE(request: NextRequest) {
   try {
+    const supabase = getSupabaseClient()
     const searchParams = request.nextUrl.searchParams
     const review_id = searchParams.get('review_id')
     const user_id = searchParams.get('user_id')
