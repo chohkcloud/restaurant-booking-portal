@@ -50,16 +50,9 @@ const CustomerPortal = () => {
   // const [myReviews, setMyReviews] = useState<Review[]>([]) // 내 리뷰 목록 - 현재 미사용
   const [editingReview, setEditingReview] = useState<Review | undefined>(undefined)
   
-  // 카테고리별 평점 상태 (임시 미리보기용)
-  const [categoryRatings, setCategoryRatings] = useState({
-    taste: 0,
-    service: 0,
-    cleanliness: 0,
-    atmosphere: 0,
-    parking: 0,
-    revisit: 0
-  })
-  const [favorites, setFavorites] = useState(false)
+  // 제거됨 - 카테고리별 평점은 리뷰 모달에서만 사용
+  // const [categoryRatings, setCategoryRatings] = useState({ ... })
+  // const [favorites, setFavorites] = useState(false)
   const [showMenuPopup, setShowMenuPopup] = useState(false)
   
   // 리뷰 목록 불러오기
@@ -199,31 +192,11 @@ const CustomerPortal = () => {
     loadReviewStats()
   }
   
-  const handleCategoryRating = (category: keyof typeof categoryRatings) => {
-    if (category === 'revisit') {
-      setCategoryRatings(prev => ({
-        ...prev,
-        [category]: prev[category] === 0 ? 5 : 0
-      }))
-      if (categoryRatings.revisit === 0) {
-        setFavorites(true)
-      }
-    } else {
-      setCategoryRatings(prev => ({
-        ...prev,
-        [category]: prev[category] < 5 ? prev[category] + 1 : 1
-      }))
-    }
-  }
+  // 제거됨 - 카테고리별 평점은 리뷰 모달에서만 사용
+  // const handleCategoryRating = (category) => { ... }
   
-  // 평균 별점 계산 (5개 중 5개만 선택해도 5점 가능)
-  const calculateAverageRating = () => {
-    const selectedCategories = Object.entries(categoryRatings)
-      .filter(([key, value]) => value > 0 && key !== 'revisit')
-    if (selectedCategories.length === 0) return 0
-    const sum = selectedCategories.reduce((acc, [, value]) => acc + value, 0)
-    return (sum / selectedCategories.length).toFixed(1)
-  }
+  // 제거됨 - 평균 별점 계산은 리뷰 모달에서만 사용
+  // const calculateAverageRating = () => { ... }
   
   // 중복 예약 체크
   const isTimeSlotBooked = (date: Date, time: string) => {
@@ -777,86 +750,6 @@ const CustomerPortal = () => {
                 리뷰 작성하기 ✍️
               </button>
 
-              {/* 카테고리별 평점 */}
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))',
-                gap: '0.5rem',
-                marginBottom: '1rem'
-              }}>
-                {[
-                  { key: 'taste', label: '맛', emoji: '🍽️' },
-                  { key: 'service', label: '서비스', emoji: '👨‍🍳' },
-                  { key: 'cleanliness', label: '청결', emoji: '✨' },
-                  { key: 'atmosphere', label: '분위기', emoji: '🕯️' },
-                  { key: 'parking', label: '주차', emoji: '🚗' },
-                  { key: 'revisit', label: '재방문', emoji: '❤️' }
-                ].map(category => (
-                  <button
-                    key={category.key}
-                    onClick={() => handleCategoryRating(category.key as keyof typeof categoryRatings)}
-                    style={{
-                      padding: '0.75rem 0.5rem',
-                      background: categoryRatings[category.key as keyof typeof categoryRatings] > 0 
-                        ? 'linear-gradient(135deg, #ff6b35, #f55336)' 
-                        : 'white',
-                      color: categoryRatings[category.key as keyof typeof categoryRatings] > 0 
-                        ? 'white' 
-                        : '#ff6b35',
-                      border: '2px solid #ff6b35',
-                      borderRadius: '0.5rem',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      gap: '0.25rem'
-                    }}
-                    onMouseEnter={(e) => {
-                      if (categoryRatings[category.key as keyof typeof categoryRatings] === 0) {
-                        e.currentTarget.style.background = '#fff1ee'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (categoryRatings[category.key as keyof typeof categoryRatings] === 0) {
-                        e.currentTarget.style.background = 'white'
-                      }
-                    }}
-                  >
-                    <span style={{ fontSize: '1.25rem' }}>{category.emoji}</span>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 'bold' }}>{category.label}</span>
-                    <span style={{ fontSize: '0.875rem', fontWeight: 'bold' }}>
-                      {category.key === 'revisit' 
-                        ? (categoryRatings[category.key as keyof typeof categoryRatings] > 0 ? '예' : '-')
-                        : (categoryRatings[category.key as keyof typeof categoryRatings] > 0 
-                          ? `${categoryRatings[category.key as keyof typeof categoryRatings]}점` 
-                          : '-')}
-                    </span>
-                  </button>
-                ))}
-              </div>
-              
-              {/* 평균 점수 표시 */}
-              {Object.values(categoryRatings).some(v => v > 0) && (
-                <div style={{
-                  padding: '0.5rem',
-                  background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
-                  borderRadius: '0.5rem',
-                  textAlign: 'center',
-                  marginBottom: '0.5rem',
-                  border: '1px solid #ffd4cc'
-                }}>
-                  <span style={{ fontSize: '0.875rem', color: '#7f8c8d' }}>평균 평점: </span>
-                  <span style={{ fontSize: '1.125rem', fontWeight: 'bold', color: '#ff6b35' }}>
-                    {calculateAverageRating()}점
-                  </span>
-                  {favorites && (
-                    <span style={{ marginLeft: '0.5rem', color: '#ff6b35' }}>
-                      ❤️ 즐겨찾기 추가됨
-                    </span>
-                  )}
-                </div>
-              )}
 
               <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
                 {reviews.length > 0 ? reviews.slice(0, 5).map((review, idx) => (
