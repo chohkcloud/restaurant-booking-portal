@@ -85,7 +85,7 @@ const CustomerPortal = () => {
     } catch (error) {
       console.error('리뷰 목록 로드 실패:', error)
     }
-  }, [user])
+  }, [])
   
   // 리뷰 통계 불러오기
   const loadReviewStats = useCallback(async () => {
@@ -741,7 +741,7 @@ const CustomerPortal = () => {
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span style={{ fontSize: '2rem', fontWeight: 'bold', color: '#ff6b35' }}>
-                    {reviewStats?.avg_rating ? parseFloat(reviewStats.avg_rating).toFixed(1) : '0.0'}
+                    {reviewStats?.avg_rating ? reviewStats.avg_rating.toFixed(1) : '0.0'}
                   </span>
                   <div>
                     <div style={{ display: 'flex' }}>
