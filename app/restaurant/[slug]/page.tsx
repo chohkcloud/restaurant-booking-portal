@@ -50,6 +50,7 @@ export default function RestaurantDetailPage() {
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showReviewModal, setShowReviewModal] = useState(false)
   const [showReservationModal, setShowReservationModal] = useState(false)
+  const [pendingAction, setPendingAction] = useState<'reservation' | 'review' | null>(null)
 
   useEffect(() => {
     loadData()
@@ -436,7 +437,14 @@ export default function RestaurantDetailPage() {
 
               {/* 예약 버튼 */}
               <button
-                onClick={() => setShowReservationModal(true)}
+                onClick={() => {
+                  if (!isLoggedIn) {
+                    setPendingAction('reservation')
+                    setShowLoginModal(true)
+                  } else {
+                    setShowReservationModal(true)
+                  }
+                }}
                 style={{
                   background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
                   color: 'white',
@@ -649,7 +657,14 @@ export default function RestaurantDetailPage() {
             {activeTab === 'review' && (
               <div>
                 <button
-                  onClick={() => setShowReviewModal(true)}
+                  onClick={() => {
+                    if (!isLoggedIn) {
+                      setPendingAction('review')
+                      setShowLoginModal(true)
+                    } else {
+                      setShowReviewModal(true)
+                    }
+                  }}
                   style={{
                     background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
                     color: 'white',
@@ -910,8 +925,20 @@ export default function RestaurantDetailPage() {
       {/* 로그인 모달 */}
       <LoginModal
         isOpen={showLoginModal}
-        onClose={() => setShowLoginModal(false)}
-        onLogin={() => {}}
+        onClose={() => {
+          setShowLoginModal(false)
+          setPendingAction(null)
+        }}
+        onLogin={() => {
+          setShowLoginModal(false)
+          // 로그인 후 대기 중이던 작업 실행
+          if (pendingAction === 'reservation') {
+            setShowReservationModal(true)
+          } else if (pendingAction === 'review') {
+            setShowReviewModal(true)
+          }
+          setPendingAction(null)
+        }}
       />
 
       {/* 리뷰 모달 */}
@@ -940,6 +967,11 @@ export default function RestaurantDetailPage() {
           email: user.email,
           phone: user.phone
         } : undefined}
+        onLoginRequired={() => {
+          setShowReservationModal(false)
+          setPendingAction('reservation')
+          setShowLoginModal(true)
+        }}
       />
     </div>
   )

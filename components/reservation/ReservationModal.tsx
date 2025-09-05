@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   XMarkIcon,
@@ -9,10 +9,12 @@ import {
   UserGroupIcon,
   PhoneIcon,
   EnvelopeIcon,
-  UserIcon
+  UserIcon,
+  LockClosedIcon
 } from '@heroicons/react/24/outline'
 import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
+import LoginModal from '@/components/auth/LoginModal'
 
 interface ReservationModalProps {
   isOpen: boolean
@@ -26,6 +28,7 @@ interface ReservationModalProps {
     email: string
     phone: string
   }
+  onLoginRequired?: () => void
 }
 
 interface ReservationData {
@@ -45,7 +48,8 @@ export default function ReservationModal({
   restaurantId,
   onConfirm,
   isLoggedIn,
-  user
+  user,
+  onLoginRequired
 }: ReservationModalProps) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [selectedTime, setSelectedTime] = useState<string>('12:00')
@@ -55,6 +59,25 @@ export default function ReservationModal({
   const [customerPhone, setCustomerPhone] = useState(user?.phone || '')
   const [specialRequest, setSpecialRequest] = useState('')
   const [isProcessing, setIsProcessing] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [pendingReservation, setPendingReservation] = useState(false)
+
+  // 사용자 정보가 변경되면 입력 필드 업데이트
+  useEffect(() => {
+    if (user) {
+      setCustomerName(user.name || '')
+      setCustomerEmail(user.email || '')
+      setCustomerPhone(user.phone || '')
+    }
+  }, [user])
+
+  // 로그인 후 예약 이어서 진행
+  useEffect(() => {
+    if (pendingReservation && isLoggedIn && user) {
+      setPendingReservation(false)
+      // 로그인 후 자동으로 예약 팝업 유지
+    }
+  }, [isLoggedIn, user, pendingReservation])
 
   // 예약 가능한 시간대 생성
   const generateTimeSlots = () => {
@@ -87,6 +110,13 @@ export default function ReservationModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
+    // 로그인 확인
+    if (!isLoggedIn) {
+      setPendingReservation(true)
+      setShowLoginModal(true)
+      return
+    }
+    
     if (!customerName || !customerEmail || !customerPhone) {
       alert('모든 필수 정보를 입력해주세요.')
       return
@@ -112,6 +142,11 @@ export default function ReservationModal({
     } finally {
       setIsProcessing(false)
     }
+  }
+
+  const handleLoginSuccess = () => {
+    setShowLoginModal(false)
+    // 로그인 성공 후 예약 팝업 유지
   }
 
   return (
@@ -149,9 +184,11 @@ export default function ReservationModal({
               boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
               maxWidth: '600px',
               width: '90%',
-              maxHeight: '85vh',
+              maxHeight: '90vh',
               overflow: 'hidden',
-              zIndex: 50
+              zIndex: 50,
+              display: 'flex',
+              flexDirection: 'column'
             }}
           >
             {/* 헤더 */}
@@ -206,7 +243,7 @@ export default function ReservationModal({
             <div style={{
               padding: '1.5rem',
               overflowY: 'auto',
-              maxHeight: 'calc(85vh - 180px)'
+              flex: 1
             }}>
               <form onSubmit={handleSubmit}>
                 {/* 날짜 선택 */}
@@ -393,9 +430,28 @@ export default function ReservationModal({
                     fontSize: '1.125rem',
                     fontWeight: '600',
                     color: '#374151',
-                    marginBottom: '1rem'
+                    marginBottom: '1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem'
                   }}>
                     예약자 정보
+                    {!isLoggedIn && (
+                      <span style={{
+                        fontSize: '0.75rem',
+                        color: '#ff6b35',
+                        background: '#FFF5F3',
+                        padding: '0.25rem 0.75rem',
+                        borderRadius: '1rem',
+                        fontWeight: '500',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.25rem'
+                      }}>
+                        <LockClosedIcon style={{ width: '0.875rem', height: '0.875rem' }} />
+                        로그인 필요
+                      </span>
+                    )}
                   </h3>
 
                   {/* 이름 */}
@@ -619,6 +675,16 @@ export default function ReservationModal({
               </form>
             </div>
           </motion.div>
+
+          {/* 로그인 모달 */}
+          <LoginModal
+            isOpen={showLoginModal}
+            onClose={() => {
+              setShowLoginModal(false)
+              setPendingReservation(false)
+            }}
+            onLogin={handleLoginSuccess}
+          />
         </>
       )}
     </AnimatePresence>

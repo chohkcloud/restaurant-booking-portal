@@ -3,18 +3,22 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import CategoryGrid from './CategoryGrid'
 import RestaurantCard from './RestaurantCard'
+import LoginModal from '@/components/auth/LoginModal'
 import { getCategories, getFeaturedRestaurants } from '@/lib/restaurants'
+import { useAuth } from '@/contexts/AuthContext'
 import type { Category, Restaurant } from '@/types/restaurant'
 
 const HomePage = () => {
   const router = useRouter()
+  const { user, isLoggedIn } = useAuth()
   const [categories, setCategories] = useState<Category[]>([])
   const [featuredRestaurants, setFeaturedRestaurants] = useState<Restaurant[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
+  const [showLoginModal, setShowLoginModal] = useState(false)
 
   useEffect(() => {
     loadData()
@@ -54,13 +58,85 @@ const HomePage = () => {
       minHeight: '100vh', 
       background: 'linear-gradient(135deg, #fff1ee 0%, #ffe4de 100%)'
     }}>
-      {/* 검색 바 */}
+      {/* 헤더 및 검색 바 */}
       <div style={{ 
         background: 'white',
         padding: '1.5rem 1rem',
         boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
       }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+          {/* 로그인/프로필 버튼 */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginBottom: '1rem'
+          }}>
+            {isLoggedIn ? (
+              <button
+                onClick={() => router.push('/dashboard')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                  color: 'white',
+                  padding: '0.625rem 1.25rem',
+                  borderRadius: '2rem',
+                  border: 'none',
+                  fontWeight: '600',
+                  fontSize: '0.95rem',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  const target = e.target as HTMLButtonElement
+                  target.style.transform = 'translateY(-2px)'
+                  target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
+                }}
+                onMouseLeave={(e) => {
+                  const target = e.target as HTMLButtonElement
+                  target.style.transform = 'translateY(0)'
+                  target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
+                }}
+              >
+                <UserCircleIcon style={{ width: '1.25rem', height: '1.25rem' }} />
+                {user?.name || '내 정보'}
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowLoginModal(true)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                  color: 'white',
+                  padding: '0.625rem 1.25rem',
+                  borderRadius: '2rem',
+                  border: 'none',
+                  fontWeight: '600',
+                  fontSize: '0.95rem',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  const target = e.target as HTMLButtonElement
+                  target.style.transform = 'translateY(-2px)'
+                  target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
+                }}
+                onMouseLeave={(e) => {
+                  const target = e.target as HTMLButtonElement
+                  target.style.transform = 'translateY(0)'
+                  target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
+                }}
+              >
+                <UserCircleIcon style={{ width: '1.25rem', height: '1.25rem' }} />
+                로그인
+              </button>
+            )}
+          </div>
           <motion.form
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -317,6 +393,13 @@ const HomePage = () => {
           </p>
         </div>
       </footer>
+
+      {/* 로그인 모달 */}
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLogin={() => setShowLoginModal(false)}
+      />
     </div>
   )
 }
