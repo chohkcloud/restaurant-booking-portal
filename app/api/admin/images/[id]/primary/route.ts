@@ -11,7 +11,7 @@ const DEFAULT_RESTAURANT_ID = '550e8400-e29b-41d4-a716-446655440000'
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization')
@@ -35,7 +35,7 @@ export async function PUT(
     const { data: image, error } = await supabase
       .from('restaurant_images')
       .update({ is_primary: true })
-      .eq('id', params.id)
+      .eq('id', (await params).id)
       .eq('restaurant_id', DEFAULT_RESTAURANT_ID)
       .select()
       .single()

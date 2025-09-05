@@ -54,7 +54,13 @@
       "Read(/F:\\restaurant-booking\\components\\admin/**)",
       "Read(/F:\\restaurant-booking\\app\\api\\admin\\auth\\login/**)",
       "Read(/F:\\restaurant-booking\\app\\api\\admin\\auth\\login/**)",
-      "Read(/F:\\restaurant-booking\\app\\api\\admin\\auth\\login/**)"
+      "Read(/F:\\restaurant-booking\\app\\api\\admin\\auth\\login/**)",
+      "Read(/F:\\restaurant-booking\\app\\api\\admin\\events\\[id]/**)",
+      "Read(/F:\\restaurant-booking\\app\\api\\admin\\events\\[id]/**)",
+      "Read(/F:\\restaurant-booking\\app\\api\\admin\\events\\[id]/**)",
+      "Read(/F:\\restaurant-booking\\app\\api\\admin\\menu\\items\\[id]/**)",
+      "Read(/F:\\restaurant-booking\\app\\api\\admin\\images\\[id]/**)",
+      "Read(/F:\\restaurant-booking\\app\\api\\admin\\images\\[id]\\primary/**)"
     ],
     "deny": [],
     "ask": []

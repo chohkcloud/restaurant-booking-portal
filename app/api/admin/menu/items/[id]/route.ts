@@ -9,7 +9,7 @@ const supabase = createClient(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization')
@@ -60,7 +60,7 @@ export async function PUT(
         cooking_time: cooking_time || null,
         calories: calories || null
       })
-      .eq('id', params.id)
+      .eq('id', (await params).id)
       .select()
       .single()
 
@@ -87,7 +87,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization')
@@ -103,7 +103,7 @@ export async function DELETE(
     const { error } = await supabase
       .from('menu_items')
       .delete()
-      .eq('id', params.id)
+      .eq('id', (await params).id)
 
     if (error) {
       console.error('메뉴 아이템 삭제 오류:', error)

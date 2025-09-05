@@ -9,7 +9,7 @@ const supabase = createClient(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization')
@@ -70,7 +70,7 @@ export async function PUT(
         max_participants: max_participants || null,
         conditions: conditions || null
       })
-      .eq('id', params.id)
+      .eq('id', (await params).id)
       .select()
       .single()
 
@@ -97,7 +97,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization')
@@ -113,7 +113,7 @@ export async function DELETE(
     const { error } = await supabase
       .from('events')
       .delete()
-      .eq('id', params.id)
+      .eq('id', (await params).id)
 
     if (error) {
       console.error('이벤트 삭제 오류:', error)

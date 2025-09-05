@@ -9,7 +9,7 @@ const supabase = createClient(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization')
@@ -25,7 +25,7 @@ export async function DELETE(
     const { error } = await supabase
       .from('restaurant_images')
       .delete()
-      .eq('id', params.id)
+      .eq('id', (await params).id)
 
     if (error) {
       console.error('이미지 삭제 오류:', error)
