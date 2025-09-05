@@ -47,7 +47,14 @@
       "Read(/F:\\restaurant-booking\\app/**)",
       "Read(/F:\\restaurant-booking\\components\\dashboard/**)",
       "Read(/F:\\restaurant-booking\\supabase\\migrations/**)",
-      "Read(/F:\\restaurant-booking\\lib/**)"
+      "Read(/F:\\restaurant-booking\\lib/**)",
+      "Read(/F:\\restaurant-booking\\components\\admin/**)",
+      "Read(/F:\\restaurant-booking\\components\\admin/**)",
+      "Read(/F:\\restaurant-booking\\components\\admin/**)",
+      "Read(/F:\\restaurant-booking\\components\\admin/**)",
+      "Read(/F:\\restaurant-booking\\app\\api\\admin\\auth\\login/**)",
+      "Read(/F:\\restaurant-booking\\app\\api\\admin\\auth\\login/**)",
+      "Read(/F:\\restaurant-booking\\app\\api\\admin\\auth\\login/**)"
     ],
     "deny": [],
     "ask": []

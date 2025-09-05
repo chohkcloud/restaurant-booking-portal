@@ -12,9 +12,9 @@ export async function getCategories() {
 
     if (error) throw error
     return { success: true, categories: data as Category[] }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('카테고리 로드 실패:', error)
-    return { success: false, message: error.message, categories: [] }
+    return { success: false, message: error instanceof Error ? error.message : 'Unknown error', categories: [] }
   }
 }
 
@@ -29,9 +29,9 @@ export async function getCategoryBySlug(slug: string) {
 
     if (error) throw error
     return { success: true, category: data as Category }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('카테고리 로드 실패:', error)
-    return { success: false, message: error.message, category: null }
+    return { success: false, message: error instanceof Error ? error.message : 'Unknown error', category: null }
   }
 }
 
@@ -87,9 +87,9 @@ export async function getRestaurants(options?: {
 
     if (error) throw error
     return { success: true, restaurants: data as Restaurant[] }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('레스토랑 목록 로드 실패:', error)
-    return { success: false, message: error.message, restaurants: [] }
+    return { success: false, message: error instanceof Error ? error.message : 'Unknown error', restaurants: [] }
   }
 }
 
@@ -107,9 +107,9 @@ export async function getRestaurantBySlug(slug: string) {
 
     if (error) throw error
     return { success: true, restaurant: data as Restaurant }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('레스토랑 로드 실패:', error)
-    return { success: false, message: error.message, restaurant: null }
+    return { success: false, message: error instanceof Error ? error.message : 'Unknown error', restaurant: null }
   }
 }
 
@@ -127,9 +127,9 @@ export async function getRestaurantById(id: string) {
 
     if (error) throw error
     return { success: true, restaurant: data as Restaurant }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('레스토랑 로드 실패:', error)
-    return { success: false, message: error.message, restaurant: null }
+    return { success: false, message: error instanceof Error ? error.message : 'Unknown error', restaurant: null }
   }
 }
 
@@ -145,9 +145,9 @@ export async function getRestaurantMenus(restaurantId: string) {
 
     if (error) throw error
     return { success: true, menus: data as RestaurantMenu[] }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('메뉴 로드 실패:', error)
-    return { success: false, message: error.message, menus: [] }
+    return { success: false, message: error instanceof Error ? error.message : 'Unknown error', menus: [] }
   }
 }
 
@@ -172,8 +172,8 @@ export async function getPopularRestaurants(limit: number = 10) {
 
     if (error) throw error
     return { success: true, restaurants: data as Restaurant[] }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('인기 레스토랑 로드 실패:', error)
-    return { success: false, message: error.message, restaurants: [] }
+    return { success: false, message: error instanceof Error ? error.message : 'Unknown error', restaurants: [] }
   }
 }

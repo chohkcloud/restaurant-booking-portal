@@ -3,7 +3,7 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { StarIcon } from '@heroicons/react/24/solid'
-import { ClockIcon, MapPinIcon } from '@heroicons/react/24/outline'
+import { MapPinIcon } from '@heroicons/react/24/outline'
 import type { Restaurant } from '@/types/restaurant'
 
 interface RestaurantCardProps {

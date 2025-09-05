@@ -5,7 +5,6 @@ import { useParams, useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { 
   ArrowLeftIcon,
-  StarIcon,
   ClockIcon,
   MapPinIcon,
   PhoneIcon,

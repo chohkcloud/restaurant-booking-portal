@@ -38,7 +38,10 @@ export default function RestaurantsPage() {
       }
 
       // 레스토랑 로드
-      const options: any = {}
+      const options: {
+        categorySlug?: string;
+        search?: string;
+      } = {}
       if (selectedCategory) {
         options.categorySlug = selectedCategory
       }
@@ -205,7 +208,7 @@ export default function RestaurantsPage() {
                 <label className="text-sm font-medium text-gray-700 mb-1 block">정렬</label>
                 <select
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as any)}
+                  onChange={(e) => setSortBy(e.target.value as 'rating' | 'reviews' | 'name')}
                   className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                 >
                   <option value="rating">평점순</option>
@@ -239,7 +242,7 @@ export default function RestaurantsPage() {
             )}
             {searchQuery && (
               <p className="text-gray-600">
-                "{searchQuery}" 검색 결과
+&quot;{searchQuery}&quot; 검색 결과
               </p>
             )}
             <p className="text-sm text-gray-500 mt-1">
