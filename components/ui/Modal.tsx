@@ -12,7 +12,7 @@ interface ModalProps {
   maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 }
 
-export function Modal({ 
+function Modal({ 
   isOpen, 
   onClose, 
   title, 
@@ -78,3 +78,5 @@ export function Modal({
     </Transition>
   )
 }
+
+export default Modal

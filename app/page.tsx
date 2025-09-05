@@ -1,5 +1,5 @@
-import CustomerPortal from '@/components/dashboard/CustomerPortal'
+import HomePage from '@/components/home/HomePage'
 
 export default function Home() {
-  return <CustomerPortal />
+  return <HomePage />
 }

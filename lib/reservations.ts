@@ -28,7 +28,8 @@ export interface Reservation {
 // 예약 생성
 export const createReservation = async (
   userId: string, 
-  reservationData: ReservationData
+  reservationData: ReservationData,
+  restaurantId?: string
 ): Promise<{
   success: boolean
   message: string
@@ -41,6 +42,7 @@ export const createReservation = async (
         {
           user_id: userId,
           restaurant_name: reservationData.restaurantName || '맛집 예약 포털',
+          restaurant_id: restaurantId || null,
           reservation_date: reservationData.date,
           reservation_time: reservationData.time,
           party_size: reservationData.partySize,
