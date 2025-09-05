@@ -50,16 +50,18 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ categories }) => {
             overflow: 'hidden'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-4px)'
-            e.currentTarget.style.boxShadow = '0 15px 40px rgba(255, 107, 53, 0.2)'
-            e.currentTarget.style.borderColor = '#ff6b35'
-            e.currentTarget.style.background = 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)'
+            const target = e.currentTarget as HTMLDivElement
+            target.style.transform = 'translateY(-4px)'
+            target.style.boxShadow = '0 15px 40px rgba(255, 107, 53, 0.2)'
+            target.style.borderColor = '#ff6b35'
+            target.style.background = 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)'
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)'
-            e.currentTarget.style.boxShadow = '0 8px 25px rgba(255, 107, 53, 0.12)'
-            e.currentTarget.style.borderColor = 'transparent'
-            e.currentTarget.style.background = 'white'
+            const target = e.currentTarget as HTMLDivElement
+            target.style.transform = 'translateY(0)'
+            target.style.boxShadow = '0 8px 25px rgba(255, 107, 53, 0.12)'
+            target.style.borderColor = 'transparent'
+            target.style.background = 'white'
           }}
           >
             {/* 배경 장식 */}

@@ -111,14 +111,16 @@ const HomePage = () => {
                   transition: 'all 0.3s ease'
                 }}
                 onFocus={(e) => {
-                  e.target.style.transform = 'translateY(-2px)'
-                  e.target.style.boxShadow = '0 12px 35px rgba(255, 107, 53, 0.2)'
-                  e.target.style.borderColor = 'rgba(255,255,255,0.5)'
+                  const target = e.target as HTMLInputElement
+                  target.style.transform = 'translateY(-2px)'
+                  target.style.boxShadow = '0 12px 35px rgba(255, 107, 53, 0.2)'
+                  target.style.borderColor = 'rgba(255,255,255,0.5)'
                 }}
                 onBlur={(e) => {
-                  e.target.style.transform = 'translateY(0)'
-                  e.target.style.boxShadow = '0 8px 25px rgba(0,0,0,0.1)'
-                  e.target.style.borderColor = 'rgba(255,255,255,0.3)'
+                  const target = e.target as HTMLInputElement
+                  target.style.transform = 'translateY(0)'
+                  target.style.boxShadow = '0 8px 25px rgba(0,0,0,0.1)'
+                  target.style.borderColor = 'rgba(255,255,255,0.3)'
                 }}
               />
               <MagnifyingGlassIcon 
@@ -150,12 +152,14 @@ const HomePage = () => {
                   transition: 'all 0.2s ease'
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.transform = 'translateY(-50%) scale(1.05)'
-                  e.target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
+                  const target = e.target as HTMLButtonElement
+                  target.style.transform = 'translateY(-50%) scale(1.05)'
+                  target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.transform = 'translateY(-50%) scale(1)'
-                  e.target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
+                  const target = e.target as HTMLButtonElement
+                  target.style.transform = 'translateY(-50%) scale(1)'
+                  target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
                 }}
               >
                 검색
@@ -268,12 +272,14 @@ const HomePage = () => {
                 transition: 'all 0.2s ease'
               }}
               onMouseEnter={(e) => {
-                e.target.style.background = 'rgba(255, 107, 53, 0.2)'
-                e.target.style.transform = 'translateY(-1px)'
+                const target = e.target as HTMLButtonElement
+                target.style.background = 'rgba(255, 107, 53, 0.2)'
+                target.style.transform = 'translateY(-1px)'
               }}
               onMouseLeave={(e) => {
-                e.target.style.background = 'rgba(255, 107, 53, 0.1)'
-                e.target.style.transform = 'translateY(0)'
+                const target = e.target as HTMLButtonElement
+                target.style.background = 'rgba(255, 107, 53, 0.1)'
+                target.style.transform = 'translateY(0)'
               }}
             >
               전체보기 →

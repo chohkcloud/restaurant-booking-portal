@@ -273,12 +273,14 @@ export default function RestaurantDetailPage() {
                   transition: 'all 0.2s ease'
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.transform = 'translateY(-2px)'
-                  e.target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
+                  const target = e.target as HTMLButtonElement
+                  target.style.transform = 'translateY(-2px)'
+                  target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.transform = 'translateY(0)'
-                  e.target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
+                  const target = e.target as HTMLButtonElement
+                  target.style.transform = 'translateY(0)'
+                  target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
                 }}
               >
                 <CalendarIcon className="w-5 h-5" />

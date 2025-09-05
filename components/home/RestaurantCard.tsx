@@ -46,14 +46,16 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
         transform: 'translateY(0)'
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'translateY(-8px)'
-        e.currentTarget.style.boxShadow = '0 20px 40px rgba(255, 107, 53, 0.2)'
-        e.currentTarget.style.borderColor = '#ff6b35'
+        const target = e.currentTarget as HTMLDivElement
+        target.style.transform = 'translateY(-8px)'
+        target.style.boxShadow = '0 20px 40px rgba(255, 107, 53, 0.2)'
+        target.style.borderColor = '#ff6b35'
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'translateY(0)'
-        e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 107, 53, 0.15)'
-        e.currentTarget.style.borderColor = 'transparent'
+        const target = e.currentTarget as HTMLDivElement
+        target.style.transform = 'translateY(0)'
+        target.style.boxShadow = '0 10px 30px rgba(255, 107, 53, 0.15)'
+        target.style.borderColor = 'transparent'
       }}
     >
       {/* 이미지 */}
