@@ -40,7 +40,7 @@ export default function EventManagement() {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    event_type: 'promotion' as const,
+    event_type: 'promotion' as 'promotion' | 'discount' | 'new_menu' | 'special_event',
     discount_rate: 0,
     discount_amount: 0,
     start_date: '',
@@ -439,7 +439,7 @@ export default function EventManagement() {
               </label>
               <select
                 value={formData.event_type}
-                onChange={(e) => setFormData({ ...formData, event_type: e.target.value })}
+                onChange={(e) => setFormData({ ...formData, event_type: e.target.value as 'promotion' | 'discount' | 'new_menu' | 'special_event' })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               >
