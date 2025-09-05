@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { MagnifyingGlassIcon, FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon, FunnelIcon, XMarkIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import RestaurantCard from '@/components/home/RestaurantCard'
 import { getRestaurants, getCategories } from '@/lib/restaurants'
 import type { Restaurant, Category } from '@/types/restaurant'
@@ -22,6 +22,7 @@ export default function RestaurantsPage() {
   const [showFilters, setShowFilters] = useState(false)
   const [priceFilter, setPriceFilter] = useState<string>('')
   const [sortBy, setSortBy] = useState<'rating' | 'reviews' | 'name'>('rating')
+  const [categoryScrollIndex, setCategoryScrollIndex] = useState(0)
 
   useEffect(() => {
     loadData()
@@ -252,35 +253,96 @@ export default function RestaurantsPage() {
       {/* 카테고리 필터 */}
       <div style={{ 
         background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
-        padding: '1rem'
+        padding: '1rem',
+        position: 'relative'
       }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative' }}>
+          {/* 왼쪽 화살표 */}
+          {categoryScrollIndex > 0 && (
             <button
-              onClick={() => handleCategoryChange('')}
+              onClick={() => setCategoryScrollIndex(Math.max(0, categoryScrollIndex - 4))}
               style={{
-                padding: '0.5rem 1rem',
-                borderRadius: '1.5rem',
-                fontSize: '0.875rem',
-                fontWeight: '500',
-                whiteSpace: 'nowrap',
-                transition: 'all 0.2s ease',
+                position: 'absolute',
+                left: '-1rem',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'rgba(255, 255, 255, 0.9)',
+                color: '#ff6b35',
                 border: 'none',
+                borderRadius: '50%',
+                width: '2rem',
+                height: '2rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 cursor: 'pointer',
-                background: !selectedCategory 
-                  ? 'rgba(255,255,255,0.95)' 
-                  : 'rgba(255,255,255,0.3)',
-                color: !selectedCategory 
-                  ? '#ff6b35' 
-                  : 'white',
-                boxShadow: !selectedCategory 
-                  ? '0 2px 8px rgba(0, 0, 0, 0.1)' 
-                  : 'none'
+                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+                transition: 'all 0.2s ease',
+                zIndex: 10
+              }}
+              onMouseEnter={(e) => {
+                const target = e.target as HTMLButtonElement
+                target.style.transform = 'translateY(-50%) scale(1.1)'
+                target.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.15)'
+              }}
+              onMouseLeave={(e) => {
+                const target = e.target as HTMLButtonElement
+                target.style.transform = 'translateY(-50%) scale(1)'
+                target.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)'
               }}
             >
-              전체
+              <ChevronLeftIcon style={{ width: '1rem', height: '1rem' }} />
             </button>
-            {categories.map((category) => (
+          )}
+          
+          {/* 오른쪽 화살표 */}
+          {categoryScrollIndex + 6 < categories.length + 1 && (
+            <button
+              onClick={() => setCategoryScrollIndex(Math.min(categories.length - 5, categoryScrollIndex + 4))}
+              style={{
+                position: 'absolute',
+                right: '-1rem',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'rgba(255, 255, 255, 0.9)',
+                color: '#ff6b35',
+                border: 'none',
+                borderRadius: '50%',
+                width: '2rem',
+                height: '2rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+                transition: 'all 0.2s ease',
+                zIndex: 10
+              }}
+              onMouseEnter={(e) => {
+                const target = e.target as HTMLButtonElement
+                target.style.transform = 'translateY(-50%) scale(1.1)'
+                target.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.15)'
+              }}
+              onMouseLeave={(e) => {
+                const target = e.target as HTMLButtonElement
+                target.style.transform = 'translateY(-50%) scale(1)'
+                target.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)'
+              }}
+            >
+              <ChevronRightIcon style={{ width: '1rem', height: '1rem' }} />
+            </button>
+          )}
+          
+          <div style={{ 
+            display: 'flex', 
+            gap: '0.5rem', 
+            overflow: 'hidden',
+            transition: 'transform 0.3s ease'
+          }}>
+            {[
+              { id: 'all', slug: '', name: '전체', icon: '' },
+              ...categories
+            ].slice(categoryScrollIndex, categoryScrollIndex + 6).map((category) => (
               <button
                 key={category.id}
                 onClick={() => handleCategoryChange(category.slug)}
@@ -290,7 +352,7 @@ export default function RestaurantsPage() {
                   fontSize: '0.875rem',
                   fontWeight: '500',
                   whiteSpace: 'nowrap',
-                  transition: 'all 0.2s ease',
+                  transition: 'all 0.3s ease',
                   border: 'none',
                   cursor: 'pointer',
                   background: selectedCategory === category.slug
@@ -301,10 +363,11 @@ export default function RestaurantsPage() {
                     : 'white',
                   boxShadow: selectedCategory === category.slug
                     ? '0 2px 8px rgba(0, 0, 0, 0.1)'
-                    : 'none'
+                    : 'none',
+                  flexShrink: 0
                 }}
               >
-                <span style={{ marginRight: '0.25rem' }}>{category.icon}</span>
+                {category.icon && <span style={{ marginRight: '0.25rem' }}>{category.icon}</span>}
                 {category.name}
               </button>
             ))}
