@@ -76,17 +76,18 @@ const HomePage = () => {
                 placeholder="음식이나 레스토랑을 검색하세요..."
                 style={{
                   width: '100%',
-                  padding: '0.75rem 4.5rem 0.75rem 2.5rem',
+                  padding: '0.875rem 5rem 0.875rem 2.75rem',
                   borderRadius: '2rem',
                   border: '2px solid #ff6b35',
                   background: 'white',
-                  fontSize: '0.8rem',
+                  fontSize: '0.95rem',
                   boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
                   backdropFilter: 'blur(10px)',
                   outline: 'none',
                   transition: 'all 0.3s ease',
                   position: 'relative',
-                  zIndex: 1
+                  zIndex: 1,
+                  lineHeight: '1.5'
                 }}
                 onFocus={(e) => {
                   const target = e.target as HTMLInputElement
@@ -116,19 +117,21 @@ const HomePage = () => {
                 type="submit"
                 style={{
                   position: 'absolute',
-                  right: '0.5rem',
+                  right: '0.375rem',
                   top: '50%',
                   transform: 'translateY(-50%)',
                   background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
                   color: 'white',
-                  padding: '0.75rem 1.5rem',
+                  padding: '0.625rem 1.25rem',
                   borderRadius: '1.5rem',
                   border: 'none',
                   fontWeight: '600',
+                  fontSize: '0.95rem',
                   cursor: 'pointer',
                   boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
                   transition: 'all 0.2s ease',
-                  zIndex: 2
+                  zIndex: 2,
+                  height: 'calc(100% - 0.75rem)'
                 }}
                 onMouseEnter={(e) => {
                   const target = e.target as HTMLButtonElement
@@ -145,6 +148,27 @@ const HomePage = () => {
               </button>
             </div>
           </motion.form>
+
+          {/* 현재 위치 표시 */}
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            marginTop: '0.75rem',
+            fontSize: '0.875rem',
+            color: '#6B7280'
+          }}>
+            <svg 
+              style={{ width: '1rem', height: '1rem', marginRight: '0.25rem' }}
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>현재 위치: 서울특별시</span>
+          </div>
 
         </div>
       </div>
