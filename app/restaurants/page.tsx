@@ -246,8 +246,6 @@ export default function RestaurantsPage() {
               <span>필터</span>
             </button>
           </div>
-
-          </div>
         </div>
       </div>
 
