@@ -102,32 +102,112 @@ export default function RestaurantsPage() {
   const currentCategory = categories.find(c => c.slug === selectedCategory)
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div style={{ 
+      minHeight: '100vh', 
+      background: 'linear-gradient(135deg, #fff1ee 0%, #ffe4de 100%)'
+    }}>
       {/* 헤더 */}
-      <div className="bg-white shadow-sm sticky top-0 z-40">
+      <div style={{ 
+        background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
+        boxShadow: '0 2px 10px rgba(255, 107, 53, 0.2)',
+        position: 'sticky',
+        top: 0,
+        zIndex: 40
+      }}>
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <h1 
               onClick={() => router.push('/')}
-              className="text-2xl font-bold text-orange-500 cursor-pointer hover:text-orange-600 transition-colors"
+              style={{
+                fontSize: '1.5rem',
+                fontWeight: 'bold',
+                color: 'white',
+                cursor: 'pointer',
+                textShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                const target = e.target as HTMLHeadingElement
+                target.style.opacity = '0.8'
+              }}
+              onMouseLeave={(e) => {
+                const target = e.target as HTMLHeadingElement
+                target.style.opacity = '1'
+              }}
             >
               🍽️ 맛집 예약 포털
             </h1>
             
             {/* 검색 바 */}
-            <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-8">
-              <div className="relative">
+            <form onSubmit={handleSearch} style={{ flex: 1, maxWidth: '600px', margin: '0 2rem' }}>
+              <div style={{ position: 'relative' }}>
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="음식이나 레스토랑을 검색하세요..."
-                  className="w-full px-10 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem 3rem 0.75rem 3rem',
+                    borderRadius: '2rem',
+                    border: '2px solid rgba(255,255,255,0.3)',
+                    background: 'rgba(255,255,255,0.95)',
+                    fontSize: '1rem',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                    backdropFilter: 'blur(10px)',
+                    outline: 'none',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onFocus={(e) => {
+                    const target = e.target as HTMLInputElement
+                    target.style.transform = 'translateY(-1px)'
+                    target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.2)'
+                    target.style.borderColor = 'rgba(255,255,255,0.5)'
+                  }}
+                  onBlur={(e) => {
+                    const target = e.target as HTMLInputElement
+                    target.style.transform = 'translateY(0)'
+                    target.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)'
+                    target.style.borderColor = 'rgba(255,255,255,0.3)'
+                  }}
                 />
-                <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <MagnifyingGlassIcon style={{ 
+                  position: 'absolute',
+                  left: '1rem',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  width: '1.25rem',
+                  height: '1.25rem',
+                  color: '#9CA3AF'
+                }} />
                 <button
                   type="submit"
-                  className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold transition-colors"
+                  style={{
+                    position: 'absolute',
+                    right: '0.25rem',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                    color: 'white',
+                    padding: '0.5rem 1.25rem',
+                    borderRadius: '1.5rem',
+                    border: 'none',
+                    fontSize: '0.875rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    boxShadow: '0 2px 8px rgba(255, 107, 53, 0.3)',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    const target = e.target as HTMLButtonElement
+                    target.style.transform = 'translateY(-50%) scale(1.05)'
+                    target.style.boxShadow = '0 4px 12px rgba(255, 107, 53, 0.4)'
+                  }}
+                  onMouseLeave={(e) => {
+                    const target = e.target as HTMLButtonElement
+                    target.style.transform = 'translateY(-50%) scale(1)'
+                    target.style.boxShadow = '0 2px 8px rgba(255, 107, 53, 0.3)'
+                  }}
                 >
                   검색
                 </button>
@@ -137,22 +217,57 @@ export default function RestaurantsPage() {
             {/* 필터 버튼 */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.75rem 1rem',
+                background: 'rgba(255,255,255,0.2)',
+                color: 'white',
+                border: '2px solid rgba(255,255,255,0.3)',
+                borderRadius: '1rem',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                const target = e.target as HTMLButtonElement
+                target.style.background = 'rgba(255,255,255,0.3)'
+                target.style.borderColor = 'rgba(255,255,255,0.5)'
+              }}
+              onMouseLeave={(e) => {
+                const target = e.target as HTMLButtonElement
+                target.style.background = 'rgba(255,255,255,0.2)'
+                target.style.borderColor = 'rgba(255,255,255,0.3)'
+              }}
             >
-              <FunnelIcon className="w-5 h-5" />
+              <FunnelIcon style={{ width: '1.25rem', height: '1.25rem' }} />
               <span>필터</span>
             </button>
           </div>
 
           {/* 카테고리 필터 */}
-          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+          <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', paddingBottom: '0.5rem' }}>
             <button
               onClick={() => handleCategoryChange('')}
-              className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                !selectedCategory 
-                  ? 'bg-orange-500 text-white' 
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+              style={{
+                padding: '0.5rem 1rem',
+                borderRadius: '1.5rem',
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                whiteSpace: 'nowrap',
+                transition: 'all 0.2s ease',
+                border: 'none',
+                cursor: 'pointer',
+                background: !selectedCategory 
+                  ? 'rgba(255,255,255,0.95)' 
+                  : 'rgba(255,255,255,0.3)',
+                color: !selectedCategory 
+                  ? '#ff6b35' 
+                  : 'rgba(255,255,255,0.9)',
+                boxShadow: !selectedCategory 
+                  ? '0 2px 8px rgba(255, 107, 53, 0.3)' 
+                  : 'none'
+              }}
             >
               전체
             </button>
@@ -160,13 +275,27 @@ export default function RestaurantsPage() {
               <button
                 key={category.id}
                 onClick={() => handleCategoryChange(category.slug)}
-                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                  selectedCategory === category.slug
-                    ? 'bg-orange-500 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                style={{
+                  padding: '0.5rem 1rem',
+                  borderRadius: '1.5rem',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.2s ease',
+                  border: 'none',
+                  cursor: 'pointer',
+                  background: selectedCategory === category.slug
+                    ? 'rgba(255,255,255,0.95)'
+                    : 'rgba(255,255,255,0.3)',
+                  color: selectedCategory === category.slug
+                    ? '#ff6b35'
+                    : 'rgba(255,255,255,0.9)',
+                  boxShadow: selectedCategory === category.slug
+                    ? '0 2px 8px rgba(255, 107, 53, 0.3)'
+                    : 'none'
+                }}
               >
-                <span className="mr-1">{category.icon}</span>
+                <span style={{ marginRight: '0.25rem' }}>{category.icon}</span>
                 {category.name}
               </button>
             ))}
@@ -179,7 +308,11 @@ export default function RestaurantsPage() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white border-b shadow-sm"
+          style={{
+            background: 'white',
+            borderBottom: '1px solid rgba(255, 107, 53, 0.1)',
+            boxShadow: '0 2px 10px rgba(255, 107, 53, 0.1)'
+          }}
         >
           <div className="max-w-7xl mx-auto px-4 py-4">
             <div className="flex flex-wrap gap-4">
@@ -231,21 +364,26 @@ export default function RestaurantsPage() {
       )}
 
       {/* 결과 정보 */}
-      <div className="max-w-7xl mx-auto px-4 py-4">
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '2rem 1rem' }}>
         <div className="flex items-center justify-between mb-4">
           <div>
             {currentCategory && (
-              <h2 className="text-xl font-bold text-gray-800">
-                <span className="mr-2">{currentCategory.icon}</span>
+              <h2 style={{
+                fontSize: '1.5rem',
+                fontWeight: 'bold',
+                color: '#ff6b35',
+                textShadow: '0 2px 4px rgba(255, 107, 53, 0.1)'
+              }}>
+                <span style={{ marginRight: '0.5rem' }}>{currentCategory.icon}</span>
                 {currentCategory.name} 맛집
               </h2>
             )}
             {searchQuery && (
-              <p className="text-gray-600">
-&quot;{searchQuery}&quot; 검색 결과
+              <p style={{ color: '#6B7280', fontSize: '1rem', marginTop: '0.5rem' }}>
+                &quot;{searchQuery}&quot; 검색 결과
               </p>
             )}
-            <p className="text-sm text-gray-500 mt-1">
+            <p style={{ fontSize: '0.875rem', color: '#9CA3AF', marginTop: '0.25rem' }}>
               총 {restaurants.length}개 매장
             </p>
           </div>
@@ -253,21 +391,68 @@ export default function RestaurantsPage() {
 
         {/* 레스토랑 목록 */}
         {loading ? (
-          <div className="flex justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center',
+            padding: '3rem 0'
+          }}>
+            <div style={{
+              width: '3rem',
+              height: '3rem',
+              border: '3px solid #ffe4de',
+              borderTop: '3px solid #ff6b35',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite'
+            }}></div>
+            <style jsx>{`
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+            `}</style>
           </div>
         ) : restaurants.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', 
+            gap: '1.5rem' 
+          }}>
             {restaurants.map((restaurant) => (
               <RestaurantCard key={restaurant.id} restaurant={restaurant} />
             ))}
           </div>
         ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">검색 결과가 없습니다.</p>
+          <div style={{ textAlign: 'center', padding: '3rem 0' }}>
+            <p style={{ 
+              color: '#6B7280', 
+              fontSize: '1.125rem',
+              marginBottom: '1rem'
+            }}>
+              검색 결과가 없습니다.
+            </p>
             <button
               onClick={clearFilters}
-              className="mt-4 text-orange-500 hover:text-orange-600 font-semibold"
+              style={{
+                color: '#ff6b35',
+                fontWeight: '600',
+                background: 'rgba(255, 107, 53, 0.1)',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '1rem',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                const target = e.target as HTMLButtonElement
+                target.style.background = 'rgba(255, 107, 53, 0.2)'
+                target.style.transform = 'translateY(-1px)'
+              }}
+              onMouseLeave={(e) => {
+                const target = e.target as HTMLButtonElement
+                target.style.background = 'rgba(255, 107, 53, 0.1)'
+                target.style.transform = 'translateY(0)'
+              }}
             >
               필터 초기화하기
             </button>

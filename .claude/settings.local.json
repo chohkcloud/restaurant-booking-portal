@@ -86,7 +86,8 @@
       "Read(/F:\\restaurant-booking\\components\\dashboard/**)",
       "Read(/F:\\restaurant-booking\\components\\dashboard/**)",
       "Read(/F:\\restaurant-booking\\components\\dashboard/**)",
-      "Read(/F:\\restaurant-booking\\app\\restaurant\\[slug]/**)"
+      "Read(/F:\\restaurant-booking\\app\\restaurant\\[slug]/**)",
+      "Read(/F:\\restaurant-booking\\app\\restaurants/**)"
     ],
     "deny": [],
     "ask": []
