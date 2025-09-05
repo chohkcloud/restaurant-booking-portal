@@ -217,42 +217,54 @@ function ReservationContent() {
           maxWidth: '1200px',
           margin: '0 auto',
           padding: '1rem',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '1rem'
+          position: 'relative'
         }}>
           <button
             onClick={() => router.back()}
             style={{
-              padding: '0.5rem',
-              borderRadius: '0.5rem',
+              position: 'absolute',
+              left: '1rem',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '3rem',
+              height: '3rem',
+              borderRadius: '50%',
               border: 'none',
-              background: 'transparent',
+              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+              color: 'white',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              transition: 'background 0.2s'
+              justifyContent: 'center',
+              boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+              transition: 'all 0.2s ease'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#F3F4F6'
+              e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'
+              e.currentTarget.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent'
+              e.currentTarget.style.transform = 'translateY(-50%) scale(1)'
+              e.currentTarget.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
             }}
           >
-            <ArrowLeftIcon style={{ width: '1.25rem', height: '1.25rem' }} />
+            <ArrowLeftIcon style={{ width: '1.5rem', height: '1.5rem' }} />
           </button>
-          <div>
+          <div style={{
+            textAlign: 'center'
+          }}>
             <h1 style={{
               fontSize: '1.5rem',
               fontWeight: 'bold',
-              color: '#ff6b35'
+              color: '#ff6b35',
+              margin: '0'
             }}>
               예약하기
             </h1>
             <p style={{
               fontSize: '0.875rem',
-              color: '#6B7280'
+              color: '#6B7280',
+              margin: '0.25rem 0 0 0'
             }}>
               {restaurant.name}
             </p>
@@ -606,13 +618,14 @@ function ReservationContent() {
                   placeholder="예약자 성함"
                   required
                   style={{
-                    width: '100%',
+                    width: 'calc(100% - 1.5rem)',
                     padding: '0.75rem',
                     border: '2px solid #E5E7EB',
                     borderRadius: '0.75rem',
                     fontSize: '1rem',
                     outline: 'none',
-                    transition: 'border-color 0.2s'
+                    transition: 'border-color 0.2s',
+                    boxSizing: 'border-box'
                   }}
                   onFocus={(e) => {
                     e.target.style.borderColor = '#ff6b35'
@@ -644,13 +657,14 @@ function ReservationContent() {
                   placeholder="example@email.com"
                   required
                   style={{
-                    width: '100%',
+                    width: 'calc(100% - 1.5rem)',
                     padding: '0.75rem',
                     border: '2px solid #E5E7EB',
                     borderRadius: '0.75rem',
                     fontSize: '1rem',
                     outline: 'none',
-                    transition: 'border-color 0.2s'
+                    transition: 'border-color 0.2s',
+                    boxSizing: 'border-box'
                   }}
                   onFocus={(e) => {
                     e.target.style.borderColor = '#ff6b35'
@@ -682,13 +696,14 @@ function ReservationContent() {
                   placeholder="010-0000-0000"
                   required
                   style={{
-                    width: '100%',
+                    width: 'calc(100% - 1.5rem)',
                     padding: '0.75rem',
                     border: '2px solid #E5E7EB',
                     borderRadius: '0.75rem',
                     fontSize: '1rem',
                     outline: 'none',
-                    transition: 'border-color 0.2s'
+                    transition: 'border-color 0.2s',
+                    boxSizing: 'border-box'
                   }}
                   onFocus={(e) => {
                     e.target.style.borderColor = '#ff6b35'
@@ -716,14 +731,15 @@ function ReservationContent() {
                   placeholder="알레르기, 특별한 요청사항이 있으시면 적어주세요"
                   rows={3}
                   style={{
-                    width: '100%',
+                    width: 'calc(100% - 1.5rem)',
                     padding: '0.75rem',
                     border: '2px solid #E5E7EB',
                     borderRadius: '0.75rem',
                     fontSize: '1rem',
                     outline: 'none',
                     transition: 'border-color 0.2s',
-                    resize: 'vertical'
+                    resize: 'vertical',
+                    boxSizing: 'border-box'
                   }}
                   onFocus={(e) => {
                     e.target.style.borderColor = '#ff6b35'
