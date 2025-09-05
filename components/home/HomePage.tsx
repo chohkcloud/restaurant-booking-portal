@@ -92,7 +92,7 @@ const HomePage = () => {
             onSubmit={handleSearch}
             style={{ marginTop: '2rem', maxWidth: '600px', margin: '2rem auto 0' }}
           >
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <input
                 type="text"
                 value={searchQuery}
@@ -100,7 +100,7 @@ const HomePage = () => {
                 placeholder="음식이나 레스토랑을 검색하세요..."
                 style={{
                   width: '100%',
-                  padding: '1rem 3rem 1rem 3rem',
+                  padding: '1rem 5.5rem 1rem 3rem',
                   borderRadius: '2rem',
                   border: '2px solid rgba(255,255,255,0.3)',
                   background: 'rgba(255,255,255,0.95)',
@@ -108,7 +108,9 @@ const HomePage = () => {
                   boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
                   backdropFilter: 'blur(10px)',
                   outline: 'none',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
+                  position: 'relative',
+                  zIndex: 1
                 }}
                 onFocus={(e) => {
                   const target = e.target as HTMLInputElement
@@ -149,7 +151,8 @@ const HomePage = () => {
                   fontWeight: '600',
                   cursor: 'pointer',
                   boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
-                  transition: 'all 0.2s ease'
+                  transition: 'all 0.2s ease',
+                  zIndex: 2
                 }}
                 onMouseEnter={(e) => {
                   const target = e.target as HTMLButtonElement

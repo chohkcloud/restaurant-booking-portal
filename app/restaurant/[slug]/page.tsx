@@ -181,34 +181,109 @@ export default function RestaurantDetailPage() {
       background: 'linear-gradient(135deg, #fff1ee 0%, #ffe4de 100%)'
     }}>
       {/* 헤더 이미지 */}
-      <div className="relative h-32 md:h-40 bg-gray-200">
+      <div className="relative h-32 md:h-40 bg-gray-200 overflow-hidden">
         {restaurant.image_url ? (
-          <img
-            src={restaurant.image_url}
-            alt={restaurant.name}
-            className="w-full h-full object-cover"
-          />
+          <>
+            <img
+              src={restaurant.image_url}
+              alt={restaurant.name}
+              className="w-full h-full object-cover"
+            />
+            {/* 이미지 오버레이 */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-black/10"></div>
+          </>
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
-            <span className="text-white text-6xl">🍽️</span>
+            <span className="text-white text-6xl drop-shadow-lg">🍽️</span>
           </div>
         )}
         
         {/* 뒤로가기 버튼 */}
         <button
           onClick={() => router.back()}
-          className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-colors"
+          style={{
+            position: 'absolute',
+            top: '1rem',
+            left: '1rem',
+            background: 'rgba(255,255,255,0.95)',
+            backdropFilter: 'blur(10px)',
+            padding: '0.75rem',
+            borderRadius: '50%',
+            boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            zIndex: 10
+          }}
+          onMouseEnter={(e) => {
+            const target = e.target as HTMLButtonElement
+            target.style.background = 'white'
+            target.style.transform = 'scale(1.1)'
+            target.style.boxShadow = '0 6px 20px rgba(0,0,0,0.3)'
+          }}
+          onMouseLeave={(e) => {
+            const target = e.target as HTMLButtonElement
+            target.style.background = 'rgba(255,255,255,0.95)'
+            target.style.transform = 'scale(1)'
+            target.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)'
+          }}
         >
-          <ArrowLeftIcon className="w-5 h-5" />
+          <ArrowLeftIcon style={{ width: '1.25rem', height: '1.25rem', color: '#374151' }} />
         </button>
 
         {/* 공유/좋아요 버튼 */}
-        <div className="absolute top-4 right-4 flex gap-2">
-          <button className="bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-colors">
-            <HeartIcon className="w-5 h-5" />
+        <div style={{ position: 'absolute', top: '1rem', right: '1rem', display: 'flex', gap: '0.5rem', zIndex: 10 }}>
+          <button
+            style={{
+              background: 'rgba(255,255,255,0.95)',
+              backdropFilter: 'blur(10px)',
+              padding: '0.75rem',
+              borderRadius: '50%',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              const target = e.target as HTMLButtonElement
+              target.style.background = 'white'
+              target.style.transform = 'scale(1.1)'
+              target.style.boxShadow = '0 6px 20px rgba(0,0,0,0.3)'
+            }}
+            onMouseLeave={(e) => {
+              const target = e.target as HTMLButtonElement
+              target.style.background = 'rgba(255,255,255,0.95)'
+              target.style.transform = 'scale(1)'
+              target.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)'
+            }}
+          >
+            <HeartIcon style={{ width: '1.25rem', height: '1.25rem', color: '#EF4444' }} />
           </button>
-          <button className="bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-colors">
-            <ShareIcon className="w-5 h-5" />
+          <button
+            style={{
+              background: 'rgba(255,255,255,0.95)',
+              backdropFilter: 'blur(10px)',
+              padding: '0.75rem',
+              borderRadius: '50%',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              const target = e.target as HTMLButtonElement
+              target.style.background = 'white'
+              target.style.transform = 'scale(1.1)'
+              target.style.boxShadow = '0 6px 20px rgba(0,0,0,0.3)'
+            }}
+            onMouseLeave={(e) => {
+              const target = e.target as HTMLButtonElement
+              target.style.background = 'rgba(255,255,255,0.95)'
+              target.style.transform = 'scale(1)'
+              target.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)'
+            }}
+          >
+            <ShareIcon style={{ width: '1.25rem', height: '1.25rem', color: '#3B82F6' }} />
           </button>
         </div>
       </div>
@@ -222,32 +297,73 @@ export default function RestaurantDetailPage() {
           padding: '2rem'
         }}>
           {/* 레스토랑 정보 */}
-          <div className="mb-6">
-            <div className="flex items-start justify-between">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-800 mb-2">{restaurant.name}</h1>
-                <p className="text-gray-600 mb-3">{restaurant.description}</p>
+          <div style={{ marginBottom: '2rem' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '2rem' }}>
+              <div style={{ flex: 1 }}>
+                <h1 style={{ 
+                  fontSize: '2rem', 
+                  fontWeight: 'bold', 
+                  color: '#ff6b35',
+                  marginBottom: '1rem',
+                  textShadow: '0 2px 4px rgba(255, 107, 53, 0.1)',
+                  lineHeight: 1.2
+                }}>
+                  {restaurant.name}
+                </h1>
                 
-                <div className="flex flex-wrap gap-4 text-sm">
+                {restaurant.description && (
+                  <p style={{ 
+                    fontSize: '1.125rem',
+                    color: '#6B7280', 
+                    marginBottom: '1.5rem',
+                    lineHeight: 1.6,
+                    maxWidth: '600px'
+                  }}>
+                    {restaurant.description}
+                  </p>
+                )}
+                
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', fontSize: '0.875rem' }}>
                   {/* 평점 */}
-                  <div className="flex items-center">
-                    <StarIconSolid className="w-5 h-5 text-yellow-400 mr-1" />
-                    <span className="font-semibold">{restaurant.rating.toFixed(1)}</span>
-                    <span className="text-gray-500 ml-1">({restaurant.total_reviews}개 리뷰)</span>
+                  <div style={{ 
+                    display: 'flex', 
+                    alignItems: 'center',
+                    background: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)',
+                    padding: '0.75rem 1rem',
+                    borderRadius: '1rem',
+                    boxShadow: '0 2px 8px rgba(251, 191, 36, 0.2)'
+                  }}>
+                    <StarIconSolid style={{ width: '1.25rem', height: '1.25rem', color: '#F59E0B', marginRight: '0.5rem' }} />
+                    <span style={{ fontWeight: '600', color: '#92400E' }}>{restaurant.rating.toFixed(1)}</span>
+                    <span style={{ color: '#78716C', marginLeft: '0.25rem' }}>({restaurant.total_reviews}개 리뷰)</span>
                   </div>
                   
                   {/* 카테고리 */}
                   {restaurant.category && (
-                    <div className="flex items-center">
-                      <span className="mr-1">{restaurant.category.icon}</span>
-                      <span>{restaurant.category.name}</span>
+                    <div style={{ 
+                      display: 'flex', 
+                      alignItems: 'center',
+                      background: 'linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%)',
+                      padding: '0.75rem 1rem',
+                      borderRadius: '1rem',
+                      boxShadow: '0 2px 8px rgba(59, 130, 246, 0.2)'
+                    }}>
+                      <span style={{ marginRight: '0.5rem', fontSize: '1.125rem' }}>{restaurant.category.icon}</span>
+                      <span style={{ fontWeight: '500', color: '#1E40AF' }}>{restaurant.category.name}</span>
                     </div>
                   )}
                   
                   {/* 가격대 */}
                   {restaurant.price_range && (
-                    <div className="flex items-center">
-                      <span className="font-medium">
+                    <div style={{ 
+                      display: 'flex', 
+                      alignItems: 'center',
+                      background: 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)',
+                      padding: '0.75rem 1rem',
+                      borderRadius: '1rem',
+                      boxShadow: '0 2px 8px rgba(16, 185, 129, 0.2)'
+                    }}>
+                      <span style={{ fontWeight: '600', color: '#065F46', fontSize: '1rem' }}>
                         {restaurant.price_range.replace(/\$/g, '₩')}
                       </span>
                     </div>
@@ -318,54 +434,134 @@ export default function RestaurantDetailPage() {
           )}
 
           {/* 탭 메뉴 */}
-          <div className="border-t pt-6">
-            <div className="flex gap-6 mb-6">
+          <div style={{
+            borderTop: '1px solid #E5E7EB',
+            paddingTop: '2rem',
+            marginTop: '2rem'
+          }}>
+            <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '2rem' }}>
               {(['menu', 'review', 'info'] as const).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`pb-2 font-semibold transition-colors ${
-                    activeTab === tab
-                      ? 'text-orange-500 border-b-2 border-orange-500'
-                      : 'text-gray-500 hover:text-gray-700'
-                  }`}
+                  style={{
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '2rem',
+                    fontWeight: '600',
+                    fontSize: '0.95rem',
+                    border: activeTab === tab ? '2px solid #ff6b35' : '2px solid #E5E7EB',
+                    background: activeTab === tab 
+                      ? 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)'
+                      : 'white',
+                    color: activeTab === tab ? 'white' : '#6B7280',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    boxShadow: activeTab === tab 
+                      ? '0 4px 15px rgba(255, 107, 53, 0.3)'
+                      : '0 2px 8px rgba(0,0,0,0.1)'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (activeTab !== tab) {
+                      const target = e.target as HTMLButtonElement
+                      target.style.borderColor = '#ff6b35'
+                      target.style.color = '#ff6b35'
+                      target.style.transform = 'translateY(-2px)'
+                      target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.2)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (activeTab !== tab) {
+                      const target = e.target as HTMLButtonElement
+                      target.style.borderColor = '#E5E7EB'
+                      target.style.color = '#6B7280'
+                      target.style.transform = 'translateY(0)'
+                      target.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'
+                    }
+                  }}
                 >
-                  {tab === 'menu' && '메뉴'}
-                  {tab === 'review' && '리뷰'}
-                  {tab === 'info' && '매장정보'}
+                  {tab === 'menu' && '🍽️ 메뉴'}
+                  {tab === 'review' && '⭐ 리뷰'}
+                  {tab === 'info' && '📍 매장정보'}
                 </button>
               ))}
             </div>
 
             {/* 메뉴 탭 */}
             {activeTab === 'menu' && (
-              <div className="space-y-4">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {menus.length > 0 ? (
                   menus.map((menu) => (
-                    <div key={menu.id} className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                    <div key={menu.id} style={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '1.5rem',
+                      padding: '1.5rem',
+                      background: 'linear-gradient(135deg, #FEFEFE 0%, #F9FAFB 100%)',
+                      borderRadius: '1.25rem',
+                      border: '1px solid #F3F4F6',
+                      boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
+                      transition: 'all 0.2s ease'
+                    }}>
                       {menu.image_url && (
                         <img
                           src={menu.image_url}
                           alt={menu.name}
-                          className="w-24 h-24 object-cover rounded-lg"
+                          style={{
+                            width: '6rem',
+                            height: '6rem',
+                            objectFit: 'cover',
+                            borderRadius: '1rem',
+                            boxShadow: '0 4px 10px rgba(0,0,0,0.1)'
+                          }}
                         />
                       )}
-                      <div className="flex-1">
-                        <div className="flex items-start justify-between">
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                           <div>
-                            <h3 className="font-semibold text-gray-800">
+                            <h3 style={{
+                              fontWeight: '600',
+                              color: '#1F2937',
+                              fontSize: '1.125rem',
+                              marginBottom: '0.5rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.5rem'
+                            }}>
                               {menu.name}
                               {menu.is_popular && (
-                                <span className="ml-2 bg-orange-100 text-orange-700 text-xs px-2 py-1 rounded">
-                                  인기
+                                <span style={{
+                                  background: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)',
+                                  color: '#92400E',
+                                  fontSize: '0.75rem',
+                                  padding: '0.25rem 0.75rem',
+                                  borderRadius: '1rem',
+                                  fontWeight: '700',
+                                  boxShadow: '0 2px 4px rgba(251, 191, 36, 0.2)'
+                                }}>
+                                  🔥 인기
                                 </span>
                               )}
                             </h3>
                             {menu.description && (
-                              <p className="text-sm text-gray-600 mt-1">{menu.description}</p>
+                              <p style={{
+                                fontSize: '0.9rem',
+                                color: '#6B7280',
+                                lineHeight: 1.5,
+                                marginTop: '0.25rem'
+                              }}>
+                                {menu.description}
+                              </p>
                             )}
                           </div>
-                          <span className="font-bold text-lg text-orange-500">
+                          <span style={{
+                            fontWeight: '700',
+                            fontSize: '1.25rem',
+                            background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                            backgroundClip: 'text',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            color: '#ff6b35'
+                          }}>
                             ₩{menu.price.toLocaleString()}
                           </span>
                         </div>
@@ -373,7 +569,15 @@ export default function RestaurantDetailPage() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500 text-center py-8">메뉴 정보가 없습니다.</p>
+                  <div style={{
+                    textAlign: 'center',
+                    padding: '3rem',
+                    color: '#9CA3AF',
+                    fontSize: '1.125rem'
+                  }}>
+                    <span style={{ fontSize: '3rem', display: 'block', marginBottom: '1rem' }}>🍽️</span>
+                    메뉴 정보가 없습니다.
+                  </div>
                 )}
               </div>
             )}
@@ -383,43 +587,106 @@ export default function RestaurantDetailPage() {
               <div>
                 <button
                   onClick={() => setShowReviewModal(true)}
-                  className="mb-6 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+                  style={{
+                    background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                    color: 'white',
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '1rem',
+                    border: 'none',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    marginBottom: '2rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    const target = e.target as HTMLButtonElement
+                    target.style.transform = 'translateY(-2px)'
+                    target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
+                  }}
+                  onMouseLeave={(e) => {
+                    const target = e.target as HTMLButtonElement
+                    target.style.transform = 'translateY(0)'
+                    target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
+                  }}
                 >
-                  리뷰 작성하기
+                  ✨ 리뷰 작성하기
                 </button>
                 
-                <div className="space-y-4">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                   {reviews.length > 0 ? (
                     reviews.map((review) => (
-                      <div key={review.id} className="p-4 bg-gray-50 rounded-lg">
-                        <div className="flex items-start justify-between mb-2">
+                      <div key={review.id} style={{
+                        padding: '1.5rem',
+                        background: 'linear-gradient(135deg, #FEFEFE 0%, #F9FAFB 100%)',
+                        borderRadius: '1.25rem',
+                        border: '1px solid #F3F4F6',
+                        boxShadow: '0 4px 15px rgba(0,0,0,0.05)'
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1rem' }}>
                           <div>
-                            <span className="font-semibold">{review.users?.name || '익명'}</span>
-                            <div className="flex items-center mt-1">
-                              {[1,2,3,4,5].map(star => (
-                                <StarIconSolid 
-                                  key={star} 
-                                  className={`w-4 h-4 ${
-                                    star <= Math.round(review.rating_average) 
-                                      ? 'text-yellow-400' 
-                                      : 'text-gray-300'
-                                  }`} 
-                                />
-                              ))}
-                              <span className="ml-2 text-sm text-gray-500">
+                            <span style={{ fontWeight: '600', color: '#1F2937', fontSize: '1.1rem' }}>
+                              {review.users?.name || '익명'}
+                            </span>
+                            <div style={{ display: 'flex', alignItems: 'center', marginTop: '0.5rem', gap: '0.5rem' }}>
+                              <div style={{ display: 'flex' }}>
+                                {[1,2,3,4,5].map(star => (
+                                  <StarIconSolid 
+                                    key={star} 
+                                    style={{
+                                      width: '1.125rem',
+                                      height: '1.125rem',
+                                      color: star <= Math.round(review.rating_average) 
+                                        ? '#F59E0B' 
+                                        : '#D1D5DB'
+                                    }}
+                                  />
+                                ))}
+                              </div>
+                              <span style={{
+                                fontSize: '0.85rem',
+                                color: '#9CA3AF',
+                                background: '#F3F4F6',
+                                padding: '0.25rem 0.5rem',
+                                borderRadius: '0.5rem'
+                              }}>
                                 {new Date(review.created_at).toLocaleDateString('ko-KR')}
                               </span>
                             </div>
                           </div>
                         </div>
                         {review.title && (
-                          <h4 className="font-semibold mb-1">{review.title}</h4>
+                          <h4 style={{
+                            fontWeight: '600',
+                            marginBottom: '0.5rem',
+                            color: '#374151',
+                            fontSize: '1.05rem'
+                          }}>
+                            {review.title}
+                          </h4>
                         )}
-                        <p className="text-gray-700">{review.content}</p>
+                        <p style={{
+                          color: '#4B5563',
+                          lineHeight: 1.6,
+                          fontSize: '0.95rem'
+                        }}>
+                          {review.content}
+                        </p>
                       </div>
                     ))
                   ) : (
-                    <p className="text-gray-500 text-center py-8">아직 리뷰가 없습니다.</p>
+                    <div style={{
+                      textAlign: 'center',
+                      padding: '3rem',
+                      color: '#9CA3AF',
+                      fontSize: '1.125rem'
+                    }}>
+                      <span style={{ fontSize: '3rem', display: 'block', marginBottom: '1rem' }}>⭐</span>
+                      아직 리뷰가 없습니다.
+                    </div>
                   )}
                 </div>
               </div>
@@ -427,44 +694,148 @@ export default function RestaurantDetailPage() {
 
             {/* 매장정보 탭 */}
             {activeTab === 'info' && (
-              <div className="space-y-4">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                 {restaurant.address && (
-                  <div className="flex items-start gap-3">
-                    <MapPinIcon className="w-5 h-5 text-gray-400 mt-0.5" />
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '1rem',
+                    padding: '1.5rem',
+                    background: 'linear-gradient(135deg, #FEFEFE 0%, #F9FAFB 100%)',
+                    borderRadius: '1rem',
+                    border: '1px solid #F3F4F6',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+                  }}>
+                    <div style={{
+                      background: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)',
+                      padding: '0.75rem',
+                      borderRadius: '0.75rem',
+                      boxShadow: '0 2px 8px rgba(239, 68, 68, 0.2)'
+                    }}>
+                      <MapPinIcon style={{ width: '1.25rem', height: '1.25rem', color: 'white' }} />
+                    </div>
                     <div>
-                      <p className="font-semibold text-gray-700">주소</p>
-                      <p className="text-gray-600">{restaurant.address}</p>
+                      <p style={{ fontWeight: '600', color: '#1F2937', fontSize: '1.1rem', marginBottom: '0.5rem' }}>주소</p>
+                      <p style={{ color: '#6B7280', lineHeight: 1.5 }}>{restaurant.address}</p>
                     </div>
                   </div>
                 )}
                 
                 {restaurant.phone && (
-                  <div className="flex items-start gap-3">
-                    <PhoneIcon className="w-5 h-5 text-gray-400 mt-0.5" />
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '1rem',
+                    padding: '1.5rem',
+                    background: 'linear-gradient(135deg, #FEFEFE 0%, #F9FAFB 100%)',
+                    borderRadius: '1rem',
+                    border: '1px solid #F3F4F6',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+                  }}>
+                    <div style={{
+                      background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                      padding: '0.75rem',
+                      borderRadius: '0.75rem',
+                      boxShadow: '0 2px 8px rgba(16, 185, 129, 0.2)'
+                    }}>
+                      <PhoneIcon style={{ width: '1.25rem', height: '1.25rem', color: 'white' }} />
+                    </div>
                     <div>
-                      <p className="font-semibold text-gray-700">전화번호</p>
-                      <p className="text-gray-600">{restaurant.phone}</p>
+                      <p style={{ fontWeight: '600', color: '#1F2937', fontSize: '1.1rem', marginBottom: '0.5rem' }}>전화번호</p>
+                      <p style={{ color: '#6B7280', lineHeight: 1.5 }}>{restaurant.phone}</p>
                     </div>
                   </div>
                 )}
                 
                 {restaurant.opening_hours && (
-                  <div className="flex items-start gap-3">
-                    <ClockIcon className="w-5 h-5 text-gray-400 mt-0.5" />
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '1rem',
+                    padding: '1.5rem',
+                    background: 'linear-gradient(135deg, #FEFEFE 0%, #F9FAFB 100%)',
+                    borderRadius: '1rem',
+                    border: '1px solid #F3F4F6',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+                  }}>
+                    <div style={{
+                      background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',
+                      padding: '0.75rem',
+                      borderRadius: '0.75rem',
+                      boxShadow: '0 2px 8px rgba(59, 130, 246, 0.2)'
+                    }}>
+                      <ClockIcon style={{ width: '1.25rem', height: '1.25rem', color: 'white' }} />
+                    </div>
                     <div>
-                      <p className="font-semibold text-gray-700">영업시간</p>
-                      <p className="text-gray-600">매일 11:00 - 22:00</p>
+                      <p style={{ fontWeight: '600', color: '#1F2937', fontSize: '1.1rem', marginBottom: '0.5rem' }}>영업시간</p>
+                      <p style={{ color: '#6B7280', lineHeight: 1.5 }}>매일 11:00 - 22:00</p>
                     </div>
                   </div>
                 )}
                 
-                <div className="pt-4 border-t">
-                  <p className="font-semibold text-gray-700 mb-2">편의시설</p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">주차가능</span>
-                    <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">와이파이</span>
-                    <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">단체석</span>
-                    <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">예약가능</span>
+                <div style={{
+                  padding: '1.5rem',
+                  background: 'linear-gradient(135deg, #FEFEFE 0%, #F9FAFB 100%)',
+                  borderRadius: '1rem',
+                  border: '1px solid #F3F4F6',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+                }}>
+                  <p style={{ 
+                    fontWeight: '600', 
+                    color: '#1F2937', 
+                    fontSize: '1.1rem', 
+                    marginBottom: '1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem'
+                  }}>
+                    🏢 편의시설
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                    <span style={{
+                      background: 'linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%)',
+                      color: '#1E40AF',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '1.5rem',
+                      fontSize: '0.875rem',
+                      fontWeight: '500',
+                      boxShadow: '0 2px 4px rgba(59, 130, 246, 0.1)'
+                    }}>
+                      🚗 주차가능
+                    </span>
+                    <span style={{
+                      background: 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)',
+                      color: '#065F46',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '1.5rem',
+                      fontSize: '0.875rem',
+                      fontWeight: '500',
+                      boxShadow: '0 2px 4px rgba(16, 185, 129, 0.1)'
+                    }}>
+                      📶 와이파이
+                    </span>
+                    <span style={{
+                      background: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)',
+                      color: '#92400E',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '1.5rem',
+                      fontSize: '0.875rem',
+                      fontWeight: '500',
+                      boxShadow: '0 2px 4px rgba(251, 191, 36, 0.1)'
+                    }}>
+                      👥 단체석
+                    </span>
+                    <span style={{
+                      background: 'linear-gradient(135deg, #FFE4E1 0%, #FFCCCB 100%)',
+                      color: '#B91C1C',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '1.5rem',
+                      fontSize: '0.875rem',
+                      fontWeight: '500',
+                      boxShadow: '0 2px 4px rgba(239, 68, 68, 0.1)'
+                    }}>
+                      📅 예약가능
+                    </span>
                   </div>
                 </div>
               </div>
