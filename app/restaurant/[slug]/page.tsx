@@ -18,6 +18,7 @@ import { getReviews } from '@/lib/reviews'
 import { useAuth } from '@/contexts/AuthContext'
 import LoginModal from '@/components/auth/LoginModal'
 import ReviewModal from '@/components/reviews/ReviewModal'
+import ReservationModal from '@/components/reservation/ReservationModal'
 import ReservationSection from '@/components/dashboard/ReservationSection'
 import type { Restaurant, RestaurantMenu } from '@/types/restaurant'
 import type { Review } from '@/lib/reviews'
@@ -48,6 +49,7 @@ export default function RestaurantDetailPage() {
   // 모달 상태
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showReviewModal, setShowReviewModal] = useState(false)
+  const [showReservationModal, setShowReservationModal] = useState(false)
 
   useEffect(() => {
     loadData()
@@ -141,6 +143,67 @@ export default function RestaurantDetailPage() {
       alert('예약 처리 중 오류가 발생했습니다.')
     } finally {
       setIsProcessingReservation(false)
+    }
+  }
+
+  const handleReservationConfirm = async (reservationData: {
+    date: Date
+    time: string
+    partySize: number
+    customerName: string
+    customerEmail: string
+    customerPhone: string
+    specialRequest?: string
+  }) => {
+    if (!restaurant) return
+
+    try {
+      const { format } = await import('date-fns')
+      const { ko } = await import('date-fns/locale')
+      const { sendReservationNotifications } = await import('@/lib/notifications')
+      const { createReservation } = await import('@/lib/reservations')
+      
+      const dayName = format(reservationData.date, 'EEEE', { locale: ko })
+      const formattedDate = format(reservationData.date, 'yyyy년 M월 d일', { locale: ko })
+      
+      const fullReservationData = {
+        customerName: reservationData.customerName,
+        customerEmail: reservationData.customerEmail,
+        customerPhone: reservationData.customerPhone,
+        date: `${formattedDate} (${dayName})`,
+        time: reservationData.time,
+        partySize: reservationData.partySize,
+        restaurantName: restaurant.name,
+        specialRequest: reservationData.specialRequest
+      }
+
+      // DB에 예약 저장
+      const reservationResult = await createReservation(
+        user?.id || '', 
+        fullReservationData, 
+        restaurant.id
+      )
+      
+      if (!reservationResult.success) {
+        throw new Error(reservationResult.message)
+      }
+
+      // 알림 발송
+      const notificationResults = await sendReservationNotifications(
+        fullReservationData, 
+        reservationResult.reservation?.id
+      )
+      
+      let message = `${restaurant.name} 예약이 완료되었습니다!`
+      if (notificationResults.emailSent) {
+        message += '\n📧 이메일로 예약 확정 안내를 발송했습니다.'
+      }
+
+      alert(message)
+      setShowReservationModal(false)
+    } catch (error) {
+      console.error('예약 처리 중 오류:', error)
+      throw error
     }
   }
 
@@ -373,7 +436,7 @@ export default function RestaurantDetailPage() {
 
               {/* 예약 버튼 */}
               <button
-                onClick={() => setShowReservationForm(!showReservationForm)}
+                onClick={() => setShowReservationModal(true)}
                 style={{
                   background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
                   color: 'white',
@@ -862,6 +925,21 @@ export default function RestaurantDetailPage() {
           loadData()
           setShowReviewModal(false)
         }}
+      />
+
+      {/* 예약 모달 */}
+      <ReservationModal
+        isOpen={showReservationModal}
+        onClose={() => setShowReservationModal(false)}
+        restaurantName={restaurant.name}
+        restaurantId={restaurant.id}
+        onConfirm={handleReservationConfirm}
+        isLoggedIn={isLoggedIn}
+        user={user ? {
+          name: user.name,
+          email: user.email,
+          phone: user.phone
+        } : undefined}
       />
     </div>
   )
