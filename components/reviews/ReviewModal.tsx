@@ -13,6 +13,7 @@ interface ReviewModalProps {
   userId: string
   userName?: string
   reservationId?: string
+  restaurantName?: string
   existingReview?: ReviewData & { id: string }
   onSuccess?: () => void
 }
@@ -23,6 +24,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
   userId,
   userName,
   reservationId,
+  restaurantName,
   existingReview,
   onSuccess
 }) => {
@@ -113,7 +115,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
       const reviewData: ReviewData = {
         user_id: userId,
         reservation_id: reservationId,
-        restaurant_name: '맛집 예약 포털',
+        restaurant_name: restaurantName || '맛집 예약 포털',
         rating_taste: ratings.taste,
         rating_service: ratings.service,
         rating_cleanliness: ratings.cleanliness,
