@@ -19,7 +19,17 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
 
   const getPriceDisplay = (priceRange: string | null) => {
     if (!priceRange) return '₩'
-    return priceRange.replace(/\$/g, '₩')
+    const priceMap: { [key: string]: string } = {
+      '1': '₩',
+      '2': '₩₩',
+      '3': '₩₩₩',
+      '4': '₩₩₩₩',
+      '$': '₩',
+      '$$': '₩₩',
+      '$$$': '₩₩₩',
+      '$$$$': '₩₩₩₩'
+    }
+    return priceMap[priceRange] || '₩'
   }
 
   return (

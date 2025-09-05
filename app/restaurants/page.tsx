@@ -184,17 +184,17 @@ export default function RestaurantsPage() {
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-1 block">가격대</label>
                 <div className="flex gap-2">
-                  {['$', '$$', '$$$', '$$$$'].map((price) => (
+                  {[{value: '1', label: '₩'}, {value: '2', label: '₩₩'}, {value: '3', label: '₩₩₩'}, {value: '4', label: '₩₩₩₩'}].map((price) => (
                     <button
-                      key={price}
-                      onClick={() => setPriceFilter(priceFilter === price ? '' : price)}
+                      key={price.value}
+                      onClick={() => setPriceFilter(priceFilter === price.value ? '' : price.value)}
                       className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
-                        priceFilter === price
+                        priceFilter === price.value
                           ? 'bg-orange-500 text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                     >
-                      {price.replace(/\$/g, '₩')}
+                      {price.label}
                     </button>
                   ))}
                 </div>
