@@ -18,11 +18,9 @@ import { getReviews } from '@/lib/reviews'
 import { useAuth } from '@/contexts/AuthContext'
 import LoginModal from '@/components/auth/LoginModal'
 import ReviewModal from '@/components/reviews/ReviewModal'
-import ReservationModal from '@/components/reservation/ReservationModal'
 import ReservationSection from '@/components/dashboard/ReservationSection'
 import type { Restaurant, RestaurantMenu } from '@/types/restaurant'
 import type { Review } from '@/lib/reviews'
-import type { ReservationRecord, ReservationInfo } from '@/types/reservation'
 
 export default function RestaurantDetailPage() {
   const params = useParams()
@@ -36,20 +34,10 @@ export default function RestaurantDetailPage() {
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'menu' | 'review' | 'info'>('menu')
   
-  // 예약 관련 상태
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
-  const [selectedTime, setSelectedTime] = useState('12:00')
-  const [partySize, setPartySize] = useState(2)
-  const [showReservationForm, setShowReservationForm] = useState(false)
-  const [isProcessingReservation, setIsProcessingReservation] = useState(false)
-  const [myReservations, setMyReservations] = useState<ReservationRecord[]>([])
-  const [lastReservation, setLastReservation] = useState<ReservationInfo | null>(null)
-  const [cancellingReservation, setCancellingReservation] = useState<string | null>(null)
 
   // 모달 상태
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showReviewModal, setShowReviewModal] = useState(false)
-  const [showReservationModal, setShowReservationModal] = useState(false)
   const [pendingAction, setPendingAction] = useState<'reservation' | 'review' | null>(null)
 
   useEffect(() => {
@@ -87,135 +75,7 @@ export default function RestaurantDetailPage() {
     }
   }
 
-  const handleReservation = async () => {
-    if (!isLoggedIn) {
-      setShowLoginModal(true)
-      return
-    }
-    
-    if (!selectedDate || !selectedTime || !restaurant) {
-      alert('날짜와 시간을 선택해주세요.')
-      return
-    }
 
-    setIsProcessingReservation(true)
-
-    try {
-      const { format } = await import('date-fns')
-      const { ko } = await import('date-fns/locale')
-      const { sendReservationNotifications } = await import('@/lib/notifications')
-      const { createReservation } = await import('@/lib/reservations')
-      
-      const dayName = format(selectedDate, 'EEEE', { locale: ko })
-      const formattedDate = format(selectedDate, 'yyyy년 M월 d일', { locale: ko })
-      
-      const reservationData = {
-        customerName: user!.name,
-        customerEmail: user!.email,
-        customerPhone: user!.phone,
-        date: `${formattedDate} (${dayName})`,
-        time: selectedTime,
-        partySize: partySize,
-        restaurantName: restaurant.name
-      }
-
-      // DB에 예약 저장
-      const reservationResult = await createReservation(user!.id, reservationData, restaurant.id)
-      
-      if (!reservationResult.success) {
-        throw new Error(reservationResult.message)
-      }
-
-      // 알림 발송
-      const notificationResults = await sendReservationNotifications(
-        reservationData, 
-        reservationResult.reservation?.id
-      )
-      
-      let message = `${restaurant.name} 예약이 완료되었습니다!`
-      if (notificationResults.emailSent) {
-        message += '\n📧 이메일로 예약 확정 안내를 발송했습니다.'
-      }
-
-      alert(message)
-      setShowReservationForm(false)
-    } catch (error) {
-      console.error('예약 처리 중 오류:', error)
-      alert('예약 처리 중 오류가 발생했습니다.')
-    } finally {
-      setIsProcessingReservation(false)
-    }
-  }
-
-  const handleReservationConfirm = async (reservationData: {
-    date: Date
-    time: string
-    partySize: number
-    customerName: string
-    customerEmail: string
-    customerPhone: string
-    specialRequest?: string
-  }) => {
-    if (!restaurant) return
-
-    try {
-      const { format } = await import('date-fns')
-      const { ko } = await import('date-fns/locale')
-      const { sendReservationNotifications } = await import('@/lib/notifications')
-      const { createReservation } = await import('@/lib/reservations')
-      
-      const dayName = format(reservationData.date, 'EEEE', { locale: ko })
-      const formattedDate = format(reservationData.date, 'yyyy년 M월 d일', { locale: ko })
-      
-      const fullReservationData = {
-        customerName: reservationData.customerName,
-        customerEmail: reservationData.customerEmail,
-        customerPhone: reservationData.customerPhone,
-        date: `${formattedDate} (${dayName})`,
-        time: reservationData.time,
-        partySize: reservationData.partySize,
-        restaurantName: restaurant.name,
-        specialRequest: reservationData.specialRequest
-      }
-
-      // DB에 예약 저장
-      const reservationResult = await createReservation(
-        user?.id || '', 
-        fullReservationData, 
-        restaurant.id
-      )
-      
-      if (!reservationResult.success) {
-        throw new Error(reservationResult.message)
-      }
-
-      // 알림 발송
-      const notificationResults = await sendReservationNotifications(
-        fullReservationData, 
-        reservationResult.reservation?.id
-      )
-      
-      let message = `${restaurant.name} 예약이 완료되었습니다!`
-      if (notificationResults.emailSent) {
-        message += '\n📧 이메일로 예약 확정 안내를 발송했습니다.'
-      }
-
-      alert(message)
-      setShowReservationModal(false)
-    } catch (error) {
-      console.error('예약 처리 중 오류:', error)
-      throw error
-    }
-  }
-
-  const isTimeSlotBooked = (date: Date, time: string) => {
-    // 시간대 중복 체크 로직
-    return false
-  }
-
-  const handleCancelReservation = async (reservationId: string) => {
-    // 예약 취소 로직
-  }
 
   if (loading) {
     return (
@@ -438,12 +298,7 @@ export default function RestaurantDetailPage() {
               {/* 예약 버튼 */}
               <button
                 onClick={() => {
-                  if (!isLoggedIn) {
-                    setPendingAction('reservation')
-                    setShowLoginModal(true)
-                  } else {
-                    setShowReservationModal(true)
-                  }
+                  router.push(`/reservation?restaurant=${slug}`)
                 }}
                 style={{
                   background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
@@ -476,33 +331,6 @@ export default function RestaurantDetailPage() {
             </div>
           </div>
 
-          {/* 예약 폼 */}
-          {showReservationForm && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              className="border-t pt-6 mb-6"
-            >
-              <ReservationSection
-                selectedDate={selectedDate}
-                setSelectedDate={setSelectedDate}
-                selectedTime={selectedTime}
-                setSelectedTime={setSelectedTime}
-                partySize={partySize}
-                setPartySize={setPartySize}
-                lastReservation={lastReservation}
-                myReservations={myReservations}
-                isProcessingReservation={isProcessingReservation}
-                isLoggedIn={isLoggedIn}
-                handleReservation={handleReservation}
-                isTimeSlotBooked={isTimeSlotBooked}
-                showReservationForm={true}
-                setShowReservationForm={setShowReservationForm}
-                handleCancelReservation={handleCancelReservation}
-                cancellingReservation={cancellingReservation}
-              />
-            </motion.div>
-          )}
 
           {/* 탭 메뉴 */}
           <div style={{
@@ -932,9 +760,7 @@ export default function RestaurantDetailPage() {
         onLogin={() => {
           setShowLoginModal(false)
           // 로그인 후 대기 중이던 작업 실행
-          if (pendingAction === 'reservation') {
-            setShowReservationModal(true)
-          } else if (pendingAction === 'review') {
+          if (pendingAction === 'review') {
             setShowReviewModal(true)
           }
           setPendingAction(null)
@@ -954,25 +780,6 @@ export default function RestaurantDetailPage() {
         }}
       />
 
-      {/* 예약 모달 */}
-      <ReservationModal
-        isOpen={showReservationModal}
-        onClose={() => setShowReservationModal(false)}
-        restaurantName={restaurant.name}
-        restaurantId={restaurant.id}
-        onConfirm={handleReservationConfirm}
-        isLoggedIn={isLoggedIn}
-        user={user ? {
-          name: user.name,
-          email: user.email,
-          phone: user.phone
-        } : undefined}
-        onLoginRequired={() => {
-          setShowReservationModal(false)
-          setPendingAction('reservation')
-          setShowLoginModal(true)
-        }}
-      />
     </div>
   )
 }
