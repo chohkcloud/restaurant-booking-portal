@@ -76,11 +76,11 @@ const HomePage = () => {
                 placeholder="음식이나 레스토랑을 검색하세요..."
                 style={{
                   width: '100%',
-                  padding: '1rem 5.5rem 1rem 3rem',
+                  padding: '0.75rem 4.5rem 0.75rem 2.5rem',
                   borderRadius: '2rem',
                   border: '2px solid #ff6b35',
                   background: 'white',
-                  fontSize: '1.125rem',
+                  fontSize: '0.8rem',
                   boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
                   backdropFilter: 'blur(10px)',
                   outline: 'none',

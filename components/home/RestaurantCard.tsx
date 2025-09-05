@@ -105,37 +105,56 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
       </div>
 
       {/* 정보 */}
-      <div className="p-4">
-        <h3 className="font-bold text-lg mb-1 text-gray-800">{restaurant.name}</h3>
+      <div style={{ padding: '1rem' }}>
+        <h3 style={{ fontWeight: 'bold', fontSize: '1.125rem', marginBottom: '0.5rem', color: '#1f2937' }}>{restaurant.name}</h3>
         
         {/* 평점 및 리뷰 */}
-        <div className="flex items-center gap-2 mb-2">
-          <div className="flex items-center">
-            <StarIcon className="small-icon text-yellow-400" />
-            <span className="text-sm font-semibold ml-1">{restaurant.rating.toFixed(1)}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <StarIcon style={{ width: '1rem', height: '1rem', color: '#FBBF24' }} />
+            <span style={{ fontSize: '0.875rem', fontWeight: '600', marginLeft: '0.25rem' }}>{restaurant.rating.toFixed(1)}</span>
           </div>
-          <span className="text-xs text-gray-500">({restaurant.total_reviews}개 리뷰)</span>
-          <span className="text-xs text-gray-500">•</span>
-          <span className="text-xs font-medium">{getPriceDisplay(restaurant.price_range)}</span>
+          <span style={{ fontSize: '0.75rem', color: '#6B7280' }}>({restaurant.total_reviews}개 리뷰)</span>
+          <span style={{ fontSize: '0.75rem', color: '#6B7280' }}>•</span>
+          <span style={{ fontSize: '0.75rem', fontWeight: '500' }}>{getPriceDisplay(restaurant.price_range)}</span>
         </div>
 
         {/* 설명 */}
         {restaurant.description && (
-          <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+          <p style={{ 
+            fontSize: '0.875rem', 
+            color: '#4B5563', 
+            marginBottom: '0.5rem',
+            overflow: 'hidden',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            lineHeight: '1.4'
+          }}>
             {restaurant.description}
           </p>
         )}
 
         {/* 위치 */}
         {restaurant.address && (
-          <div className="flex items-center text-xs text-gray-500 mb-1">
-            <MapPinIcon className="small-icon mr-1" />
-            <span className="line-clamp-1">{restaurant.address}</span>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            fontSize: '0.75rem', 
+            color: '#6B7280', 
+            marginBottom: '0.5rem' 
+          }}>
+            <MapPinIcon style={{ width: '0.875rem', height: '0.875rem', marginRight: '0.25rem', flexShrink: 0 }} />
+            <span style={{ 
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }}>{restaurant.address}</span>
           </div>
         )}
 
         {/* 배달/포장 옵션 */}
-        <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem', flexWrap: 'wrap' }}>
           {restaurant.delivery_enabled && (
             <span style={{
               background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',

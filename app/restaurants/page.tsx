@@ -106,25 +106,25 @@ export default function RestaurantsPage() {
       minHeight: '100vh', 
       background: 'linear-gradient(135deg, #fff1ee 0%, #ffe4de 100%)'
     }}>
-      {/* 헤더 */}
+      {/* 검색 바 */}
       <div style={{ 
-        background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
-        boxShadow: '0 2px 10px rgba(255, 107, 53, 0.2)',
+        background: 'white',
+        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
         position: 'sticky',
         top: 0,
         zIndex: 40
       }}>
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between mb-4">
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <h1 
               onClick={() => router.push('/')}
               style={{
-                fontSize: '1.5rem',
+                fontSize: '1.25rem',
                 fontWeight: 'bold',
-                color: 'white',
+                color: '#ff6b35',
                 cursor: 'pointer',
-                textShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.2s ease',
+                flexShrink: 0
               }}
               onMouseEnter={(e) => {
                 const target = e.target as HTMLHeadingElement
@@ -135,12 +135,12 @@ export default function RestaurantsPage() {
                 target.style.opacity = '1'
               }}
             >
-              🍽️ 맛집 예약 포털
+              🍽️
             </h1>
             
             {/* 검색 바 */}
-            <form onSubmit={handleSearch} style={{ flex: 1, maxWidth: '600px', margin: '0 2rem' }}>
-              <div style={{ position: 'relative' }}>
+            <form onSubmit={handleSearch} style={{ flex: 1, maxWidth: '600px' }}>
+              <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                 <input
                   type="text"
                   value={search}
@@ -148,27 +148,26 @@ export default function RestaurantsPage() {
                   placeholder="음식이나 레스토랑을 검색하세요..."
                   style={{
                     width: '100%',
-                    padding: '0.75rem 3rem 0.75rem 3rem',
+                    padding: '0.75rem 4.5rem 0.75rem 2.5rem',
                     borderRadius: '2rem',
-                    border: '2px solid rgba(255,255,255,0.3)',
-                    background: 'rgba(255,255,255,0.95)',
-                    fontSize: '1rem',
-                    boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-                    backdropFilter: 'blur(10px)',
+                    border: '2px solid #ff6b35',
+                    background: 'white',
+                    fontSize: '0.8rem',
+                    boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
                     outline: 'none',
                     transition: 'all 0.3s ease'
                   }}
                   onFocus={(e) => {
                     const target = e.target as HTMLInputElement
-                    target.style.transform = 'translateY(-1px)'
-                    target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.2)'
-                    target.style.borderColor = 'rgba(255,255,255,0.5)'
+                    target.style.transform = 'translateY(-2px)'
+                    target.style.boxShadow = '0 12px 35px rgba(255, 107, 53, 0.2)'
+                    target.style.borderColor = '#ff6b35'
                   }}
                   onBlur={(e) => {
                     const target = e.target as HTMLInputElement
                     target.style.transform = 'translateY(0)'
-                    target.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)'
-                    target.style.borderColor = 'rgba(255,255,255,0.3)'
+                    target.style.boxShadow = '0 8px 25px rgba(0,0,0,0.1)'
+                    target.style.borderColor = '#ff6b35'
                   }}
                 />
                 <MagnifyingGlassIcon style={{ 
@@ -184,29 +183,30 @@ export default function RestaurantsPage() {
                   type="submit"
                   style={{
                     position: 'absolute',
-                    right: '0.25rem',
+                    right: '0.5rem',
                     top: '50%',
                     transform: 'translateY(-50%)',
                     background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
                     color: 'white',
-                    padding: '0.5rem 1.25rem',
+                    padding: '0.75rem 1.5rem',
                     borderRadius: '1.5rem',
                     border: 'none',
                     fontSize: '0.875rem',
                     fontWeight: '600',
                     cursor: 'pointer',
-                    boxShadow: '0 2px 8px rgba(255, 107, 53, 0.3)',
-                    transition: 'all 0.2s ease'
+                    boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+                    transition: 'all 0.2s ease',
+                    zIndex: 2
                   }}
                   onMouseEnter={(e) => {
                     const target = e.target as HTMLButtonElement
                     target.style.transform = 'translateY(-50%) scale(1.05)'
-                    target.style.boxShadow = '0 4px 12px rgba(255, 107, 53, 0.4)'
+                    target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
                   }}
                   onMouseLeave={(e) => {
                     const target = e.target as HTMLButtonElement
                     target.style.transform = 'translateY(-50%) scale(1)'
-                    target.style.boxShadow = '0 2px 8px rgba(255, 107, 53, 0.3)'
+                    target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
                   }}
                 >
                   검색
@@ -222,31 +222,42 @@ export default function RestaurantsPage() {
                 alignItems: 'center',
                 gap: '0.5rem',
                 padding: '0.75rem 1rem',
-                background: 'rgba(255,255,255,0.2)',
-                color: 'white',
-                border: '2px solid rgba(255,255,255,0.3)',
+                background: 'rgba(255, 107, 53, 0.1)',
+                color: '#ff6b35',
+                border: '2px solid #ff6b35',
                 borderRadius: '1rem',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.2s ease',
+                fontSize: '0.875rem',
+                fontWeight: '600'
               }}
               onMouseEnter={(e) => {
                 const target = e.target as HTMLButtonElement
-                target.style.background = 'rgba(255,255,255,0.3)'
-                target.style.borderColor = 'rgba(255,255,255,0.5)'
+                target.style.background = 'rgba(255, 107, 53, 0.2)'
+                target.style.transform = 'translateY(-1px)'
               }}
               onMouseLeave={(e) => {
                 const target = e.target as HTMLButtonElement
-                target.style.background = 'rgba(255,255,255,0.2)'
-                target.style.borderColor = 'rgba(255,255,255,0.3)'
+                target.style.background = 'rgba(255, 107, 53, 0.1)'
+                target.style.transform = 'translateY(0)'
               }}
             >
-              <FunnelIcon style={{ width: '1.25rem', height: '1.25rem' }} />
+              <FunnelIcon style={{ width: '1.125rem', height: '1.125rem' }} />
               <span>필터</span>
             </button>
           </div>
 
-          {/* 카테고리 필터 */}
-          <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', paddingBottom: '0.5rem' }}>
+          </div>
+        </div>
+      </div>
+
+      {/* 카테고리 필터 */}
+      <div style={{ 
+        background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+        padding: '1rem'
+      }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto' }}>
             <button
               onClick={() => handleCategoryChange('')}
               style={{
@@ -263,9 +274,9 @@ export default function RestaurantsPage() {
                   : 'rgba(255,255,255,0.3)',
                 color: !selectedCategory 
                   ? '#ff6b35' 
-                  : 'rgba(255,255,255,0.9)',
+                  : 'white',
                 boxShadow: !selectedCategory 
-                  ? '0 2px 8px rgba(255, 107, 53, 0.3)' 
+                  ? '0 2px 8px rgba(0, 0, 0, 0.1)' 
                   : 'none'
               }}
             >
@@ -289,9 +300,9 @@ export default function RestaurantsPage() {
                     : 'rgba(255,255,255,0.3)',
                   color: selectedCategory === category.slug
                     ? '#ff6b35'
-                    : 'rgba(255,255,255,0.9)',
+                    : 'white',
                   boxShadow: selectedCategory === category.slug
-                    ? '0 2px 8px rgba(255, 107, 53, 0.3)'
+                    ? '0 2px 8px rgba(0, 0, 0, 0.1)'
                     : 'none'
                 }}
               >
