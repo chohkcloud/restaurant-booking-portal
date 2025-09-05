@@ -176,7 +176,10 @@ export default function RestaurantDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div style={{ 
+      minHeight: '100vh', 
+      background: 'linear-gradient(135deg, #fff1ee 0%, #ffe4de 100%)'
+    }}>
       {/* 헤더 이미지 */}
       <div className="relative h-64 md:h-80 bg-gray-200">
         {restaurant.image_url ? (
@@ -211,7 +214,13 @@ export default function RestaurantDetailPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 -mt-12">
-        <div className="bg-white rounded-lg shadow-lg p-6">
+        <div style={{
+          background: 'white',
+          borderRadius: '1.5rem',
+          boxShadow: '0 10px 30px rgba(255, 107, 53, 0.15)',
+          border: '2px solid #ff6b35',
+          padding: '2rem'
+        }}>
           {/* 레스토랑 정보 */}
           <div className="mb-6">
             <div className="flex items-start justify-between">
@@ -249,7 +258,28 @@ export default function RestaurantDetailPage() {
               {/* 예약 버튼 */}
               <button
                 onClick={() => setShowReservationForm(!showReservationForm)}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2"
+                style={{
+                  background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                  color: 'white',
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '1rem',
+                  border: 'none',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = 'translateY(-2px)'
+                  e.target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = 'translateY(0)'
+                  e.target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
+                }}
               >
                 <CalendarIcon className="w-5 h-5" />
                 예약하기

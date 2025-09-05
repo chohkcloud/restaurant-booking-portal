@@ -73,7 +73,20 @@
       "Read(/F:\\restaurant-booking\\components\\admin/**)",
       "Read(/F:\\restaurant-booking\\components\\ui/**)",
       "Read(/F:\\restaurant-booking\\components\\ui/**)",
-      "Read(/F:\\restaurant-booking\\components\\ui/**)"
+      "Read(/F:\\restaurant-booking\\components\\ui/**)",
+      "Read(/F:\\restaurant-booking\\app/**)",
+      "Read(/F:\\restaurant-booking\\components\\home/**)",
+      "Read(/F:\\restaurant-booking\\components\\home/**)",
+      "Read(/F:\\restaurant-booking\\components\\home/**)",
+      "Read(/F:\\restaurant-booking\\types/**)",
+      "Read(/F:\\restaurant-booking\\lib/**)",
+      "Read(/F:\\restaurant-booking/**)",
+      "Read(/F:\\restaurant-booking\\app/**)",
+      "Read(/F:\\restaurant-booking\\components\\dashboard/**)",
+      "Read(/F:\\restaurant-booking\\components\\dashboard/**)",
+      "Read(/F:\\restaurant-booking\\components\\dashboard/**)",
+      "Read(/F:\\restaurant-booking\\components\\dashboard/**)",
+      "Read(/F:\\restaurant-booking\\app\\restaurant\\[slug]/**)"
     ],
     "deny": [],
     "ask": []
