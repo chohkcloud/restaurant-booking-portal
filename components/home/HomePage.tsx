@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { MagnifyingGlassIcon, MapPinIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import CategoryGrid from './CategoryGrid'
 import RestaurantCard from './RestaurantCard'
 import { getCategories, getFeaturedRestaurants } from '@/lib/restaurants'
@@ -78,9 +78,8 @@ const HomePage = () => {
                   width: '100%',
                   padding: '1rem 5.5rem 1rem 3rem',
                   borderRadius: '2rem',
-                  border: '2px solid rgba(255,255,255,0.3)',
-                  background: 'white',
                   border: '2px solid #ff6b35',
+                  background: 'white',
                   fontSize: '1.125rem',
                   boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
                   backdropFilter: 'blur(10px)',
