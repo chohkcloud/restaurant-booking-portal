@@ -181,7 +181,7 @@ export default function RestaurantDetailPage() {
       background: 'linear-gradient(135deg, #fff1ee 0%, #ffe4de 100%)'
     }}>
       {/* 헤더 이미지 */}
-      <div className="relative h-64 md:h-80 bg-gray-200">
+      <div className="relative h-32 md:h-40 bg-gray-200">
         {restaurant.image_url ? (
           <img
             src={restaurant.image_url}
@@ -213,7 +213,7 @@ export default function RestaurantDetailPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 -mt-12">
+      <div className="max-w-7xl mx-auto px-4 -mt-6">
         <div style={{
           background: 'white',
           borderRadius: '1.5rem',
