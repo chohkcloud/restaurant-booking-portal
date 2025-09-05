@@ -59,7 +59,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
       }}
     >
       {/* 이미지 */}
-      <div className="relative h-48 bg-gray-200">
+      <div className="relative h-36 bg-gray-200">
         {restaurant.image_url ? (
           <img
             src={restaurant.image_url}
