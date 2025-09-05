@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 10px rgba(255, 107, 53, 0.08);
-  border: 1px solid transparent;
+  border: 1px solid rgba(255, 107, 53, 0.15);
   min-height: 80px;
   transition: all 0.3s ease;
   position: relative;
@@ -48,17 +48,19 @@
 /* PC 화면용 스타일 */
 @media (min-width: 768px) {
   .gridContainer {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(16, 1fr);
+    gap: 0.75rem;
     padding: 0 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
   }
 
   .categoryCard {
-    border-radius: 1.5rem;
-    padding: 1.5rem 1rem;
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.12);
-    border: 2px solid transparent;
-    min-height: 140px;
+    border-radius: 1rem;
+    padding: 1rem 0.5rem;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.08);
+    border: 1.5px solid rgba(255, 107, 53, 0.12);
+    min-height: 100px;
   }
 
   .categoryCard:hover {
@@ -67,15 +69,15 @@
   }
 
   .categoryIcon {
-    font-size: 2.5rem;
-    margin-bottom: 0.75rem;
+    font-size: 1.75rem;
+    margin-bottom: 0.4rem;
     text-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
 
   .categoryName {
-    font-size: 0.875rem;
-    line-height: 1.3;
-    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
   }
 }
 
