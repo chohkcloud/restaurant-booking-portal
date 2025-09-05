@@ -63,7 +63,10 @@
       "Read(/F:\\restaurant-booking\\app\\api\\admin\\images\\[id]\\primary/**)",
       "Read(/F:\\restaurant-booking\\components\\reviews/**)",
       "Read(/F:\\restaurant-booking\\components\\reviews/**)",
-      "Read(/F:\\restaurant-booking\\components\\reviews/**)"
+      "Read(/F:\\restaurant-booking\\components\\reviews/**)",
+      "Read(/F:\\restaurant-booking\\components\\admin/**)",
+      "Read(/F:\\restaurant-booking\\components\\admin/**)",
+      "Read(/F:\\restaurant-booking\\lib/**)"
     ],
     "deny": [],
     "ask": []

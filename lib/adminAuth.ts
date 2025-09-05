@@ -22,7 +22,7 @@ export function verifyAdminToken(token: string): AdminTokenPayload | null {
   }
 }
 
-export function getAuthHeaders() {
+export function getAuthHeaders(): Record<string, string> {
   const token = localStorage.getItem('adminToken')
   return token ? { 'Authorization': `Bearer ${token}` } : {}
 }
