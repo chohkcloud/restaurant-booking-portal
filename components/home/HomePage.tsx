@@ -9,11 +9,12 @@ import RestaurantCard from './RestaurantCard'
 import LoginModal from '@/components/auth/LoginModal'
 import { getCategories, getFeaturedRestaurants } from '@/lib/restaurants'
 import { useAuth } from '@/contexts/AuthContext'
+import type { User } from '@/lib/auth' // User 타입 import 추가
 import type { Category, Restaurant } from '@/types/restaurant'
 
 const HomePage = () => {
   const router = useRouter()
-  const { user, isLoggedIn } = useAuth()
+  const { user, isLoggedIn, login } = useAuth() // login 함수 추가
   const [categories, setCategories] = useState<Category[]>([])
   const [featuredRestaurants, setFeaturedRestaurants] = useState<Restaurant[]>([])
   const [searchQuery, setSearchQuery] = useState('')
@@ -51,6 +52,12 @@ const HomePage = () => {
     if (searchQuery.trim()) {
       router.push(`/restaurants?search=${encodeURIComponent(searchQuery)}`)
     }
+  }
+
+  // 로그인 성공 처리 함수 추가
+  const handleLoginSuccess = (userInfo: User) => {
+    login(userInfo) // AuthContext의 login 함수 호출하여 상태 업데이트
+    setShowLoginModal(false) // 모달 닫기
   }
 
   return (
@@ -398,7 +405,7 @@ const HomePage = () => {
       <LoginModal
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
-        onLogin={() => setShowLoginModal(false)}
+        onLogin={handleLoginSuccess} // 수정: AuthContext와 연동되는 함수로 변경
       />
     </div>
   )
