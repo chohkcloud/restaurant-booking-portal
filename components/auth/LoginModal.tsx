@@ -181,7 +181,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
         
         {/* 헤더 */}
         <div style={{
-          background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+          background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
           padding: '1.5rem',
           color: 'white',
           display: 'flex',
@@ -232,7 +232,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
                   outline: 'none',
                   transition: 'border-color 0.2s'
                 }}
-                onFocus={(e) => e.target.style.borderColor = '#ff6b35'}
+                onFocus={(e) => e.target.style.borderColor = '#22c55e'}
                 onBlur={(e) => e.target.style.borderColor = errors.name ? '#ef4444' : '#e5e5e5'}
                 placeholder="이름을 입력하세요"
               />
@@ -268,7 +268,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
                 outline: 'none',
                 transition: 'border-color 0.2s'
               }}
-              onFocus={(e) => e.target.style.borderColor = '#ff6b35'}
+              onFocus={(e) => e.target.style.borderColor = '#22c55e'}
               onBlur={(e) => e.target.style.borderColor = errors.email ? '#ef4444' : '#e5e5e5'}
               placeholder="이메일을 입력하세요"
             />
@@ -304,7 +304,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
                   outline: 'none',
                   transition: 'border-color 0.2s'
                 }}
-                onFocus={(e) => e.target.style.borderColor = '#ff6b35'}
+                onFocus={(e) => e.target.style.borderColor = '#22c55e'}
                 onBlur={(e) => e.target.style.borderColor = errors.phone ? '#ef4444' : '#e5e5e5'}
                 placeholder="010-0000-0000"
               />
@@ -340,7 +340,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
                 outline: 'none',
                 transition: 'border-color 0.2s'
               }}
-              onFocus={(e) => e.target.style.borderColor = '#ff6b35'}
+              onFocus={(e) => e.target.style.borderColor = '#22c55e'}
               onBlur={(e) => e.target.style.borderColor = errors.password ? '#ef4444' : '#e5e5e5'}
               placeholder={isLoginMode ? '비밀번호를 입력하세요' : '6자 이상 입력하세요'}
             />
@@ -375,7 +375,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
               padding: '0.75rem',
               background: isSubmitting 
                 ? '#ccc' 
-                : 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
+                : 'linear-gradient(90deg, #22c55e 0%, #16a34a 100%)',
               color: 'white',
               border: 'none',
               borderRadius: '0.5rem',
@@ -397,7 +397,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
               style={{
                 background: 'none',
                 border: 'none',
-                color: '#ff6b35',
+                color: '#22c55e',
                 cursor: 'pointer',
                 textDecoration: 'underline',
                 fontSize: '0.875rem'

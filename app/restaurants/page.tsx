@@ -105,7 +105,7 @@ export default function RestaurantsPage() {
   return (
     <div style={{ 
       minHeight: '100vh', 
-      background: 'linear-gradient(135deg, #fff1ee 0%, #ffe4de 100%)'
+      background: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)'
     }}>
       {/* 검색 바 */}
       <div style={{ 
@@ -122,7 +122,7 @@ export default function RestaurantsPage() {
               style={{
                 fontSize: '1.25rem',
                 fontWeight: 'bold',
-                color: '#ff6b35',
+                color: '#22c55e',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
                 flexShrink: 0
@@ -151,7 +151,7 @@ export default function RestaurantsPage() {
                     width: '100%',
                     padding: '0.75rem 4.5rem 0.75rem 2.5rem',
                     borderRadius: '2rem',
-                    border: '2px solid #ff6b35',
+                    border: '2px solid #22c55e',
                     background: 'white',
                     fontSize: '0.8rem',
                     boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
@@ -161,14 +161,14 @@ export default function RestaurantsPage() {
                   onFocus={(e) => {
                     const target = e.target as HTMLInputElement
                     target.style.transform = 'translateY(-2px)'
-                    target.style.boxShadow = '0 12px 35px rgba(255, 107, 53, 0.2)'
-                    target.style.borderColor = '#ff6b35'
+                    target.style.boxShadow = '0 12px 35px rgba(34, 197, 94, 0.2)'
+                    target.style.borderColor = '#22c55e'
                   }}
                   onBlur={(e) => {
                     const target = e.target as HTMLInputElement
                     target.style.transform = 'translateY(0)'
                     target.style.boxShadow = '0 8px 25px rgba(0,0,0,0.1)'
-                    target.style.borderColor = '#ff6b35'
+                    target.style.borderColor = '#22c55e'
                   }}
                 />
                 <MagnifyingGlassIcon style={{ 
@@ -187,7 +187,7 @@ export default function RestaurantsPage() {
                     right: '0.5rem',
                     top: '50%',
                     transform: 'translateY(-50%)',
-                    background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                    background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
                     color: 'white',
                     padding: '0.75rem 1.5rem',
                     borderRadius: '1.5rem',
@@ -195,19 +195,19 @@ export default function RestaurantsPage() {
                     fontSize: '0.875rem',
                     fontWeight: '600',
                     cursor: 'pointer',
-                    boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+                    boxShadow: '0 4px 15px rgba(34, 197, 94, 0.3)',
                     transition: 'all 0.2s ease',
                     zIndex: 2
                   }}
                   onMouseEnter={(e) => {
                     const target = e.target as HTMLButtonElement
                     target.style.transform = 'translateY(-50%) scale(1.05)'
-                    target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
+                    target.style.boxShadow = '0 6px 20px rgba(34, 197, 94, 0.4)'
                   }}
                   onMouseLeave={(e) => {
                     const target = e.target as HTMLButtonElement
                     target.style.transform = 'translateY(-50%) scale(1)'
-                    target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
+                    target.style.boxShadow = '0 4px 15px rgba(34, 197, 94, 0.3)'
                   }}
                 >
                   검색
@@ -223,9 +223,9 @@ export default function RestaurantsPage() {
                 alignItems: 'center',
                 gap: '0.5rem',
                 padding: '0.75rem 1rem',
-                background: 'rgba(255, 107, 53, 0.1)',
-                color: '#ff6b35',
-                border: '2px solid #ff6b35',
+                background: 'rgba(34, 197, 94, 0.1)',
+                color: '#22c55e',
+                border: '2px solid #22c55e',
                 borderRadius: '1rem',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
@@ -234,12 +234,12 @@ export default function RestaurantsPage() {
               }}
               onMouseEnter={(e) => {
                 const target = e.target as HTMLButtonElement
-                target.style.background = 'rgba(255, 107, 53, 0.2)'
+                target.style.background = 'rgba(34, 197, 94, 0.2)'
                 target.style.transform = 'translateY(-1px)'
               }}
               onMouseLeave={(e) => {
                 const target = e.target as HTMLButtonElement
-                target.style.background = 'rgba(255, 107, 53, 0.1)'
+                target.style.background = 'rgba(34, 197, 94, 0.1)'
                 target.style.transform = 'translateY(0)'
               }}
             >
@@ -252,7 +252,7 @@ export default function RestaurantsPage() {
 
       {/* 카테고리 필터 */}
       <div style={{ 
-        background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+        background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
         padding: '1rem',
         position: 'relative'
       }}>
@@ -267,7 +267,7 @@ export default function RestaurantsPage() {
                 top: '50%',
                 transform: 'translateY(-50%)',
                 background: 'rgba(255, 255, 255, 0.9)',
-                color: '#ff6b35',
+                color: '#22c55e',
                 border: 'none',
                 borderRadius: '50%',
                 width: '2rem',
@@ -305,7 +305,7 @@ export default function RestaurantsPage() {
                 top: '50%',
                 transform: 'translateY(-50%)',
                 background: 'rgba(255, 255, 255, 0.9)',
-                color: '#ff6b35',
+                color: '#22c55e',
                 border: 'none',
                 borderRadius: '50%',
                 width: '2rem',
@@ -359,7 +359,7 @@ export default function RestaurantsPage() {
                     ? 'rgba(255,255,255,0.95)'
                     : 'rgba(255,255,255,0.3)',
                   color: selectedCategory === category.slug
-                    ? '#ff6b35'
+                    ? '#22c55e'
                     : 'white',
                   boxShadow: selectedCategory === category.slug
                     ? '0 2px 8px rgba(0, 0, 0, 0.1)'
@@ -382,8 +382,8 @@ export default function RestaurantsPage() {
           animate={{ opacity: 1, y: 0 }}
           style={{
             background: 'white',
-            borderBottom: '1px solid rgba(255, 107, 53, 0.1)',
-            boxShadow: '0 2px 10px rgba(255, 107, 53, 0.1)'
+            borderBottom: '1px solid rgba(34, 197, 94, 0.1)',
+            boxShadow: '0 2px 10px rgba(34, 197, 94, 0.1)'
           }}
         >
           <div className="max-w-7xl mx-auto px-4 py-4">
@@ -398,7 +398,7 @@ export default function RestaurantsPage() {
                       onClick={() => setPriceFilter(priceFilter === price.value ? '' : price.value)}
                       className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
                         priceFilter === price.value
-                          ? 'bg-orange-500 text-white'
+                          ? 'bg-green-500 text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                     >
@@ -414,7 +414,7 @@ export default function RestaurantsPage() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as 'rating' | 'reviews' | 'name')}
-                  className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
                 >
                   <option value="rating">평점순</option>
                   <option value="reviews">리뷰 많은순</option>
@@ -443,8 +443,8 @@ export default function RestaurantsPage() {
               <h2 style={{
                 fontSize: '1.5rem',
                 fontWeight: 'bold',
-                color: '#ff6b35',
-                textShadow: '0 2px 4px rgba(255, 107, 53, 0.1)'
+                color: '#22c55e',
+                textShadow: '0 2px 4px rgba(34, 197, 94, 0.1)'
               }}>
                 <span style={{ marginRight: '0.5rem' }}>{currentCategory.icon}</span>
                 {currentCategory.name} 맛집
@@ -472,8 +472,8 @@ export default function RestaurantsPage() {
             <div style={{
               width: '3rem',
               height: '3rem',
-              border: '3px solid #ffe4de',
-              borderTop: '3px solid #ff6b35',
+              border: '3px solid #bbf7d0',
+              borderTop: '3px solid #22c55e',
               borderRadius: '50%',
               animation: 'spin 1s linear infinite'
             }}></div>
@@ -506,9 +506,9 @@ export default function RestaurantsPage() {
             <button
               onClick={clearFilters}
               style={{
-                color: '#ff6b35',
+                color: '#22c55e',
                 fontWeight: '600',
-                background: 'rgba(255, 107, 53, 0.1)',
+                background: 'rgba(34, 197, 94, 0.1)',
                 padding: '0.75rem 1.5rem',
                 borderRadius: '1rem',
                 border: 'none',
@@ -517,12 +517,12 @@ export default function RestaurantsPage() {
               }}
               onMouseEnter={(e) => {
                 const target = e.target as HTMLButtonElement
-                target.style.background = 'rgba(255, 107, 53, 0.2)'
+                target.style.background = 'rgba(34, 197, 94, 0.2)'
                 target.style.transform = 'translateY(-1px)'
               }}
               onMouseLeave={(e) => {
                 const target = e.target as HTMLButtonElement
-                target.style.background = 'rgba(255, 107, 53, 0.1)'
+                target.style.background = 'rgba(34, 197, 94, 0.1)'
                 target.style.transform = 'translateY(0)'
               }}
             >

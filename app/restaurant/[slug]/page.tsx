@@ -80,7 +80,7 @@ export default function RestaurantDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
       </div>
     )
   }
@@ -91,7 +91,7 @@ export default function RestaurantDetailPage() {
         <p className="text-gray-500 text-lg mb-4">레스토랑을 찾을 수 없습니다.</p>
         <button
           onClick={() => router.push('/restaurants')}
-          className="text-orange-500 hover:text-orange-600 font-semibold"
+          className="text-green-500 hover:text-green-600 font-semibold"
         >
           레스토랑 목록으로 돌아가기
         </button>
@@ -102,7 +102,7 @@ export default function RestaurantDetailPage() {
   return (
     <div style={{ 
       minHeight: '100vh', 
-      background: 'linear-gradient(135deg, #fff1ee 0%, #ffe4de 100%)'
+      background: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)'
     }}>
       {/* 헤더 이미지 */}
       <div className="relative h-32 md:h-40 bg-gray-200 overflow-hidden">
@@ -117,7 +117,7 @@ export default function RestaurantDetailPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-black/10"></div>
           </>
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
+          <div className="w-full h-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
             <span className="text-white text-6xl drop-shadow-lg">🍽️</span>
           </div>
         )}
@@ -216,8 +216,8 @@ export default function RestaurantDetailPage() {
         <div style={{
           background: 'white',
           borderRadius: '1.5rem',
-          boxShadow: '0 10px 30px rgba(255, 107, 53, 0.15)',
-          border: '2px solid #ff6b35',
+          boxShadow: '0 10px 30px rgba(34, 197, 94, 0.15)',
+          border: '2px solid #22c55e',
           padding: '2rem'
         }}>
           {/* 레스토랑 정보 */}
@@ -227,9 +227,9 @@ export default function RestaurantDetailPage() {
                 <h1 style={{ 
                   fontSize: '2rem', 
                   fontWeight: 'bold', 
-                  color: '#ff6b35',
+                  color: '#22c55e',
                   marginBottom: '1rem',
-                  textShadow: '0 2px 4px rgba(255, 107, 53, 0.1)',
+                  textShadow: '0 2px 4px rgba(34, 197, 94, 0.1)',
                   lineHeight: 1.2
                 }}>
                   {restaurant.name}
@@ -301,7 +301,7 @@ export default function RestaurantDetailPage() {
                   router.push(`/reservation?restaurant=${slug}`)
                 }}
                 style={{
-                  background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                  background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
                   color: 'white',
                   padding: '0.75rem 1.5rem',
                   borderRadius: '1rem',
@@ -311,18 +311,18 @@ export default function RestaurantDetailPage() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.5rem',
-                  boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+                  boxShadow: '0 4px 15px rgba(34, 197, 94, 0.3)',
                   transition: 'all 0.2s ease'
                 }}
                 onMouseEnter={(e) => {
                   const target = e.target as HTMLButtonElement
                   target.style.transform = 'translateY(-2px)'
-                  target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
+                  target.style.boxShadow = '0 6px 20px rgba(34, 197, 94, 0.4)'
                 }}
                 onMouseLeave={(e) => {
                   const target = e.target as HTMLButtonElement
                   target.style.transform = 'translateY(0)'
-                  target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
+                  target.style.boxShadow = '0 4px 15px rgba(34, 197, 94, 0.3)'
                 }}
               >
                 <CalendarIcon className="w-5 h-5" />
@@ -348,24 +348,24 @@ export default function RestaurantDetailPage() {
                     borderRadius: '2rem',
                     fontWeight: '600',
                     fontSize: '0.95rem',
-                    border: activeTab === tab ? '2px solid #ff6b35' : '2px solid #E5E7EB',
+                    border: activeTab === tab ? '2px solid #22c55e' : '2px solid #E5E7EB',
                     background: activeTab === tab 
-                      ? 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)'
+                      ? 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)'
                       : 'white',
                     color: activeTab === tab ? 'white' : '#6B7280',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
                     boxShadow: activeTab === tab 
-                      ? '0 4px 15px rgba(255, 107, 53, 0.3)'
+                      ? '0 4px 15px rgba(34, 197, 94, 0.3)'
                       : '0 2px 8px rgba(0,0,0,0.1)'
                   }}
                   onMouseEnter={(e) => {
                     if (activeTab !== tab) {
                       const target = e.target as HTMLButtonElement
-                      target.style.borderColor = '#ff6b35'
-                      target.style.color = '#ff6b35'
+                      target.style.borderColor = '#22c55e'
+                      target.style.color = '#22c55e'
                       target.style.transform = 'translateY(-2px)'
-                      target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.2)'
+                      target.style.boxShadow = '0 4px 15px rgba(34, 197, 94, 0.2)'
                     }
                   }}
                   onMouseLeave={(e) => {
@@ -455,11 +455,11 @@ export default function RestaurantDetailPage() {
                           <span style={{
                             fontWeight: '700',
                             fontSize: '1.25rem',
-                            background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                            background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
-                            color: '#ff6b35'
+                            color: '#22c55e'
                           }}>
                             ₩{menu.price.toLocaleString()}
                           </span>
@@ -494,7 +494,7 @@ export default function RestaurantDetailPage() {
                     }
                   }}
                   style={{
-                    background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                    background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
                     color: 'white',
                     padding: '0.75rem 1.5rem',
                     borderRadius: '1rem',
@@ -505,18 +505,18 @@ export default function RestaurantDetailPage() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.5rem',
-                    boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+                    boxShadow: '0 4px 15px rgba(34, 197, 94, 0.3)',
                     transition: 'all 0.2s ease'
                   }}
                   onMouseEnter={(e) => {
                     const target = e.target as HTMLButtonElement
                     target.style.transform = 'translateY(-2px)'
-                    target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
+                    target.style.boxShadow = '0 6px 20px rgba(34, 197, 94, 0.4)'
                   }}
                   onMouseLeave={(e) => {
                     const target = e.target as HTMLButtonElement
                     target.style.transform = 'translateY(0)'
-                    target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
+                    target.style.boxShadow = '0 4px 15px rgba(34, 197, 94, 0.3)'
                   }}
                 >
                   ✨ 리뷰 작성하기

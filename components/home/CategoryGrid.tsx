@@ -46,7 +46,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ categories }) => {
               right: '-10px',
               width: '40px',
               height: '40px',
-              background: 'radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, transparent 70%)',
               borderRadius: '50%'
             }} />
             
@@ -70,7 +70,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ categories }) => {
             onClick={() => setIsExpanded(!isExpanded)}
             className={styles.categoryCard}
             style={{
-              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+              background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
               color: 'white'
             }}
           >

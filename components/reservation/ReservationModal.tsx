@@ -193,7 +193,7 @@ export default function ReservationModal({
           >
             {/* 헤더 */}
             <div style={{
-              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+              background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
               padding: '1.5rem',
               color: 'white'
             }}>
@@ -257,7 +257,7 @@ export default function ReservationModal({
                     color: '#374151',
                     marginBottom: '0.5rem'
                   }}>
-                    <CalendarIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                    <CalendarIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
                     날짜 선택
                   </label>
                   <select
@@ -274,7 +274,7 @@ export default function ReservationModal({
                       cursor: 'pointer'
                     }}
                     onFocus={(e) => {
-                      e.target.style.borderColor = '#ff6b35'
+                      e.target.style.borderColor = '#22c55e'
                     }}
                     onBlur={(e) => {
                       e.target.style.borderColor = '#E5E7EB'
@@ -299,7 +299,7 @@ export default function ReservationModal({
                     color: '#374151',
                     marginBottom: '0.5rem'
                   }}>
-                    <ClockIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                    <ClockIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
                     시간 선택
                   </label>
                   <div style={{
@@ -315,8 +315,8 @@ export default function ReservationModal({
                         style={{
                           padding: '0.5rem',
                           borderRadius: '0.5rem',
-                          border: selectedTime === time ? '2px solid #ff6b35' : '2px solid #E5E7EB',
-                          background: selectedTime === time ? 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)' : 'white',
+                          border: selectedTime === time ? '2px solid #22c55e' : '2px solid #E5E7EB',
+                          background: selectedTime === time ? 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)' : 'white',
                           color: selectedTime === time ? 'white' : '#374151',
                           fontWeight: selectedTime === time ? '600' : '400',
                           cursor: 'pointer',
@@ -324,7 +324,7 @@ export default function ReservationModal({
                         }}
                         onMouseEnter={(e) => {
                           if (selectedTime !== time) {
-                            e.currentTarget.style.borderColor = '#ff6b35'
+                            e.currentTarget.style.borderColor = '#22c55e'
                             e.currentTarget.style.background = '#FFF5F3'
                           }
                         }}
@@ -352,7 +352,7 @@ export default function ReservationModal({
                     color: '#374151',
                     marginBottom: '0.5rem'
                   }}>
-                    <UserGroupIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                    <UserGroupIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
                     인원수
                   </label>
                   <div style={{
@@ -374,7 +374,7 @@ export default function ReservationModal({
                         transition: 'all 0.2s'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor = '#ff6b35'
+                        e.currentTarget.style.borderColor = '#22c55e'
                         e.currentTarget.style.background = '#FFF5F3'
                       }}
                       onMouseLeave={(e) => {
@@ -387,7 +387,7 @@ export default function ReservationModal({
                     <span style={{
                       fontSize: '1.5rem',
                       fontWeight: '600',
-                      color: '#ff6b35',
+                      color: '#22c55e',
                       minWidth: '3rem',
                       textAlign: 'center'
                     }}>
@@ -407,7 +407,7 @@ export default function ReservationModal({
                         transition: 'all 0.2s'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor = '#ff6b35'
+                        e.currentTarget.style.borderColor = '#22c55e'
                         e.currentTarget.style.background = '#FFF5F3'
                       }}
                       onMouseLeave={(e) => {
@@ -439,7 +439,7 @@ export default function ReservationModal({
                     {!isLoggedIn && (
                       <span style={{
                         fontSize: '0.75rem',
-                        color: '#ff6b35',
+                        color: '#22c55e',
                         background: '#FFF5F3',
                         padding: '0.25rem 0.75rem',
                         borderRadius: '1rem',
@@ -465,7 +465,7 @@ export default function ReservationModal({
                       color: '#374151',
                       marginBottom: '0.5rem'
                     }}>
-                      <UserIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                      <UserIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
                       이름 *
                     </label>
                     <input
@@ -484,7 +484,7 @@ export default function ReservationModal({
                         transition: 'border-color 0.2s'
                       }}
                       onFocus={(e) => {
-                        e.target.style.borderColor = '#ff6b35'
+                        e.target.style.borderColor = '#22c55e'
                       }}
                       onBlur={(e) => {
                         e.target.style.borderColor = '#E5E7EB'
@@ -503,7 +503,7 @@ export default function ReservationModal({
                       color: '#374151',
                       marginBottom: '0.5rem'
                     }}>
-                      <EnvelopeIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                      <EnvelopeIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
                       이메일 *
                     </label>
                     <input
@@ -522,7 +522,7 @@ export default function ReservationModal({
                         transition: 'border-color 0.2s'
                       }}
                       onFocus={(e) => {
-                        e.target.style.borderColor = '#ff6b35'
+                        e.target.style.borderColor = '#22c55e'
                       }}
                       onBlur={(e) => {
                         e.target.style.borderColor = '#E5E7EB'
@@ -541,7 +541,7 @@ export default function ReservationModal({
                       color: '#374151',
                       marginBottom: '0.5rem'
                     }}>
-                      <PhoneIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                      <PhoneIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
                       전화번호 *
                     </label>
                     <input
@@ -560,7 +560,7 @@ export default function ReservationModal({
                         transition: 'border-color 0.2s'
                       }}
                       onFocus={(e) => {
-                        e.target.style.borderColor = '#ff6b35'
+                        e.target.style.borderColor = '#22c55e'
                       }}
                       onBlur={(e) => {
                         e.target.style.borderColor = '#E5E7EB'
@@ -595,7 +595,7 @@ export default function ReservationModal({
                         resize: 'vertical'
                       }}
                       onFocus={(e) => {
-                        e.target.style.borderColor = '#ff6b35'
+                        e.target.style.borderColor = '#22c55e'
                       }}
                       onBlur={(e) => {
                         e.target.style.borderColor = '#E5E7EB'
@@ -626,8 +626,8 @@ export default function ReservationModal({
                       transition: 'all 0.2s'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = '#ff6b35'
-                      e.currentTarget.style.color = '#ff6b35'
+                      e.currentTarget.style.borderColor = '#22c55e'
+                      e.currentTarget.style.color = '#22c55e'
                       e.currentTarget.style.background = '#FFF5F3'
                     }}
                     onMouseLeave={(e) => {
@@ -648,24 +648,24 @@ export default function ReservationModal({
                       border: 'none',
                       background: isProcessing 
                         ? '#D1D5DB'
-                        : 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                        : 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
                       color: 'white',
                       fontWeight: '600',
                       fontSize: '1rem',
                       cursor: isProcessing ? 'not-allowed' : 'pointer',
                       transition: 'all 0.2s',
-                      boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)'
+                      boxShadow: '0 4px 15px rgba(34, 197, 94, 0.3)'
                     }}
                     onMouseEnter={(e) => {
                       if (!isProcessing) {
                         e.currentTarget.style.transform = 'translateY(-2px)'
-                        e.currentTarget.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
+                        e.currentTarget.style.boxShadow = '0 6px 20px rgba(34, 197, 94, 0.4)'
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (!isProcessing) {
                         e.currentTarget.style.transform = 'translateY(0)'
-                        e.currentTarget.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
+                        e.currentTarget.style.boxShadow = '0 4px 15px rgba(34, 197, 94, 0.3)'
                       }
                     }}
                   >

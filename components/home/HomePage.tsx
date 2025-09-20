@@ -63,7 +63,7 @@ const HomePage = () => {
   return (
     <div style={{ 
       minHeight: '100vh', 
-      background: 'linear-gradient(135deg, #fff1ee 0%, #ffe4de 100%)'
+      background: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)'
     }}>
       {/* 헤더 및 검색 바 */}
       <div style={{ 
@@ -85,7 +85,7 @@ const HomePage = () => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.5rem',
-                  background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                  background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
                   color: 'white',
                   padding: '0.625rem 1.25rem',
                   borderRadius: '2rem',
@@ -93,18 +93,18 @@ const HomePage = () => {
                   fontWeight: '600',
                   fontSize: '0.95rem',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+                  boxShadow: '0 4px 15px rgba(34, 197, 94, 0.3)',
                   transition: 'all 0.2s ease'
                 }}
                 onMouseEnter={(e) => {
                   const target = e.target as HTMLButtonElement
                   target.style.transform = 'translateY(-2px)'
-                  target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
+                  target.style.boxShadow = '0 6px 20px rgba(34, 197, 94, 0.4)'
                 }}
                 onMouseLeave={(e) => {
                   const target = e.target as HTMLButtonElement
                   target.style.transform = 'translateY(0)'
-                  target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
+                  target.style.boxShadow = '0 4px 15px rgba(34, 197, 94, 0.3)'
                 }}
               >
                 <UserCircleIcon style={{ width: '1.25rem', height: '1.25rem' }} />
@@ -117,7 +117,7 @@ const HomePage = () => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.5rem',
-                  background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                  background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
                   color: 'white',
                   padding: '0.625rem 1.25rem',
                   borderRadius: '2rem',
@@ -125,18 +125,18 @@ const HomePage = () => {
                   fontWeight: '600',
                   fontSize: '0.95rem',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+                  boxShadow: '0 4px 15px rgba(34, 197, 94, 0.3)',
                   transition: 'all 0.2s ease'
                 }}
                 onMouseEnter={(e) => {
                   const target = e.target as HTMLButtonElement
                   target.style.transform = 'translateY(-2px)'
-                  target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
+                  target.style.boxShadow = '0 6px 20px rgba(34, 197, 94, 0.4)'
                 }}
                 onMouseLeave={(e) => {
                   const target = e.target as HTMLButtonElement
                   target.style.transform = 'translateY(0)'
-                  target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
+                  target.style.boxShadow = '0 4px 15px rgba(34, 197, 94, 0.3)'
                 }}
               >
                 <UserCircleIcon style={{ width: '1.25rem', height: '1.25rem' }} />
@@ -161,7 +161,7 @@ const HomePage = () => {
                   width: '100%',
                   padding: '0.875rem 5rem 0.875rem 2.75rem',
                   borderRadius: '2rem',
-                  border: '2px solid #ff6b35',
+                  border: '2px solid #22c55e',
                   background: 'white',
                   fontSize: '0.95rem',
                   boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
@@ -175,7 +175,7 @@ const HomePage = () => {
                 onFocus={(e) => {
                   const target = e.target as HTMLInputElement
                   target.style.transform = 'translateY(-2px)'
-                  target.style.boxShadow = '0 12px 35px rgba(255, 107, 53, 0.2)'
+                  target.style.boxShadow = '0 12px 35px rgba(34, 197, 94, 0.2)'
                   target.style.borderColor = 'rgba(255,255,255,0.5)'
                 }}
                 onBlur={(e) => {
@@ -203,7 +203,7 @@ const HomePage = () => {
                   right: '0.375rem',
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                  background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
                   color: 'white',
                   padding: '0.625rem 1.25rem',
                   borderRadius: '1.5rem',
@@ -211,7 +211,7 @@ const HomePage = () => {
                   fontWeight: '600',
                   fontSize: '0.95rem',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+                  boxShadow: '0 4px 15px rgba(34, 197, 94, 0.3)',
                   transition: 'all 0.2s ease',
                   zIndex: 2,
                   height: 'calc(100% - 0.75rem)'
@@ -219,12 +219,12 @@ const HomePage = () => {
                 onMouseEnter={(e) => {
                   const target = e.target as HTMLButtonElement
                   target.style.transform = 'translateY(-50%) scale(1.05)'
-                  target.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
+                  target.style.boxShadow = '0 6px 20px rgba(34, 197, 94, 0.4)'
                 }}
                 onMouseLeave={(e) => {
                   const target = e.target as HTMLButtonElement
                   target.style.transform = 'translateY(-50%) scale(1)'
-                  target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
+                  target.style.boxShadow = '0 4px 15px rgba(34, 197, 94, 0.3)'
                 }}
               >
                 검색
@@ -258,7 +258,7 @@ const HomePage = () => {
 
       {/* 카테고리 섹션 */}
       <div style={{ 
-        background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+        background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
         padding: '2rem 1rem'
       }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
@@ -277,8 +277,8 @@ const HomePage = () => {
               <div style={{
                 width: '3rem',
                 height: '3rem',
-                border: '3px solid #ffe4de',
-                borderTop: '3px solid #ff6b35',
+                border: '3px solid #bbf7d0',
+                borderTop: '3px solid #22c55e',
                 borderRadius: '50%',
                 animation: 'spin 1s linear infinite'
               }}></div>
@@ -312,18 +312,18 @@ const HomePage = () => {
             <h2 style={{ 
               fontSize: '1.875rem', 
               fontWeight: 'bold', 
-              color: '#ff6b35',
-              textShadow: '0 2px 4px rgba(255, 107, 53, 0.1)'
+              color: '#22c55e',
+              textShadow: '0 2px 4px rgba(34, 197, 94, 0.1)'
             }}>
               ⭐ 추천 맛집
             </h2>
             <button
               onClick={() => router.push('/restaurants')}
               style={{
-                color: '#ff6b35',
+                color: '#22c55e',
                 fontWeight: '600',
                 fontSize: '0.875rem',
-                background: 'rgba(255, 107, 53, 0.1)',
+                background: 'rgba(34, 197, 94, 0.1)',
                 padding: '0.5rem 1rem',
                 borderRadius: '1rem',
                 border: 'none',
@@ -332,12 +332,12 @@ const HomePage = () => {
               }}
               onMouseEnter={(e) => {
                 const target = e.target as HTMLButtonElement
-                target.style.background = 'rgba(255, 107, 53, 0.2)'
+                target.style.background = 'rgba(34, 197, 94, 0.2)'
                 target.style.transform = 'translateY(-1px)'
               }}
               onMouseLeave={(e) => {
                 const target = e.target as HTMLButtonElement
-                target.style.background = 'rgba(255, 107, 53, 0.1)'
+                target.style.background = 'rgba(34, 197, 94, 0.1)'
                 target.style.transform = 'translateY(0)'
               }}
             >
@@ -355,8 +355,8 @@ const HomePage = () => {
               <div style={{
                 width: '3rem',
                 height: '3rem',
-                border: '3px solid #ffe4de',
-                borderTop: '3px solid #ff6b35',
+                border: '3px solid #bbf7d0',
+                borderTop: '3px solid #22c55e',
                 borderRadius: '50%',
                 animation: 'spin 1s linear infinite'
               }}></div>
@@ -377,7 +377,7 @@ const HomePage = () => {
 
       {/* 푸터 */}
       <footer style={{ 
-        background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+        background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
         color: 'white',
         padding: '2rem 0',
         marginTop: '3rem',

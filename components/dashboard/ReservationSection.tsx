@@ -111,11 +111,11 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
         <div style={{
           marginBottom: '1.5rem',
           padding: '1rem',
-          background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+          background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
           borderRadius: '0.75rem',
-          border: '1px solid #ffd4cc'
+          border: '1px solid #bbf7d0'
         }}>
-          <div style={{ fontWeight: 'bold', color: '#ff6b35', marginBottom: '0.75rem', fontSize: '1rem' }}>
+          <div style={{ fontWeight: 'bold', color: '#22c55e', marginBottom: '0.75rem', fontSize: '1rem' }}>
             📅 나의 예약 정보 ({myReservations.length}건)
           </div>
           <div style={{ maxHeight: '250px', overflowY: 'auto' }}>
@@ -164,7 +164,7 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
                         disabled={cancellingReservation === reservation.id}
                         style={{
                           padding: '0.375rem',
-                          background: cancellingReservation === reservation.id ? '#ccc' : '#ff4444',
+                          background: cancellingReservation === reservation.id ? '#ccc' : '#dc2626',
                           color: 'white',
                           border: 'none',
                           borderRadius: '0.375rem',
@@ -208,7 +208,7 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
             onClick={() => setShowReservationForm(true)}
             style={{
               padding: '0.75rem 1.5rem',
-              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+              background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
               color: 'white',
               border: 'none',
               borderRadius: '0.75rem',
@@ -219,7 +219,7 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
               alignItems: 'center',
               gap: '0.5rem',
               margin: '0 auto',
-              boxShadow: '0 4px 12px rgba(255, 107, 53, 0.25)'
+              boxShadow: '0 4px 12px rgba(34, 197, 94, 0.25)'
             }}
           >
             <PlusIcon style={{ width: '1.25rem', height: '1.25rem' }} />
@@ -241,8 +241,8 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
           style={{
             width: '100%',
             padding: '0.75rem',
-            background: '#fff8f6',
-            border: '2px solid #ff6b35',
+            background: '#f0fdf4',
+            border: '2px solid #22c55e',
             borderRadius: '0.75rem',
             cursor: 'pointer',
             display: 'flex',
@@ -250,10 +250,10 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
             alignItems: 'center'
           }}
         >
-          <span style={{ fontWeight: '600', color: '#ff6b35' }}>
+          <span style={{ fontWeight: '600', color: '#22c55e' }}>
             {selectedDate ? format(selectedDate, 'yyyy년 M월 d일 (EEEE)', { locale: ko }) : '날짜를 선택하세요'}
           </span>
-          <CalendarIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+          <CalendarIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
         </button>
         
         {/* 달력 */}
@@ -261,10 +261,10 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
           <div style={{
             marginTop: '0.5rem',
             background: 'white',
-            border: '2px solid #ff6b35',
+            border: '2px solid #22c55e',
             borderRadius: '0.75rem',
             padding: '1rem',
-            boxShadow: '0 4px 12px rgba(255, 107, 53, 0.15)'
+            boxShadow: '0 4px 12px rgba(34, 197, 94, 0.15)'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
               <button
@@ -276,7 +276,7 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
                   padding: '0.25rem'
                 }}
               >
-                <ChevronLeftIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                <ChevronLeftIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
               </button>
               <span style={{ fontWeight: 'bold', color: '#333' }}>
                 {format(currentMonth, 'yyyy년 M월', { locale: ko })}
@@ -290,7 +290,7 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
                   padding: '0.25rem'
                 }}
               >
-                <ChevronRightIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                <ChevronRightIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
               </button>
             </div>
             
@@ -329,9 +329,9 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
                     style={{
                       padding: '0.5rem',
                       background: isSelected 
-                        ? 'linear-gradient(135deg, #ff6b35, #f55336)' 
+                        ? 'linear-gradient(135deg, #22c55e, #16a34a)'
                         : isToday(day) 
-                          ? '#fff1ee' 
+                          ? '#dcfce7'
                           : 'transparent',
                       color: isSelected 
                         ? 'white' 
@@ -339,7 +339,7 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
                           ? '#ccc' 
                           : '#333',
                       border: isToday(day) && !isSelected 
-                        ? '2px solid #ff6b35' 
+                        ? '2px solid #22c55e'
                         : 'none',
                       borderRadius: '0.5rem',
                       cursor: isPast ? 'not-allowed' : 'pointer',
@@ -388,14 +388,14 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
                   background: isBooked 
                     ? '#e0e0e0'
                     : selectedTime === time 
-                      ? 'linear-gradient(135deg, #ff6b35, #f55336)' 
-                      : '#fff8f6',
+                      ? 'linear-gradient(135deg, #22c55e, #16a34a)'
+                      : '#f0fdf4',
                   color: isBooked 
                     ? '#999'
                     : selectedTime === time 
                       ? 'white' 
-                      : '#ff6b35',
-                  border: `2px solid ${isBooked ? '#ccc' : selectedTime === time ? '#ff6b35' : '#ffe4de'}`,
+                      : '#22c55e',
+                  border: `2px solid ${isBooked ? '#ccc' : selectedTime === time ? '#22c55e' : '#dcfce7'}`,
                   borderRadius: '0.75rem',
                   cursor: isBooked ? 'not-allowed' : 'pointer',
                   fontSize: '0.875rem',
@@ -410,7 +410,7 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
                     position: 'absolute',
                     top: '-8px',
                     right: '-8px',
-                    background: '#ff6b35',
+                    background: '#22c55e',
                     color: 'white',
                     fontSize: '0.5rem',
                     padding: '0.125rem 0.25rem',
@@ -438,12 +438,12 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
                 flex: 1,
                 padding: '0.5rem',
                 background: partySize === (typeof size === 'string' ? 6 : size) 
-                  ? 'linear-gradient(135deg, #ff6b35, #f55336)' 
-                  : '#fff8f6',
+                  ? 'linear-gradient(135deg, #22c55e, #16a34a)' 
+                  : '#f0fdf4',
                 color: partySize === (typeof size === 'string' ? 6 : size) 
                   ? 'white' 
-                  : '#ff6b35',
-                border: `2px solid ${partySize === (typeof size === 'string' ? 6 : size) ? '#ff6b35' : '#ffe4de'}`,
+                  : '#22c55e',
+                border: `2px solid ${partySize === (typeof size === 'string' ? 6 : size) ? '#22c55e' : '#dcfce7'}`,
                 borderRadius: '0.75rem',
                 cursor: 'pointer',
                 fontWeight: partySize === (typeof size === 'string' ? 6 : size) ? 'bold' : '500',
@@ -466,7 +466,7 @@ const ReservationSection: React.FC<ReservationSectionProps> = ({
                 background: isProcessingReservation
                   ? '#ccc'
                   : isLoggedIn
-                    ? 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)'
+                    ? 'linear-gradient(90deg, #22c55e 0%, #16a34a 100%)'
                     : 'linear-gradient(90deg, #28a745 0%, #20c997 100%)',
                 color: 'white',
                 borderRadius: '0.5rem',

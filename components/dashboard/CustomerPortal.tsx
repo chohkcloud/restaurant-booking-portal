@@ -362,13 +362,13 @@ const CustomerPortal = () => {
   return (
     <div style={{ 
       minHeight: '100vh', 
-      background: 'linear-gradient(135deg, #fff1ee 0%, #ffe4de 100%)'
+      background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)'
     }}>
       {/* 헤더 */}
       <div style={{ 
-        background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
+        background: 'linear-gradient(90deg, #22c55e 0%, #16a34a 100%)',
         padding: '1rem',
-        boxShadow: '0 2px 10px rgba(255, 107, 53, 0.2)'
+        boxShadow: '0 2px 10px rgba(34, 197, 94, 0.2)'
       }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h1 style={{ 
@@ -444,7 +444,7 @@ const CustomerPortal = () => {
             .mobile-card {
               margin-bottom: 0.5rem;
               border-radius: 1.25rem !important;
-              box-shadow: 0 8px 25px rgba(255, 107, 53, 0.12) !important;
+              box-shadow: 0 8px 25px rgba(34, 197, 94, 0.12) !important;
             }
             /* 모바일 터치 버튼 최적화 */
             .mobile-card button {
@@ -471,12 +471,12 @@ const CustomerPortal = () => {
               background: 'white',
               borderRadius: '1rem',
               overflow: 'hidden',
-              boxShadow: '0 10px 30px rgba(255, 107, 53, 0.15)',
-              border: '2px solid #ff6b35'
+              boxShadow: '0 10px 30px rgba(34, 197, 94, 0.15)',
+              border: '2px solid #22c55e'
             }}
           >
             <div style={{ 
-              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+              background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
               padding: '1rem',
               color: 'white'
             }}>
@@ -496,15 +496,15 @@ const CustomerPortal = () => {
                   alignItems: 'center',
                   padding: '0.75rem',
                   marginBottom: '0.5rem',
-                  background: 'linear-gradient(90deg, #fff8f6 0%, #fff1ee 100%)',
+                  background: 'linear-gradient(90deg, #f0fdf4 0%, #dcfce7 100%)',
                   borderRadius: '0.75rem',
                   cursor: 'pointer',
                   transition: 'all 0.3s',
-                  border: '1px solid #ffd4cc'
+                  border: '1px solid #bbf7d0'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateX(5px)'
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 107, 53, 0.2)'
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(34, 197, 94, 0.2)'
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateX(0)'
@@ -517,7 +517,7 @@ const CustomerPortal = () => {
                       {menu.tag && (
                         <span style={{
                           padding: '0.125rem 0.375rem',
-                          background: menu.tag === 'BEST' ? '#ff6b35' : menu.tag === 'HOT' ? '#f55336' : '#ff8157',
+                          background: menu.tag === 'BEST' ? '#22c55e' : menu.tag === 'HOT' ? '#16a34a' : '#4ade80',
                           color: 'white',
                           fontSize: '0.625rem',
                           borderRadius: '0.25rem',
@@ -527,7 +527,7 @@ const CustomerPortal = () => {
                     </div>
                     <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>{menu.desc}</div>
                   </div>
-                  <div style={{ fontWeight: 'bold', color: '#ff6b35', fontSize: '1.125rem' }}>{menu.price}</div>
+                  <div style={{ fontWeight: 'bold', color: '#22c55e', fontSize: '1.125rem' }}>{menu.price}</div>
                 </div>
               ))}
               <button 
@@ -535,7 +535,7 @@ const CustomerPortal = () => {
                 style={{
                   width: '100%',
                   padding: '0.75rem',
-                  background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
+                  background: 'linear-gradient(90deg, #22c55e 0%, #16a34a 100%)',
                   color: 'white',
                   borderRadius: '0.5rem',
                   border: 'none',
@@ -558,12 +558,12 @@ const CustomerPortal = () => {
               background: 'white',
               borderRadius: '1rem',
               overflow: 'hidden',
-              boxShadow: '0 10px 30px rgba(255, 107, 53, 0.15)',
-              border: '2px solid #ff6b35'
+              boxShadow: '0 10px 30px rgba(34, 197, 94, 0.15)',
+              border: '2px solid #22c55e'
             }}
           >
             <div style={{ 
-              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+              background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
               padding: '1rem',
               color: 'white'
             }}>
@@ -602,12 +602,12 @@ const CustomerPortal = () => {
               background: 'white',
               borderRadius: '1rem',
               overflow: 'hidden',
-              boxShadow: '0 10px 30px rgba(255, 107, 53, 0.15)',
-              border: '2px solid #ff6b35'
+              boxShadow: '0 10px 30px rgba(34, 197, 94, 0.15)',
+              border: '2px solid #22c55e'
             }}
           >
             <div style={{ 
-              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+              background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
               padding: '1rem',
               color: 'white'
             }}>
@@ -628,7 +628,7 @@ const CustomerPortal = () => {
                 ].map((item, idx) => (
                   <div key={idx} style={{
                     aspectRatio: '1',
-                    background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                    background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
                     borderRadius: '0.5rem',
                     display: 'flex',
                     flexDirection: 'column',
@@ -636,7 +636,7 @@ const CustomerPortal = () => {
                     justifyContent: 'center',
                     cursor: 'pointer',
                     transition: 'all 0.3s',
-                    border: '1px solid #ffd4cc'
+                    border: '1px solid #bbf7d0'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'scale(1.05)'
@@ -656,7 +656,7 @@ const CustomerPortal = () => {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 padding: '0.75rem',
-                background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
                 borderRadius: '0.5rem'
               }}>
                 <div>
@@ -665,7 +665,7 @@ const CustomerPortal = () => {
                 </div>
                 <button style={{
                   padding: '0.5rem 1rem',
-                  background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
+                  background: 'linear-gradient(90deg, #22c55e 0%, #16a34a 100%)',
                   color: 'white',
                   borderRadius: '0.5rem',
                   border: 'none',
@@ -688,12 +688,12 @@ const CustomerPortal = () => {
               background: 'white',
               borderRadius: '1rem',
               overflow: 'hidden',
-              boxShadow: '0 10px 30px rgba(255, 107, 53, 0.15)',
-              border: '2px solid #ff6b35'
+              boxShadow: '0 10px 30px rgba(34, 197, 94, 0.15)',
+              border: '2px solid #22c55e'
             }}
           >
             <div style={{ 
-              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+              background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
               padding: '1rem',
               color: 'white'
             }}>
@@ -709,11 +709,11 @@ const CustomerPortal = () => {
                 justifyContent: 'space-between',
                 marginBottom: '0.5rem',
                 padding: '0.75rem',
-                background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
                 borderRadius: '0.5rem'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span style={{ fontSize: '2rem', fontWeight: 'bold', color: '#ff6b35' }}>
+                  <span style={{ fontSize: '2rem', fontWeight: 'bold', color: '#22c55e' }}>
                     {reviewStats?.avg_rating ? reviewStats.avg_rating.toFixed(1) : '0.0'}
                   </span>
                   <div>
@@ -722,7 +722,7 @@ const CustomerPortal = () => {
                         <StarIconSolid key={star} style={{ 
                           width: '1rem', 
                           height: '1rem',
-                          color: star <= Math.round(reviewStats?.avg_rating || 0) ? '#ffb347' : '#e0e0e0'
+                          color: star <= Math.round(reviewStats?.avg_rating || 0) ? '#fbbf24' : '#e0e0e0'
                         }} />
                       ))}
                     </div>
@@ -731,7 +731,7 @@ const CustomerPortal = () => {
                     </div>
                   </div>
                 </div>
-                <HeartIcon style={{ width: '1.5rem', height: '1.5rem', color: '#ff6b35', cursor: 'pointer' }} />
+                <HeartIcon style={{ width: '1.5rem', height: '1.5rem', color: '#22c55e', cursor: 'pointer' }} />
               </div>
 
               <button 
@@ -739,7 +739,7 @@ const CustomerPortal = () => {
                 style={{
                   width: '100%',
                   padding: '0.75rem',
-                  background: 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
+                  background: 'linear-gradient(90deg, #22c55e 0%, #16a34a 100%)',
                   color: 'white',
                   borderRadius: '0.5rem',
                   border: 'none',
@@ -756,9 +756,9 @@ const CustomerPortal = () => {
                   <div key={review.id} style={{
                     padding: '0.75rem',
                     marginBottom: '0.5rem',
-                    background: idx === 0 ? 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)' : 'white',
+                    background: idx === 0 ? 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)' : 'white',
                     borderRadius: '0.5rem',
-                    border: '1px solid #ffd4cc'
+                    border: '1px solid #bbf7d0'
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
                       <span style={{ fontWeight: '600', color: '#2c3e50' }}>
@@ -771,7 +771,7 @@ const CustomerPortal = () => {
                               onClick={() => handleEditReview(review)}
                               style={{
                                 fontSize: '0.75rem',
-                                color: '#ff6b35',
+                                color: '#22c55e',
                                 background: 'none',
                                 border: 'none',
                                 cursor: 'pointer'
@@ -798,15 +798,15 @@ const CustomerPortal = () => {
                           <StarIconSolid key={star} style={{ 
                             width: '0.75rem', 
                             height: '0.75rem',
-                            color: star <= Math.round(review.rating_average) ? '#ffb347' : '#e0e0e0'
+                            color: star <= Math.round(review.rating_average) ? '#fbbf24' : '#e0e0e0'
                           }} />
                         ))}
                       </div>
-                      <span style={{ fontSize: '0.75rem', color: '#ff6b35', fontWeight: 'bold' }}>
+                      <span style={{ fontSize: '0.75rem', color: '#22c55e', fontWeight: 'bold' }}>
                         {parseFloat(String(review.rating_average)).toFixed(1)}점
                       </span>
                       {review.is_recommended && (
-                        <span style={{ fontSize: '0.75rem', color: '#ff6b35' }}>👍 추천</span>
+                        <span style={{ fontSize: '0.75rem', color: '#22c55e' }}>👍 추천</span>
                       )}
                     </div>
                     {review.title && (
@@ -844,11 +844,11 @@ const CustomerPortal = () => {
                   borderRadius: '1rem',
                   overflow: 'hidden',
                   boxShadow: '0 10px 30px rgba(255, 129, 87, 0.15)',
-                  border: '2px solid #ff8157'
+                  border: '2px solid #4ade80'
                 }}
               >
                 <div style={{ 
-                  background: 'linear-gradient(135deg, #ff8157 0%, #ff9a76 100%)',
+                  background: 'linear-gradient(135deg, #4ade80 0%, #86efac 100%)',
                   padding: '1rem',
                   color: 'white'
                 }}>
@@ -859,15 +859,15 @@ const CustomerPortal = () => {
                 </div>
                 <div style={{ padding: '1rem' }}>
                   <div style={{
-                    background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                    background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
                     borderRadius: '0.75rem',
                     padding: '1rem',
                     marginBottom: '0.75rem',
-                    border: '2px dashed #ff8157'
+                    border: '2px dashed #4ade80'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <div>
-                        <div style={{ fontSize: '0.75rem', color: '#ff6b35', fontWeight: 'bold' }}>첫 방문 고객</div>
+                        <div style={{ fontSize: '0.75rem', color: '#22c55e', fontWeight: 'bold' }}>첫 방문 고객</div>
                         <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#2c3e50' }}>20% 할인</div>
                         <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>~12/31까지</div>
                       </div>
@@ -876,15 +876,15 @@ const CustomerPortal = () => {
                   </div>
 
                   <div style={{
-                    background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                    background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
                     borderRadius: '0.75rem',
                     padding: '1rem',
                     marginBottom: '0.75rem',
-                    border: '2px dashed #ff9a76'
+                    border: '2px dashed #86efac'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <div>
-                        <div style={{ fontSize: '0.75rem', color: '#f55336', fontWeight: 'bold' }}>생일 쿠폰</div>
+                        <div style={{ fontSize: '0.75rem', color: '#16a34a', fontWeight: 'bold' }}>생일 쿠폰</div>
                         <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#2c3e50' }}>케이크 서비스</div>
                         <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>생일 당일</div>
                       </div>
@@ -893,14 +893,14 @@ const CustomerPortal = () => {
                   </div>
 
                   <div style={{
-                    background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                    background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
                     borderRadius: '0.75rem',
                     padding: '1rem',
-                    border: '2px dashed #ffb399'
+                    border: '2px dashed #bbf7d0'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <div>
-                        <div style={{ fontSize: '0.75rem', color: '#ff8157', fontWeight: 'bold' }}>단골 혜택</div>
+                        <div style={{ fontSize: '0.75rem', color: '#4ade80', fontWeight: 'bold' }}>단골 혜택</div>
                         <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#2c3e50' }}>10% 적립</div>
                         <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>5회 방문시</div>
                       </div>
@@ -921,11 +921,11 @@ const CustomerPortal = () => {
                   borderRadius: '1rem',
                   overflow: 'hidden',
                   boxShadow: '0 10px 30px rgba(255, 154, 118, 0.15)',
-                  border: '2px solid #ff9a76'
+                  border: '2px solid #86efac'
                 }}
               >
                 <div style={{ 
-                  background: 'linear-gradient(135deg, #ff9a76 0%, #ffb399 100%)',
+                  background: 'linear-gradient(135deg, #86efac 0%, #bbf7d0 100%)',
                   padding: '1rem',
                   color: 'white'
                 }}>
@@ -936,7 +936,7 @@ const CustomerPortal = () => {
                 </div>
                 <div style={{ padding: '1rem' }}>
                   <div style={{
-                    background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                    background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
                     borderRadius: '0.75rem',
                     padding: '1rem',
                     marginBottom: '1rem',
@@ -959,20 +959,20 @@ const CustomerPortal = () => {
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem', marginBottom: '1rem' }}>
                     <div style={{
                       padding: '0.75rem',
-                      background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                      background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
                       borderRadius: '0.5rem',
                       textAlign: 'center'
                     }}>
-                      <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#ff6b35' }}>15%</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#22c55e' }}>15%</div>
                       <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>평일 런치</div>
                     </div>
                     <div style={{
                       padding: '0.75rem',
-                      background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                      background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
                       borderRadius: '0.5rem',
                       textAlign: 'center'
                     }}>
-                      <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#f55336' }}>2+1</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#16a34a' }}>2+1</div>
                       <div style={{ fontSize: '0.75rem', color: '#7f8c8d' }}>음료 이벤트</div>
                     </div>
                   </div>
@@ -980,7 +980,7 @@ const CustomerPortal = () => {
                   <button style={{
                     width: '100%',
                     padding: '0.75rem',
-                    background: 'linear-gradient(90deg, #ff9a76 0%, #ffb399 100%)',
+                    background: 'linear-gradient(90deg, #86efac 0%, #bbf7d0 100%)',
                     color: 'white',
                     borderRadius: '0.5rem',
                     border: 'none',
@@ -1027,7 +1027,7 @@ const CustomerPortal = () => {
             }}
             onClick={(e) => e.stopPropagation()}>
             <div style={{
-              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+              background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
               padding: '1.5rem',
               color: 'white',
               position: 'sticky',
@@ -1054,7 +1054,7 @@ const CustomerPortal = () => {
             <div style={{ padding: '1.5rem' }}>
               {/* 메인 요리 */}
               <div style={{ marginBottom: '2rem' }}>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#ff6b35', marginBottom: '1rem' }}>메인 요리</h3>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#22c55e', marginBottom: '1rem' }}>메인 요리</h3>
                 {[
                   { name: '프리미엄 한우 스테이크', price: '58,000원', desc: '1++ 등급 한우 채끝 200g' },
                   { name: '트러플 크림 파스타', price: '32,000원', desc: '프랑스산 트러플 오일 사용' },
@@ -1064,16 +1064,16 @@ const CustomerPortal = () => {
                   <div key={idx} style={{
                     padding: '1rem',
                     marginBottom: '0.75rem',
-                    background: 'linear-gradient(90deg, #fff8f6 0%, #fff1ee 100%)',
+                    background: 'linear-gradient(90deg, #f0fdf4 0%, #dcfce7 100%)',
                     borderRadius: '0.75rem',
-                    border: '1px solid #ffd4cc'
+                    border: '1px solid #bbf7d0'
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                       <div>
                         <div style={{ fontWeight: 'bold', fontSize: '1.125rem', color: '#2c3e50' }}>{item.name}</div>
                         <div style={{ fontSize: '0.875rem', color: '#7f8c8d', marginTop: '0.25rem' }}>{item.desc}</div>
                       </div>
-                      <div style={{ fontWeight: 'bold', fontSize: '1.25rem', color: '#ff6b35' }}>{item.price}</div>
+                      <div style={{ fontWeight: 'bold', fontSize: '1.25rem', color: '#22c55e' }}>{item.price}</div>
                     </div>
                   </div>
                 ))}
@@ -1081,7 +1081,7 @@ const CustomerPortal = () => {
               
               {/* 사이드 메뉴 */}
               <div style={{ marginBottom: '2rem' }}>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#ff6b35', marginBottom: '1rem' }}>사이드 & 샐러드</h3>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#22c55e', marginBottom: '1rem' }}>사이드 & 샐러드</h3>
                 {[
                   { name: '시저 샐러드', price: '15,000원', desc: '로메인, 파마산, 크루통' },
                   { name: '감자튀김', price: '8,000원', desc: '트러플 소금 제공' },
@@ -1090,16 +1090,16 @@ const CustomerPortal = () => {
                   <div key={idx} style={{
                     padding: '1rem',
                     marginBottom: '0.75rem',
-                    background: 'linear-gradient(90deg, #fff8f6 0%, #fff1ee 100%)',
+                    background: 'linear-gradient(90deg, #f0fdf4 0%, #dcfce7 100%)',
                     borderRadius: '0.75rem',
-                    border: '1px solid #ffd4cc'
+                    border: '1px solid #bbf7d0'
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                       <div>
                         <div style={{ fontWeight: 'bold', fontSize: '1.125rem', color: '#2c3e50' }}>{item.name}</div>
                         <div style={{ fontSize: '0.875rem', color: '#7f8c8d', marginTop: '0.25rem' }}>{item.desc}</div>
                       </div>
-                      <div style={{ fontWeight: 'bold', fontSize: '1.25rem', color: '#ff6b35' }}>{item.price}</div>
+                      <div style={{ fontWeight: 'bold', fontSize: '1.25rem', color: '#22c55e' }}>{item.price}</div>
                     </div>
                   </div>
                 ))}
@@ -1107,7 +1107,7 @@ const CustomerPortal = () => {
               
               {/* 음료 */}
               <div>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#ff6b35', marginBottom: '1rem' }}>음료 & 디저트</h3>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#22c55e', marginBottom: '1rem' }}>음료 & 디저트</h3>
                 {[
                   { name: '하우스 와인', price: '12,000원', desc: '레드/화이트 선택' },
                   { name: '수제 레모네이드', price: '7,000원', desc: '민트 & 라임' },
@@ -1116,16 +1116,16 @@ const CustomerPortal = () => {
                   <div key={idx} style={{
                     padding: '1rem',
                     marginBottom: '0.75rem',
-                    background: 'linear-gradient(90deg, #fff8f6 0%, #fff1ee 100%)',
+                    background: 'linear-gradient(90deg, #f0fdf4 0%, #dcfce7 100%)',
                     borderRadius: '0.75rem',
-                    border: '1px solid #ffd4cc'
+                    border: '1px solid #bbf7d0'
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                       <div>
                         <div style={{ fontWeight: 'bold', fontSize: '1.125rem', color: '#2c3e50' }}>{item.name}</div>
                         <div style={{ fontSize: '0.875rem', color: '#7f8c8d', marginTop: '0.25rem' }}>{item.desc}</div>
                       </div>
-                      <div style={{ fontWeight: 'bold', fontSize: '1.25rem', color: '#ff6b35' }}>{item.price}</div>
+                      <div style={{ fontWeight: 'bold', fontSize: '1.25rem', color: '#22c55e' }}>{item.price}</div>
                     </div>
                   </div>
                 ))}

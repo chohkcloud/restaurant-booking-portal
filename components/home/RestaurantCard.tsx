@@ -39,7 +39,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
         background: 'white',
         borderRadius: '1.5rem',
         overflow: 'hidden',
-        boxShadow: '0 10px 30px rgba(255, 107, 53, 0.15)',
+        boxShadow: '0 10px 30px rgba(34, 197, 94, 0.15)',
         border: '2px solid transparent',
         cursor: 'pointer',
         transition: 'all 0.3s ease',
@@ -48,13 +48,13 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
       onMouseEnter={(e) => {
         const target = e.currentTarget as HTMLDivElement
         target.style.transform = 'translateY(-8px)'
-        target.style.boxShadow = '0 20px 40px rgba(255, 107, 53, 0.2)'
-        target.style.borderColor = '#ff6b35'
+        target.style.boxShadow = '0 20px 40px rgba(34, 197, 94, 0.2)'
+        target.style.borderColor = '#22c55e'
       }}
       onMouseLeave={(e) => {
         const target = e.currentTarget as HTMLDivElement
         target.style.transform = 'translateY(0)'
-        target.style.boxShadow = '0 10px 30px rgba(255, 107, 53, 0.15)'
+        target.style.boxShadow = '0 10px 30px rgba(34, 197, 94, 0.15)'
         target.style.borderColor = 'transparent'
       }}
     >
@@ -67,7 +67,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-400 to-red-500">
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-400 to-green-600">
             <span className="text-white text-4xl">🍽️</span>
           </div>
         )}
@@ -76,13 +76,13 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
             position: 'absolute',
             top: '0.5rem',
             left: '0.5rem',
-            background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+            background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
             color: 'white',
             padding: '0.375rem 0.75rem',
             borderRadius: '1rem',
             fontSize: '0.75rem',
             fontWeight: 'bold',
-            boxShadow: '0 2px 8px rgba(255, 107, 53, 0.3)'
+            boxShadow: '0 2px 8px rgba(34, 197, 94, 0.3)'
           }}>
             ⭐ 추천
           </div>
@@ -183,13 +183,13 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
           )}
           {restaurant.reservation_enabled && (
             <span style={{
-              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+              background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
               color: 'white',
               fontSize: '0.75rem',
               padding: '0.25rem 0.75rem',
               borderRadius: '1rem',
               fontWeight: '500',
-              boxShadow: '0 2px 4px rgba(255, 107, 53, 0.2)'
+              boxShadow: '0 2px 4px rgba(34, 197, 94, 0.2)'
             }}>
               📅 예약
             </span>

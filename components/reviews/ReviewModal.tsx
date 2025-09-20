@@ -207,7 +207,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
             
             {/* 헤더 */}
             <div style={{
-              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+              background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
               padding: '1.5rem',
               color: 'white',
               display: 'flex',
@@ -251,10 +251,10 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                 textAlign: 'center',
                 marginBottom: '1.5rem',
                 padding: '1rem',
-                background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
                 borderRadius: '0.75rem'
               }}>
-                <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#ff6b35' }}>
+                <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#22c55e' }}>
                   {calculateAverageRating()}
                 </div>
                 <div style={{ fontSize: '0.875rem', color: '#7f8c8d' }}>평균 평점</div>
@@ -262,7 +262,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                   {[1,2,3,4,5].map(star => {
                     const avg = parseFloat(calculateAverageRating())
                     return star <= Math.round(avg) ? (
-                      <StarIcon key={star} style={{ width: '1.5rem', height: '1.5rem', color: '#ffb347' }} />
+                      <StarIcon key={star} style={{ width: '1.5rem', height: '1.5rem', color: '#fbbf24' }} />
                     ) : (
                       <StarOutline key={star} style={{ width: '1.5rem', height: '1.5rem', color: '#e0e0e0' }} />
                     )
@@ -287,7 +287,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                         <span style={{ fontSize: '1.25rem' }}>{category.emoji}</span>
                         <span style={{ fontWeight: '600', color: '#2c3e50' }}>{category.label}</span>
                       </div>
-                      <span style={{ fontSize: '0.875rem', color: '#ff6b35', fontWeight: 'bold' }}>
+                      <span style={{ fontSize: '0.875rem', color: '#22c55e', fontWeight: 'bold' }}>
                         {ratings[category.key as keyof typeof ratings]}/5
                       </span>
                     </div>
@@ -309,7 +309,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                           onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
                           onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
                           {star <= ratings[category.key as keyof typeof ratings] ? (
-                            <StarIcon style={{ width: '2rem', height: '2rem', color: '#ffb347' }} />
+                            <StarIcon style={{ width: '2rem', height: '2rem', color: '#fbbf24' }} />
                           ) : (
                             <StarOutline style={{ width: '2rem', height: '2rem', color: '#e0e0e0' }} />
                           )}
@@ -343,7 +343,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
               {/* 리뷰 내용 */}
               <div style={{ marginBottom: '1rem' }}>
                 <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', color: '#2c3e50' }}>
-                  리뷰 내용 <span style={{ color: '#ff6b35' }}>*</span>
+                  리뷰 내용 <span style={{ color: '#22c55e' }}>*</span>
                 </label>
                 <textarea
                   value={content}
@@ -387,7 +387,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                     onClick={handleAddImage}
                     style={{
                       padding: '0.5rem 1rem',
-                      background: '#ff6b35',
+                      background: '#22c55e',
                       color: 'white',
                       border: 'none',
                       borderRadius: '0.5rem',
@@ -444,7 +444,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
               {/* 추천 여부 */}
               <div style={{
                 padding: '1rem',
-                background: 'linear-gradient(135deg, #fff8f6 0%, #fff1ee 100%)',
+                background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
                 borderRadius: '0.5rem',
                 marginBottom: '1rem'
               }}>
@@ -498,7 +498,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                 style={{
                   flex: 2,
                   padding: '0.75rem',
-                  background: isSubmitting ? '#ccc' : 'linear-gradient(90deg, #ff6b35 0%, #f55336 100%)',
+                  background: isSubmitting ? '#ccc' : 'linear-gradient(90deg, #22c55e 0%, #16a34a 100%)',
                   color: 'white',
                   border: 'none',
                   borderRadius: '0.5rem',

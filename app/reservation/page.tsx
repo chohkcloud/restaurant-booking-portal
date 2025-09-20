@@ -180,7 +180,7 @@ function ReservationContent() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
       </div>
     )
   }
@@ -191,7 +191,7 @@ function ReservationContent() {
         <p className="text-gray-500 text-lg mb-4">레스토랑 정보를 찾을 수 없습니다.</p>
         <button
           onClick={() => router.push('/restaurants')}
-          className="text-orange-500 hover:text-orange-600 font-semibold"
+          className="text-green-500 hover:text-green-600 font-semibold"
         >
           레스토랑 목록으로 돌아가기
         </button>
@@ -202,7 +202,7 @@ function ReservationContent() {
   return (
     <div style={{ 
       minHeight: '100vh', 
-      background: 'linear-gradient(135deg, #fff1ee 0%, #ffe4de 100%)',
+      background: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)',
       paddingBottom: '2rem'
     }}>
       {/* 헤더 */}
@@ -230,22 +230,22 @@ function ReservationContent() {
               height: '3rem',
               borderRadius: '50%',
               border: 'none',
-              background: 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+              background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
               color: 'white',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+              boxShadow: '0 4px 15px rgba(34, 197, 94, 0.3)',
               transition: 'all 0.2s ease'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'
-              e.currentTarget.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
+              e.currentTarget.style.boxShadow = '0 6px 20px rgba(34, 197, 94, 0.4)'
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(-50%) scale(1)'
-              e.currentTarget.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
+              e.currentTarget.style.boxShadow = '0 4px 15px rgba(34, 197, 94, 0.3)'
             }}
           >
             <ArrowLeftIcon style={{ width: '1.5rem', height: '1.5rem' }} />
@@ -256,7 +256,7 @@ function ReservationContent() {
             <h1 style={{
               fontSize: '1.5rem',
               fontWeight: 'bold',
-              color: '#ff6b35',
+              color: '#22c55e',
               margin: '0'
             }}>
               예약하기
@@ -289,8 +289,8 @@ function ReservationContent() {
             background: 'white',
             borderRadius: '1.5rem',
             padding: '2rem',
-            boxShadow: '0 10px 30px rgba(255, 107, 53, 0.15)',
-            border: '2px solid #ff6b35'
+            boxShadow: '0 10px 30px rgba(34, 197, 94, 0.15)',
+            border: '2px solid #22c55e'
           }}
         >
           <h2 style={{
@@ -321,7 +321,7 @@ function ReservationContent() {
           <h3 style={{
             fontSize: '1.5rem',
             fontWeight: 'bold',
-            color: '#ff6b35',
+            color: '#22c55e',
             marginBottom: '0.5rem'
           }}>
             {restaurant.name}
@@ -350,7 +350,7 @@ function ReservationContent() {
                 gap: '0.5rem',
                 color: '#6B7280'
               }}>
-                <MapPinIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35', flexShrink: 0 }} />
+                <MapPinIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e', flexShrink: 0 }} />
                 <span style={{ fontSize: '0.875rem' }}>{restaurant.address}</span>
               </div>
             )}
@@ -362,7 +362,7 @@ function ReservationContent() {
                 gap: '0.5rem',
                 color: '#6B7280'
               }}>
-                <PhoneIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                <PhoneIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
                 <span style={{ fontSize: '0.875rem' }}>{restaurant.phone}</span>
               </div>
             )}
@@ -374,7 +374,7 @@ function ReservationContent() {
                 gap: '0.5rem',
                 color: '#6B7280'
               }}>
-                <ClockIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                <ClockIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
                 <span style={{ fontSize: '0.875rem' }}>매일 11:00 - 22:00</span>
               </div>
             )}
@@ -389,8 +389,8 @@ function ReservationContent() {
             background: 'white',
             borderRadius: '1.5rem',
             padding: '2rem',
-            boxShadow: '0 10px 30px rgba(255, 107, 53, 0.15)',
-            border: '2px solid #ff6b35'
+            boxShadow: '0 10px 30px rgba(34, 197, 94, 0.15)',
+            border: '2px solid #22c55e'
           }}
         >
           <h2 style={{
@@ -416,7 +416,7 @@ function ReservationContent() {
                 color: '#374151',
                 marginBottom: '0.5rem'
               }}>
-                <CalendarIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                <CalendarIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
                 날짜 선택
               </label>
               <select
@@ -433,7 +433,7 @@ function ReservationContent() {
                   cursor: 'pointer'
                 }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#ff6b35'
+                  e.target.style.borderColor = '#22c55e'
                 }}
                 onBlur={(e) => {
                   e.target.style.borderColor = '#E5E7EB'
@@ -458,7 +458,7 @@ function ReservationContent() {
                 color: '#374151',
                 marginBottom: '0.5rem'
               }}>
-                <ClockIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                <ClockIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
                 시간 선택
               </label>
               <div style={{
@@ -479,8 +479,8 @@ function ReservationContent() {
                     style={{
                       padding: '0.5rem',
                       borderRadius: '0.5rem',
-                      border: selectedTime === time ? '2px solid #ff6b35' : '2px solid transparent',
-                      background: selectedTime === time ? 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)' : '#F9FAFB',
+                      border: selectedTime === time ? '2px solid #22c55e' : '2px solid transparent',
+                      background: selectedTime === time ? 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)' : '#F9FAFB',
                       color: selectedTime === time ? 'white' : '#374151',
                       fontWeight: selectedTime === time ? '600' : '400',
                       cursor: 'pointer',
@@ -514,7 +514,7 @@ function ReservationContent() {
                 color: '#374151',
                 marginBottom: '0.5rem'
               }}>
-                <UserGroupIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                <UserGroupIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
                 인원수
               </label>
               <div style={{
@@ -536,7 +536,7 @@ function ReservationContent() {
                     transition: 'all 0.2s'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = '#ff6b35'
+                    e.currentTarget.style.borderColor = '#22c55e'
                     e.currentTarget.style.background = '#FFF5F3'
                   }}
                   onMouseLeave={(e) => {
@@ -549,7 +549,7 @@ function ReservationContent() {
                 <span style={{
                   fontSize: '1.5rem',
                   fontWeight: '600',
-                  color: '#ff6b35',
+                  color: '#22c55e',
                   minWidth: '3rem',
                   textAlign: 'center'
                 }}>
@@ -569,7 +569,7 @@ function ReservationContent() {
                     transition: 'all 0.2s'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = '#ff6b35'
+                    e.currentTarget.style.borderColor = '#22c55e'
                     e.currentTarget.style.background = '#FFF5F3'
                   }}
                   onMouseLeave={(e) => {
@@ -608,7 +608,7 @@ function ReservationContent() {
                   color: '#374151',
                   marginBottom: '0.5rem'
                 }}>
-                  <UserIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                  <UserIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
                   이름 *
                 </label>
                 <input
@@ -628,7 +628,7 @@ function ReservationContent() {
                     boxSizing: 'border-box'
                   }}
                   onFocus={(e) => {
-                    e.target.style.borderColor = '#ff6b35'
+                    e.target.style.borderColor = '#22c55e'
                   }}
                   onBlur={(e) => {
                     e.target.style.borderColor = '#E5E7EB'
@@ -647,7 +647,7 @@ function ReservationContent() {
                   color: '#374151',
                   marginBottom: '0.5rem'
                 }}>
-                  <EnvelopeIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                  <EnvelopeIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
                   이메일 *
                 </label>
                 <input
@@ -667,7 +667,7 @@ function ReservationContent() {
                     boxSizing: 'border-box'
                   }}
                   onFocus={(e) => {
-                    e.target.style.borderColor = '#ff6b35'
+                    e.target.style.borderColor = '#22c55e'
                   }}
                   onBlur={(e) => {
                     e.target.style.borderColor = '#E5E7EB'
@@ -686,7 +686,7 @@ function ReservationContent() {
                   color: '#374151',
                   marginBottom: '0.5rem'
                 }}>
-                  <PhoneIcon style={{ width: '1.25rem', height: '1.25rem', color: '#ff6b35' }} />
+                  <PhoneIcon style={{ width: '1.25rem', height: '1.25rem', color: '#22c55e' }} />
                   전화번호 *
                 </label>
                 <input
@@ -706,7 +706,7 @@ function ReservationContent() {
                     boxSizing: 'border-box'
                   }}
                   onFocus={(e) => {
-                    e.target.style.borderColor = '#ff6b35'
+                    e.target.style.borderColor = '#22c55e'
                   }}
                   onBlur={(e) => {
                     e.target.style.borderColor = '#E5E7EB'
@@ -742,7 +742,7 @@ function ReservationContent() {
                     boxSizing: 'border-box'
                   }}
                   onFocus={(e) => {
-                    e.target.style.borderColor = '#ff6b35'
+                    e.target.style.borderColor = '#22c55e'
                   }}
                   onBlur={(e) => {
                     e.target.style.borderColor = '#E5E7EB'
@@ -762,24 +762,24 @@ function ReservationContent() {
                 border: 'none',
                 background: isProcessing 
                   ? '#D1D5DB'
-                  : 'linear-gradient(135deg, #ff6b35 0%, #f55336 100%)',
+                  : 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
                 color: 'white',
                 fontWeight: '600',
                 fontSize: '1.125rem',
                 cursor: isProcessing ? 'not-allowed' : 'pointer',
                 transition: 'all 0.2s',
-                boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)'
+                boxShadow: '0 4px 15px rgba(34, 197, 94, 0.3)'
               }}
               onMouseEnter={(e) => {
                 if (!isProcessing) {
                   e.currentTarget.style.transform = 'translateY(-2px)'
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)'
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(34, 197, 94, 0.4)'
                 }
               }}
               onMouseLeave={(e) => {
                 if (!isProcessing) {
                   e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)'
+                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(34, 197, 94, 0.3)'
                 }
               }}
             >
@@ -803,7 +803,7 @@ export default function ReservationPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
       </div>
     }>
       <ReservationContent />
